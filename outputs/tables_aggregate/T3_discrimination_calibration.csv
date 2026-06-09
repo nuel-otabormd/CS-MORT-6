@@ -1,0 +1,3 @@
+model,MIMIC_CV_AUROC,eICU_AUROC,eICU_CI,eICU_slope,eICU_CITL,eICU_Brier
+CS-MORT-6 (lactate),0.778,0.757,0.733-0.779,0.851,-0.191,0.184
+"CS-MORT-6-AG (harmonized, deployable)",0.762,0.748,0.724-0.771,0.954,0.044,0.184
