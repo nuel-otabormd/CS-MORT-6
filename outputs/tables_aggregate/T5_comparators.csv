@@ -1,0 +1,3 @@
+model,scorable,AUROC
+CS-MORT-6-AG,50% all six observed / 95% AG term / 100% imputed,0.748
+"BOS,MA2",60% complete,0.743

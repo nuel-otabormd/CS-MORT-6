@@ -1,0 +1,8 @@
+Metric,CS-MORT-6 (lactate),CS-MORT-6 (anion gap)
+"AUROC, internal (cross-validated)",0.778,0.762
+"AUROC, external (eICU)",0.757 (0.733-0.779),0.748 (0.724-0.771)
+Calibration slope (eICU),0.85,0.95
+Calibration-in-the-large (eICU),-0.191,+0.044
+Brier score (eICU),0.184,0.184
+Integer score AUROC (internal),0.765,—
+"Integer score, optimism-corrected",0.766,—

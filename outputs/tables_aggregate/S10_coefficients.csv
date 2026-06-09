@@ -1,0 +1,8 @@
+Variable,Winsor (1st-99th),Median,Mean,SD,"β, lactate model","β, anion-gap model"
+Lactate (mmol/L),0.7-18.0,2.0,3.01,3.04,+0.973,—
+Anion gap (mmol/L),5.0-35.0,13.0,14.08,5.46,—,+0.657
+Urine output (mL/kg/h),0.00-3.80,0.69,0.88,0.74,-0.452,-0.515
+OHCA (0/1),0-1,0,0.11,0.31,+0.385,+0.435
+Age (years),28-93,72.0,69.99,14.06,+0.310,+0.317
+Blood urea nitrogen (mg/dL),8-123,33.0,39.36,24.71,+0.259,+0.032
+Red cell distribution width (%),12.2-24.6,15.2,15.80,2.49,+0.212,+0.194
