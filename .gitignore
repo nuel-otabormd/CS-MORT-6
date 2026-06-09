@@ -1,0 +1,18 @@
+# Patient-level data derived from MIMIC-IV / eICU must NOT be redistributed (PhysioNet DUA).
+# Regenerate locally with credentialed access using the SQL in sql/ and the analysis scripts.
+*cs_features_canonical*.csv
+*cs_eicu_canonical*.csv
+*cs_eicu_comparators*.csv
+*mimic_demographics*.csv
+*eicu_hospital*.csv
+*eicu_scai_components*.csv
+*eicu_mcs*.csv
+*scai_components_mimic*.csv
+*horizon_mr*.csv
+cal_mimic6.csv
+cal_eicu6.csv
+dca_eicu_cm6.csv
+dca_mimic_cm6.csv
+/tmp/
+__pycache__/
+.DS_Store

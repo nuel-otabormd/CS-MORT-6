@@ -1,0 +1,9 @@
+analysis,n,mortality,continuous_AUROC,integer_AUROC
+"Primary cohort (all documented CS, mixed shock included)",3103,38.3%,0.778,0.765
+Sensitivity: culture-confirmed infection excluded,1802,39.6%,0.819,0.809
+Sensitivity: Sepsis-3 excluded,1602,35.4%,0.806,0.787
+Subgroup: culture-positive (mixed shock),1301,36.4%,0.709,0.701
+Sensitivity: ICD-confirmed only,2821,38.5%,0.779,0.764
+Sensitivity: comfort-measures-only excluded,3026,36.9%,0.783,0.769
+Sensitivity: OHCA removed (CS-MORT-5),3103,38.3%,0.763,
+Subgroup: non-OHCA patients,2775,35.2%,0.765,0.749
