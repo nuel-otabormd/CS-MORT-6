@@ -23,6 +23,10 @@ Research Database. Reporting follows TRIPOD+AI.
   - `CS_MORT_6_Analysis.ipynb` (executes the pipeline end to end).
 - `outputs/tables_aggregate/` — **aggregate** result tables only (no patient-level rows).
 - `figures/` — the five main figures (PNG).
+- `supplementary_analyses/` — self-contained scripts (SQL + Python + R) that reproduce the
+  supplementary analyses and figures: pipeline verification, within-stage resolution (including
+  OHCA-free and non-staging-variable variants), subgroup performance, imputation and comparator
+  sensitivity, and integer-score external performance. See its `README.md`.
 
 ## Data availability (important)
 The analytic datasets are derived from **MIMIC-IV (v3.1)** and the **eICU Collaborative Research
