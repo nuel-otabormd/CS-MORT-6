@@ -13,6 +13,9 @@ cal_mimic6.csv
 cal_eicu6.csv
 dca_eicu_cm6.csv
 dca_mimic_cm6.csv
+# Supplementary analyses: patient-level exports live in supplementary_analyses/data/ — never commit
+supplementary_analyses/data/*.csv
+!supplementary_analyses/data/.gitkeep
 /tmp/
 __pycache__/
 .DS_Store
