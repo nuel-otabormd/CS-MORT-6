@@ -1,0 +1,6 @@
+model,auroc
+challenger,0.7183
+v2.0 lactate,0.7329
+v2.0 anion gap,0.7252
+paired diff vs lactate,"-0.0144 (-0.0292,+0.0014)"
+paired diff vs anion gap,"-0.0068 (-0.0178,+0.0040)"

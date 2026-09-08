@@ -1,0 +1,43 @@
+section,item,value
+lm48,n / deaths / mortality,2259 / 703 / 31.1%
+lm48,continuous lactate updated-48h,"AUROC 0.739 (0.717-0.760), slope 1.10, CITL +0.028"
+lm48,continuous lactate stale-24h,"AUROC 0.714 (0.692-0.736), slope 0.91, CITL -0.057"
+lm48,integer stale vs updated AUROC,0.700 vs 0.726
+trajectory,all 48-h landmark | Improved (<0),n=785 mortality 28.9% (25.9-32.2)
+trajectory,all 48-h landmark | Unchanged (=0),n=978 mortality 29.7% (26.9-32.6)
+trajectory,all 48-h landmark | Worsened (>0),n=496 mortality 37.5% (33.4-41.8)
+trajectory,intermediate 24-h score 4-7 | Improved (<0),n=429 mortality 24.0% (20.2-28.3)
+trajectory,intermediate 24-h score 4-7 | Unchanged (=0),n=523 mortality 34.0% (30.1-38.2)
+trajectory,intermediate 24-h score 4-7 | Worsened (>0),n=261 mortality 43.3% (37.4-49.4)
+trajectory,aOR per +1 change (adj 24-h score),"1.37 (1.27-1.47), p=1.7e-17"
+event-time,buckets 0-6/6-12/12-24/24-48h,73/70/106/157
+event-time,48h-7d / >7d,377 / 402
+event-time,anomalies (disclosed),"2 recorded before ICU admission, 1 without timestamp"
+vif,lactate model,lactate 1.05  uo 1.08  ohca_arrest 1.02  age 1.08  bun 1.16  rdw 1.10
+vif,anion-gap model,aniongap 1.22  uo 1.06  ohca_arrest 1.01  age 1.08  bun 1.31  rdw 1.11
+vif,key Pearson r,"lactate-bun -0.0, lactate-rdw 0.06, bun-rdw 0.28, aniongap-bun 0.37"
+imputation,median,"AUROC 0.734, slope 0.99, CITL -0.000"
+imputation,mice,"AUROC 0.724, slope 1.01, CITL +0.001"
+sensitivity,ICD-confirmed only,n=2452 mort 33.2% cont 0.734 integer 0.727
+sensitivity,Sepsis-3 excluded,n=1321 mort 28.2% cont 0.747 integer 0.739
+sensitivity,non-OHCA subgroup,n=2438 mort 30.8% cont 0.724 integer 0.712
+sensitivity,OHCA-free score (all LM24),cont n/a integer 0.711
+fairness,M,n=1629 deaths=519 AUROC 0.748 (0.724-0.774) slope 1.07 CITL -0.062
+fairness,F,n=1065 deaths=373 AUROC 0.713 (0.682-0.746) slope 0.89 CITL +0.092
+fairness,White,n=1687 deaths=537 AUROC 0.732 (0.706-0.757) slope 1.03 CITL -0.067
+fairness,Black,n=267 deaths=80 AUROC 0.704 (0.631-0.771) slope 0.81 CITL -0.298
+fairness,Other/Unknown,n=593 deaths=234 AUROC 0.754 (0.715-0.792) slope 1.07 CITL +0.362
+cvauc,CV AUROC (fold mean) with IC-based 95% CI,0.7339 (0.7140-0.7538); pooled bootstrap for comparison 0.7337 (0.7143-0.7527)
+scai,stage-only / score-only / stage+score AUROC,0.589 / 0.727 / 0.728
+scai,LRT score over stage,"chi2 348.2, p 1.0e-77"
+scai,paired dAUROC (stage+score - stage),+0.139 (+0.116 to +0.163)
+scai,stage B within-stage AUROC,n=407 0.636 (0.579-0.692)
+scai,stage C within-stage AUROC,n=909 0.689 (0.651-0.724)
+scai,stage D within-stage AUROC,n=699 0.756 (0.717-0.793)
+scai,stage E within-stage AUROC,n=671 0.728 (0.689-0.765)
+scai,ohca-free tertile mortality by stage,B 16/30/37; C 16/35/46; D 13/27/58; E 30/49/73
+scai,non-staging tertile mortality by stage,B 16/32/36; C 15/32/46; D 12/34/53; E 35/51/68
+availability,6h (n=3068),lactate 69.2%  bun 82.6%  rdw 80.4%  uo 80.9%
+availability,12h (n=2963),lactate 75.8%  bun 95.5%  rdw 92.1%  uo 91.5%
+availability,24h (n=2731),lactate 80.8%  bun 99.5%  rdw 98.9%  uo 94.2%
+availability,48h (n=2296),lactate 85.9%  bun 99.6%  rdw 99.5%  uo 95.0%

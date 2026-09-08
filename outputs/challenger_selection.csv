@@ -1,0 +1,14 @@
+variable,outer_fold_selection_pct,fulldata_bootstrap_pct
+age,100.0,100.0
+ohca_arrest,100.0,100.0
+aniongap_h,88.0,100.0
+sodium,0.0,65.0
+chloride,0.0,53.0
+bicarbonate,16.0,96.0
+bun,76.0,100.0
+rdw,100.0,100.0
+creatinine,0.0,94.0
+hemoglobin,26.0,100.0
+sbp_min,70.0,100.0
+mech_vent,12.0,99.0
+pressor_count,12.0,100.0

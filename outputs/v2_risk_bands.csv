@@ -1,0 +1,5 @@
+band,scores,n,mortality
+Low,0-3,859,13.9
+Moderate,4-5,846,31.4
+High,6-7,682,44.3
+Very high,8-13,307,66.8

@@ -1,0 +1,7 @@
+variable,points_per_level,levels
+lactate,1,<2 / 2-4 / >=4
+uo,1,>=1 / 0.5-1 / <0.5
+ohca_arrest,3,no / yes
+age,1,<65 / 65-80 / >=80
+bun,1,<25 / 25-45 / >=45
+rdw,1,<14.5 / 14.5-16 / >=16
