@@ -181,7 +181,7 @@ print("=" * 70); print("7. FAIRNESS SUBGROUPS (exact LM24, v2.0 lactate OOF)"); 
 demo = pd.read_csv(DATA + 'mimic_demographics.csv')
 lmd = lm.merge(demo, on='stay_id', how='left')
 frows = []
-for col, groups in [('gender', ['M', 'F']), ('race_group', ['White', 'Black', 'Other/Unknown'])]:
+for col, groups in [('gender', ['M', 'F']), ('race_group', ['White', 'Black', 'Hispanic', 'Asian', 'Other/Unknown'])]:
     for g in groups:
         mk = (lmd[col] == g).values
         if mk.sum() < 40: continue
@@ -257,6 +257,7 @@ for code, sname in LET.items():
         f1.append(dict(cohort='MIMIC', stage=sname, tertile=lab, n=int(mk2.sum()),
                        mortality=round(100 * sub_y[mk2].mean(), 1), ci=f"{klo:.1f}-{khi:.1f}"))
 # OHCA-free and non-staging variants within stage
+vrows = []
 for variant, kw in [('ohca-free', dict(drop_ohca=True)), ('non-staging', dict(nonstaging=True))]:
     sv = card_score(lms, MED, **kw)
     spreads = []
@@ -266,8 +267,14 @@ for variant, kw in [('ohca-free', dict(drop_ohca=True)), ('non-staging', dict(no
         t = pd.qcut(pd.Series(sv[mk]), 3, labels=False, duplicates='drop')
         mr = [100 * y[mk][(t == k).values].mean() for k in range(3)]
         spreads.append(f"{sname} {mr[0]:.0f}/{mr[1]:.0f}/{mr[2]:.0f}")
+        for k, lab in enumerate(['Low', 'Mid', 'High']):
+            mk2 = (t == k).values
+            vlo, vhi = wilson(int(y[mk][mk2].sum()), int(mk2.sum()))
+            vrows.append(dict(variant=variant, stage=sname, tertile=lab, n=int(mk2.sum()),
+                              mortality=round(100 * y[mk][mk2].mean(), 1), ci=f"{vlo:.1f}-{vhi:.1f}"))
     row('scai', f'{variant} tertile mortality by stage', "; ".join(spreads))
 pd.DataFrame(f1).to_csv(OUT + 'figure1_mimic_lm24.csv', index=False)
+pd.DataFrame(vrows).to_csv(OUT + 'figure1_variants_mimic.csv', index=False)
 
 # ============ 11. availability by horizon ============
 print("=" * 70); print("11. AVAILABILITY BY HORIZON (MIMIC, in-ICU patients)"); print("=" * 70)

@@ -25,6 +25,15 @@ BINS_RISK = {'lactate': [-1, 2, 4, 999], 'bun': [-1, 25, 45, 9e9],
              'age': [-1, 65, 80, 999], 'rdw': [-1, 14.5, 16, 999]}
 BINS_PROT = {'uo': [-1, 0.5, 1.0, 999]}
 
+card_tbl = pd.DataFrame({
+    'variable': ['lactate', 'aniongap_substitution', 'uo', 'ohca_arrest', 'age', 'bun', 'rdw'],
+    'points_per_level': [2, 2, 1, 3, 1, 1, 1],
+    'levels': ['<2 / 2 to <4 / >=4', '<12 / 12 to <18 / >=18 (when lactate unavailable)',
+               '>=1 / 0.5 to <1 / <0.5', 'no / yes', '<65 / 65 to <80 / >=80',
+               '<25 / 25 to <45 / >=45', '<14.5 / 14.5 to <16 / >=16']})
+card_tbl.to_csv(OUT + 'v2_integer_card.csv', index=False)
+
+
 d = pd.read_csv(DATA + 'cs_features_canonical.csv').rename(
         columns={'uo_rate_mlkghr': 'uo', 'aniongap_harmonized': 'aniongap'})
 fl = pd.read_csv(SCRATCH + 'mimic_exact_lm_flags.csv')

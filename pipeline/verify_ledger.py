@@ -36,8 +36,26 @@ contains('v2_risk_bands_oof.csv', '12.7', '62.2')
 contains('severity_frame_final.csv', '0.7582', '0.7320')
 # Full model specification: exact intercepts, both formulations
 contains('v2_spec_continuous.csv', '-0.806673', '-0.82333')
-# Fairness subgroup sizes
-contains('fairness_subgroups_lm24.csv', '267')
+# Fairness subgroups: every recorded category, race rows total the landmark n
+fair = pd.read_csv(OUT + 'fairness_subgroups_lm24.csv')
+assert len(fair) == 7, len(fair)
+race = fair[~fair.subgroup.isin(['M', 'F', 'Male', 'Female'])]
+assert race['n'].sum() == 2694, race['n'].sum()
+checked += 2
+
+# Integer card: deployed points (lactate 0/2/4), maximum score 15
+card = pd.read_csv(OUT + 'v2_integer_card.csv')
+pts = dict(zip(card.variable, card.points_per_level))
+assert pts['lactate'] == 2 and pts['aniongap_substitution'] == 2, pts
+mx = (2 * pts['lactate'] + 2 * pts['uo'] + pts['ohca_arrest']
+      + 2 * pts['age'] + 2 * pts['bun'] + 2 * pts['rdw'])
+assert mx == 15, mx
+checked += 2
+
+# Within-stage variant cells with sizes and intervals
+var = pd.read_csv(OUT + 'figure1_variants_mimic.csv')
+assert len(var) == 24 and var['n'].sum() == 2686 * 2, (len(var), var['n'].sum())
+checked += 1
 
 # Figure 1 cells: displayed stages sum to the landmark populations minus stage A
 f1m = pd.read_csv(OUT + 'figure1_mimic_lm24.csv')

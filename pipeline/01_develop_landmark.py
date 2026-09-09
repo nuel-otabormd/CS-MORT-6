@@ -197,10 +197,7 @@ for i, lab in enumerate(labels):
 bands = pd.DataFrame(rows)
 print(bands.to_string(index=False))
 
-card = pd.DataFrame({'variable': F6, 'points_per_level': pts,
-                     'levels': ['<2 / 2-4 / >=4', '>=1 / 0.5-1 / <0.5', 'no / yes',
-                                '<65 / 65-80 / >=80', '<25 / 25-45 / >=45', '<14.5 / 14.5-16 / >=16']})
-card.to_csv(OUT + 'v2_integer_card.csv', index=False)
+# The deployed integer card table is written by the card-freeze stage.
 bands.to_csv(OUT + 'v2_risk_bands.csv', index=False)
 
 perf = pd.DataFrame([
