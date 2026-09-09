@@ -1,0 +1,7 @@
+item,value
+stage_auroc,0.623
+score_auroc,0.747
+both_auroc,0.755
+score_over_stage,+0.133 (+0.095 to +0.169)
+lrt_chi2_p,"135.9, 2.1e-31"
+stage_over_score,+0.008

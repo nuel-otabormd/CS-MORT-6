@@ -25,7 +25,8 @@ def contains(fname, *needles):
 contains('internal_final_results.csv',
          '0.7339 (0.7140-0.7538)', '0.7337 (0.7143-0.7527)')
 # External validation (frozen run): anion gap, lactate, integer card
-contains('locked_external_results.csv', '0.715', '0.726', '0.699')
+contains('locked_external_results.csv', '0.747', '0.758', '0.738', '1047 / 305',
+         '0.715', '0.718')
 # Redevelopment, deployable pool: paired difference
 contains('challenger_result.csv', '-0.014')
 # Event timing (exact timestamps): late-death counts and total
@@ -61,7 +62,11 @@ checked += 1
 f1m = pd.read_csv(OUT + 'figure1_mimic_lm24.csv')
 assert f1m['n'].sum() == 2686, f1m['n'].sum()
 f1e = pd.read_csv(OUT + 'figure1_eicu_lm24.csv')
-assert f1e['n'].sum() == 1586, f1e['n'].sum()
+assert f1e['n'].sum() == 1047, f1e['n'].sum()
+contains('external_incremental.csv', '+0.133')
+fc = pd.read_csv(OUT + 'figure1_eicu_frozen_cuts.csv')
+assert len(fc) == 12 and fc['n'].sum() == 1047, (len(fc), fc['n'].sum())
+checked += 1
 checked += 2
 
 # 48-hour trajectory groups

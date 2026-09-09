@@ -75,7 +75,12 @@ ec = pd.read_csv(DATA + 'eicu_scai_components.csv')
 mp = pd.read_csv(DATA + 'eicu_mcs_published.csv')
 ec['mcs_pub'] = ec['patientunitstayid'].isin(mp['patientunitstayid']).astype(int)
 e = e.merge(ec, on='patientunitstayid')
-el = e[e['in_icu_at_24h'] == 1].copy()
+e = e.merge(pd.read_csv(DATA + 'eicu_patient_mapping.csv'), on='patientunitstayid', how='left')
+e = e.sort_values(['uniquepid', 'uvn', 'phs', 'patientunitstayid'])
+q = (e['in_icu_at_24h'] == 1) & (e['first_cs_offset'] <= 1440)
+el = e[q]
+el = el[~el['uniquepid'].duplicated(keep='first')].copy()
+assert len(el) == 1047, len(el)
 yl = el['hosp_mort'].astype(int).values
 def stage_e(r):
     if r['arrest_dx'] == 1: return 'E'
@@ -102,9 +107,52 @@ for s in ['B', 'C', 'D', 'E']:
           + f"   spread {r.mortality.iloc[2]-r.mortality.iloc[0]:+.1f}")
 f1e.to_csv(OUT + 'figure1_eicu_lm24.csv', index=False)
 
+# ---- External incremental value (amended primary; patient-level = stay-level here) ----
+STG_NUM = {'B': 1, 'C': 2, 'D': 3, 'E': 4}
+stg_n = el['stage'].map(STG_NUM).values.astype(float)
+p_ag_el = predict(V2_AG, el)
+lp_el = np.log(np.clip(p_ag_el, 1e-9, 1 - 1e-9) / (1 - np.clip(p_ag_el, 1e-9, 1 - 1e-9)))
+m_st = sm.Logit(yl, sm.add_constant(stg_n)).fit(disp=0)
+m_sc = sm.Logit(yl, sm.add_constant(lp_el)).fit(disp=0)
+m_bo = sm.Logit(yl, sm.add_constant(np.column_stack([stg_n, lp_el]))).fit(disp=0)
+a_st = roc_auc_score(yl, m_st.predict()); a_sc = roc_auc_score(yl, m_sc.predict())
+a_bo = roc_auc_score(yl, m_bo.predict())
+rng = np.random.default_rng(42); dinc = []
+pb_st, pb_bo = m_st.predict(), m_bo.predict()
+for _ in range(2000):
+    i = rng.integers(0, len(yl), len(yl))
+    if len(np.unique(yl[i])) > 1:
+        dinc.append(roc_auc_score(yl[i], pb_bo[i]) - roc_auc_score(yl[i], pb_st[i]))
+from scipy import stats as _st
+lrt = 2 * (m_bo.llf - m_st.llf)
+print(f"\n  external incremental: stage {a_st:.3f} / score {a_sc:.3f} / both {a_bo:.3f}; "
+      f"score over stage {a_bo-a_st:+.3f} ({np.percentile(dinc,2.5):+.3f} to {np.percentile(dinc,97.5):+.3f}); "
+      f"LRT chi2 {lrt:.1f} P={_st.chi2.sf(lrt,1):.1e}; stage over score {a_bo-a_sc:+.3f}")
+pd.DataFrame([dict(item='stage_auroc', value=round(a_st,3)), dict(item='score_auroc', value=round(a_sc,3)),
+              dict(item='both_auroc', value=round(a_bo,3)),
+              dict(item='score_over_stage', value=f"{a_bo-a_st:+.3f} ({np.percentile(dinc,2.5):+.3f} to {np.percentile(dinc,97.5):+.3f})"),
+              dict(item='lrt_chi2_p', value=f"{lrt:.1f}, {_st.chi2.sf(lrt,1):.1e}"),
+              dict(item='stage_over_score', value=f"{a_bo-a_sc:+.3f}")]).to_csv(OUT + 'external_incremental.csv', index=False)
+
+# ---- Within-stage cells with MIMIC-frozen tertile cutpoints ----
+mfc = pd.read_csv(OUT + 'figure1_mimic_cutpoints.csv')
+rows_fc = []
+for s in ['B', 'C', 'D', 'E']:
+    q1, q2 = mfc.loc[mfc.stage == s, ['q1', 'q2']].iloc[0]
+    sub = el[el.stage == s]; sy = sub['hosp_mort'].astype(int).values
+    sv = card_score_ag(sub)
+    for lab, mk in [('Low', sv <= q1), ('Mid', (sv > q1) & (sv <= q2)), ('High', sv > q2)]:
+        wlo, whi = wilson(int(sy[mk].sum()), int(mk.sum()))
+        rows_fc.append(dict(cohort='eICU', stage=s, tertile=lab, cut=f"<={q1:.0f}/<={q2:.0f}",
+                            n=int(mk.sum()), mortality=round(100 * sy[mk].mean(), 1), ci=f"{wlo:.1f}-{whi:.1f}"))
+pd.DataFrame(rows_fc).to_csv(OUT + 'figure1_eicu_frozen_cuts.csv', index=False)
+print("  frozen-cutpoint panel written")
+
 # ---- DCA data, landmark frame (v2.0 AG vs BOS,MA2 recalibrated) ----
 e2 = e.merge(pd.read_csv(SCRATCH + 'eicu_cmp.csv'), on='patientunitstayid', how='left')
-el2 = e2[e2['in_icu_at_24h'] == 1].copy()
+q2 = (e2['in_icu_at_24h'] == 1) & (e2['first_cs_offset'] <= 1440)
+el2 = e2[q2]
+el2 = el2[~el2['uniquepid'].duplicated(keep='first')].copy()
 yl2 = el2['hosp_mort'].astype(int).values
 el2['p_ag'] = predict(V2_AG, el2)
 bm = ((el2.bun_max >= 25).astype(int) + (el2.spo2_min < 88).astype(int) + (el2.sbp_min < 80).astype(int)

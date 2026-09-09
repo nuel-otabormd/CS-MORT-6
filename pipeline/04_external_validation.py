@@ -95,13 +95,29 @@ e = pd.read_csv(DATA + 'cs_eicu_canonical.csv').drop(columns=['aniongap']).renam
         columns={'uo_rate_mlkghr': 'uo', 'aniongap_harmonized': 'aniongap'})
 e = e.merge(pd.read_csv(SCRATCH + 'eicu_24h_flags.csv'), on='patientunitstayid')
 e = e.merge(pd.read_csv(SCRATCH + 'eicu_cmp.csv'), on='patientunitstayid', how='left')
+mpg = pd.read_csv(DATA + 'eicu_patient_mapping.csv')
+e = e.merge(mpg, on='patientunitstayid', how='left')
+e = e.sort_values(['uniquepid', 'uvn', 'phs', 'patientunitstayid']).reset_index(drop=True)
+# Amended primary external population (PROTOCOL_AMENDMENT_20260909.md):
+# landmark + CS documented by 24 h + first QUALIFYING stay per patient
+# (dedup within each eligibility set, rows pre-sorted by uvn/phs/stay id).
+dx24 = (e['first_cs_offset'] <= 1440).values
+def first_within(mask):
+    keep = np.zeros(len(e), bool)
+    sub = e.loc[mask, 'uniquepid']
+    keep[np.flatnonzero(mask)[~sub.duplicated(keep='first').values]] = True
+    return keep
 ye = e['hosp_mort'].astype(int).values
-LM = (e['in_icu_at_24h'] == 1).values
+LM_ALL = (e['in_icu_at_24h'] == 1).values
+LM = first_within(LM_ALL & dx24)          # amended primary
+LM_DEDUP = first_within(LM_ALL)           # sensitivity: dedup only
+assert LM.sum() == 1047 and ye[LM].sum() == 305, (LM.sum(), ye[LM].sum())
 
-print("=" * 72); print("A. eICU EXACT 24-H LANDMARK (deployment frame), v2.0 frozen")
+print("=" * 72); print("A. eICU EXACT 24-H LANDMARK, AMENDED PRIMARY (one stay/patient, CS documented by 24 h)")
 print("=" * 72)
 el = e[LM]; yl = ye[LM]
 row('LM24', 'n / deaths / mortality', f"{len(el)} / {yl.sum()} / {100*yl.mean():.1f}%")
+row('LM24', 'hospitals contributing', f"{el['hospitalid'].nunique()}")
 for m, lab in [(V2_LAC, 'v2.0 lactate'), (V2_AG, 'v2.0 anion gap')]:
     p = predict(m, el); lo, hi = auc_ci(yl, p); sl, ci = slope_citl(p, yl)
     row('LM24', f'{lab} AUROC', f"{roc_auc_score(yl, p):.3f} ({lo:.3f}-{hi:.3f})")
@@ -117,6 +133,23 @@ for blo, bhi, lab in [(-1, 3, 'Low 0-3'), (3, 5, 'Moderate 4-5'), (5, 7, 'High 6
     mk = (s_ag > blo) & (s_ag <= bhi)
     wlo, whi = wilson(int(yl[mk].sum()), int(mk.sum()))
     row('LM24', f'band {lab}', f"n={int(mk.sum())} mortality {100*yl[mk].mean():.1f}% ({wlo:.1f}-{whi:.1f})")
+for c, lab in [('lactate', 'lactate'), ('aniongap', 'anion gap'), ('uo', 'urine output'), ('bun', 'BUN'), ('rdw', 'RDW')]:
+    row('LM24', f'observed {lab}', f"{100*el[c].notna().mean():.1f}%")
+row('LM24', 'all anion-gap-model inputs observed', f"{100*el[['aniongap','uo','bun','rdw','age']].notna().all(axis=1).mean():.1f}%")
+row('LM24', 'all lactate-model inputs observed', f"{100*el[['lactate','uo','bun','rdw','age']].notna().all(axis=1).mean():.1f}%")
+
+print("=" * 72); print("A2. SENSITIVITY POPULATIONS (frozen model, unchanged)")
+print("=" * 72)
+for mk_s, lab_s in [(LM_ALL, 'all landmark stays (n=1,586 frame)'), (LM_DEDUP, 'one stay/patient, any-time documentation')]:
+    es = e[mk_s]; ys = ye[mk_s]
+    p_s = predict(V2_AG, es); lo_s, hi_s = auc_ci(ys, p_s)
+    s_s = card_score(es, ag_for_lactate=True)
+    row('LM24_sens', f'{lab_s}', f"n={len(es)} deaths={ys.sum()}; AG {roc_auc_score(ys, p_s):.3f} ({lo_s:.3f}-{hi_s:.3f}); integer {roc_auc_score(ys, s_s):.3f}")
+late_arrest = (e['ohca_arrest'] == 1) & (e['first_arrest_offset'] > 1440)
+e_za = e.copy(); e_za.loc[late_arrest, 'ohca_arrest'] = 0
+row('LM24_sens', 'arrest flags first documented after 24 h (primary)', f"{int((late_arrest & LM).sum())}")
+row('LM24_sens', 'primary AG AUROC with late arrests zeroed',
+    f"{roc_auc_score(yl, predict(V2_AG, e_za[LM])):.3f}; integer {roc_auc_score(yl, card_score(e_za[LM], ag_for_lactate=True)):.3f}")
 
 print("=" * 72); print("B. eICU ALL-COMERS (day-1 severity frame), v1.1 for continuity")
 print("=" * 72)
@@ -186,8 +219,12 @@ row('LM24', 'v2.0 AG vs imputed BOS,MA2', f"diff {roc_auc_score(yl, pa)-roc_auc_
 print("=" * 72); print("D. eICU 48-H LANDMARK, frozen v2.0")
 print("=" * 72)
 e48 = pd.read_csv(SCRATCH + 'eicu_48h_clean.csv')
-e48 = e48.merge(e[['patientunitstayid', 'lactate', 'uo', 'bun', 'rdw', 'aniongap']],
+e48 = e48.merge(e[['patientunitstayid', 'lactate', 'uo', 'bun', 'rdw', 'aniongap',
+                   'uniquepid', 'uvn', 'phs', 'first_cs_offset']],
                 on='patientunitstayid', suffixes=('', '_24h'))
+e48 = e48[e48['first_cs_offset'] <= 1440]
+e48 = e48.sort_values(['uniquepid', 'uvn', 'phs', 'patientunitstayid'])
+e48 = e48[~e48['uniquepid'].duplicated(keep='first')]
 l48 = e48[e48['in_icu_48h'] == 1].copy()
 y48 = l48['hosp_mort'].astype(int).values
 row('LM48', 'n / deaths / mortality', f"{len(l48)} / {y48.sum()} / {100*y48.mean():.1f}%")

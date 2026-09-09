@@ -150,6 +150,11 @@ e24 = pd.read_csv(DATA + 'cs_eicu_canonical.csv').drop(columns=['aniongap']).ren
         columns={'uo_rate_mlkghr': 'uo', 'aniongap_harmonized': 'aniongap'})
 e48 = e48.merge(e24[['patientunitstayid', 'lactate', 'uo', 'bun', 'rdw', 'aniongap']],
                 on='patientunitstayid', suffixes=('', '_24h'))
+mpg = pd.read_csv(DATA + 'eicu_patient_mapping.csv')
+e48 = e48.merge(mpg, on='patientunitstayid', how='left')
+e48 = e48[e48['first_cs_offset'] <= 1440]
+e48 = e48.sort_values(['uniquepid', 'uvn', 'phs', 'patientunitstayid'])
+e48 = e48[~e48['uniquepid'].duplicated(keep='first')]
 l48 = e48[e48['in_icu_48h'] == 1].copy()
 ye48 = l48['hosp_mort'].astype(int).values
 upd = l48.rename(columns={'lactate': 'lact24', 'uo': 'uo24', 'bun': 'bun24', 'rdw': 'rdw24', 'aniongap': 'ag24'})\

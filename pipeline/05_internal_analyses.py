@@ -243,11 +243,13 @@ row('scai', 'LRT score over stage', f"chi2 {lrt:.1f}, p {p_lrt:.1e}")
 row('scai', 'paired dAUROC (stage+score - stage)', f"{np.mean(dd):+.3f} ({np.percentile(dd,2.5):+.3f} to {np.percentile(dd,97.5):+.3f})")
 LET = {1: 'B', 2: 'C', 3: 'D', 4: 'E'}
 f1 = []
+cutrows = []
 for code, sname in LET.items():
     mk = stg == code
     sub_s = s_full[mk]; sub_y = y[mk]
     if mk.sum() < 30: continue
-    t = pd.qcut(pd.Series(sub_s), 3, labels=False, duplicates='drop')
+    t, edges = pd.qcut(pd.Series(sub_s), 3, labels=False, duplicates='drop', retbins=True)
+    cutrows.append(dict(stage=sname, q1=edges[1], q2=edges[2]))
     wa = roc_auc_score(sub_y, sub_s)
     walo, wahi = auc_ci(sub_y, sub_s)
     row('scai', f'stage {sname} within-stage AUROC', f"n={mk.sum()} {wa:.3f} ({walo:.3f}-{wahi:.3f})")
@@ -274,6 +276,7 @@ for variant, kw in [('ohca-free', dict(drop_ohca=True)), ('non-staging', dict(no
                               mortality=round(100 * y[mk][mk2].mean(), 1), ci=f"{vlo:.1f}-{vhi:.1f}"))
     row('scai', f'{variant} tertile mortality by stage', "; ".join(spreads))
 pd.DataFrame(f1).to_csv(OUT + 'figure1_mimic_lm24.csv', index=False)
+pd.DataFrame(cutrows).to_csv(OUT + 'figure1_mimic_cutpoints.csv', index=False)
 pd.DataFrame(vrows).to_csv(OUT + 'figure1_variants_mimic.csv', index=False)
 
 # ============ 11. availability by horizon ============
