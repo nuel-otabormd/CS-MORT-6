@@ -64,6 +64,13 @@ def card_score(df, ag_for_lactate=False):
         elif f in BINS_PROT:
             o = pd.cut(df[f].fillna(MED_LM24[f]), bins=BINS_PROT[f], labels=False, right=False)
             total += (2 - o.fillna(0)).astype(int).values * CARD[f]
+        elif f == 'lactate' and ag_for_lactate == 'hybrid':
+            has = df['lactate'].notna().values
+            l_lvl = pd.cut(df['lactate'], bins=BINS_RISK['lactate'],
+                           labels=False, right=False).fillna(0).astype(int).values
+            a_lvl = pd.cut(df['aniongap'].fillna(MED_LM24['aniongap']),
+                           bins=[-1, 12, 18, 999], labels=False, right=False).fillna(0).astype(int).values
+            total += np.where(has, l_lvl, a_lvl) * CARD['lactate']
         elif f == 'lactate' and ag_for_lactate:
             o = pd.cut(df['aniongap'].fillna(MED_LM24['aniongap']),
                        bins=[-1, 12, 18, 999], labels=False, right=False)
@@ -111,26 +118,41 @@ ye = e['hosp_mort'].astype(int).values
 LM_ALL = (e['in_icu_at_24h'] == 1).values
 LM = first_within(LM_ALL & dx24)          # amended primary
 LM_DEDUP = first_within(LM_ALL)           # sensitivity: dedup only
+# Amendment clarification 1: zero arrest flags first documented after the
+# landmark in the PRIMARY analyses (score inputs and staging alike).
+e['ohca_arrest_raw'] = e['ohca_arrest']
+LATE24 = ((e['ohca_arrest_raw'] == 1) & (e['first_arrest_offset'] > 1440)).values
+e24 = e.copy(); e24.loc[LATE24, 'ohca_arrest'] = 0   # landmark frames only
 assert LM.sum() == 1047 and ye[LM].sum() == 305, (LM.sum(), ye[LM].sum())
 
 print("=" * 72); print("A. eICU EXACT 24-H LANDMARK, AMENDED PRIMARY (one stay/patient, CS documented by 24 h)")
 print("=" * 72)
-el = e[LM]; yl = ye[LM]
+el = e24[LM]; yl = ye[LM]
 row('LM24', 'n / deaths / mortality', f"{len(el)} / {yl.sum()} / {100*yl.mean():.1f}%")
 row('LM24', 'hospitals contributing', f"{el['hospitalid'].nunique()}")
 for m, lab in [(V2_LAC, 'v2.0 lactate'), (V2_AG, 'v2.0 anion gap')]:
     p = predict(m, el); lo, hi = auc_ci(yl, p); sl, ci = slope_citl(p, yl)
     row('LM24', f'{lab} AUROC', f"{roc_auc_score(yl, p):.3f} ({lo:.3f}-{hi:.3f})")
     row('LM24', f'{lab} slope/CITL/Brier', f"{sl:.2f} / {ci:+.3f} / {np.mean((p-yl)**2):.3f}")
-p_ag_lm = predict(V2_AG, el)
+p_ag_lm = predict(V2_AG, el)  # el already from e24
 d_int = sm.Logit(yl, np.ones(len(yl)),
                  offset=np.log(np.clip(p_ag_lm, 1e-9, 1-1e-9) / (1 - np.clip(p_ag_lm, 1e-9, 1-1e-9)))).fit(disp=0).params[0]
 row('LM24', 'anion-gap local intercept update (log-odds)', f"{d_int:+.3f}")
+s_hy = card_score(el, ag_for_lactate='hybrid')
+lo, hi = auc_ci(yl, s_hy)
+row('LM24', 'integer card, deployment rule (hybrid) AUROC', f"{roc_auc_score(yl, s_hy):.3f} ({lo:.3f}-{hi:.3f})")
 s_ag = card_score(el, ag_for_lactate=True)
 lo, hi = auc_ci(yl, s_ag)
-row('LM24', 'integer card (anion gap) AUROC', f"{roc_auc_score(yl, s_ag):.3f} ({lo:.3f}-{hi:.3f})")
+row('LM24', 'integer card, anion-gap bands for all (harmonized sensitivity) AUROC', f"{roc_auc_score(yl, s_ag):.3f} ({lo:.3f}-{hi:.3f})")
+mapping = pd.read_csv(OUT + 'v2_score_risk_mapping.csv')
+mp = dict(zip(mapping['score'], mapping['predicted_risk_pct'] / 100))
+pr = np.array([mp[int(v)] for v in s_hy])
+lpm = np.log(np.clip(pr, 1e-9, 1 - 1e-9) / (1 - np.clip(pr, 1e-9, 1 - 1e-9)))
+row('LM24', 'hybrid card mapped-risk calibration slope/CITL',
+    f"{sm.Logit(yl, sm.add_constant(lpm)).fit(disp=0).params[1]:.2f} / "
+    f"{sm.Logit(yl, np.ones(len(yl)), offset=lpm).fit(disp=0).params[0]:+.3f}")
 for blo, bhi, lab in [(-1, 3, 'Low 0-3'), (3, 5, 'Moderate 4-5'), (5, 7, 'High 6-7'), (7, 15, 'Very high 8-15')]:
-    mk = (s_ag > blo) & (s_ag <= bhi)
+    mk = (s_hy > blo) & (s_hy <= bhi)
     wlo, whi = wilson(int(yl[mk].sum()), int(mk.sum()))
     row('LM24', f'band {lab}', f"n={int(mk.sum())} mortality {100*yl[mk].mean():.1f}% ({wlo:.1f}-{whi:.1f})")
 for c, lab in [('lactate', 'lactate'), ('aniongap', 'anion gap'), ('uo', 'urine output'), ('bun', 'BUN'), ('rdw', 'RDW')]:
@@ -141,15 +163,14 @@ row('LM24', 'all lactate-model inputs observed', f"{100*el[['lactate','uo','bun'
 print("=" * 72); print("A2. SENSITIVITY POPULATIONS (frozen model, unchanged)")
 print("=" * 72)
 for mk_s, lab_s in [(LM_ALL, 'all landmark stays (n=1,586 frame)'), (LM_DEDUP, 'one stay/patient, any-time documentation')]:
-    es = e[mk_s]; ys = ye[mk_s]
+    es = e24[mk_s]; ys = ye[mk_s]
     p_s = predict(V2_AG, es); lo_s, hi_s = auc_ci(ys, p_s)
     s_s = card_score(es, ag_for_lactate=True)
-    row('LM24_sens', f'{lab_s}', f"n={len(es)} deaths={ys.sum()}; AG {roc_auc_score(ys, p_s):.3f} ({lo_s:.3f}-{hi_s:.3f}); integer {roc_auc_score(ys, s_s):.3f}")
-late_arrest = (e['ohca_arrest'] == 1) & (e['first_arrest_offset'] > 1440)
-e_za = e.copy(); e_za.loc[late_arrest, 'ohca_arrest'] = 0
-row('LM24_sens', 'arrest flags first documented after 24 h (primary)', f"{int((late_arrest & LM).sum())}")
-row('LM24_sens', 'primary AG AUROC with late arrests zeroed',
-    f"{roc_auc_score(yl, predict(V2_AG, e_za[LM])):.3f}; integer {roc_auc_score(yl, card_score(e_za[LM], ag_for_lactate=True)):.3f}")
+    li_s, hi2_s = auc_ci(ys, s_s)
+    row('LM24_sens', f'{lab_s}', f"n={len(es)} deaths={ys.sum()}; AG {roc_auc_score(ys, p_s):.3f} ({lo_s:.3f}-{hi_s:.3f}); integer {roc_auc_score(ys, s_s):.3f} ({li_s:.3f}-{hi2_s:.3f})")
+row('LM24_sens', 'late-documented arrest flags zeroed in primary (n)', f"{int((LATE24 & LM).sum())}")
+row('LM24_sens', 'primary with late arrest flags retained (sensitivity)',
+    f"AG {roc_auc_score(yl, predict(V2_AG, e[LM])):.3f}; hybrid integer {roc_auc_score(yl, card_score(e[LM], ag_for_lactate='hybrid')):.3f}")
 
 print("=" * 72); print("B. eICU ALL-COMERS (day-1 severity frame), v1.1 for continuity")
 print("=" * 72)
@@ -198,7 +219,7 @@ def h2h(frame, mask, p_model, lab):
 print("=" * 72); print("C. BOS,MA2 comparisons")
 print("=" * 72)
 h2h('allcomers', np.ones(len(e), bool), predict(V11_AG, e), 'all-comers (native frame, v1.1 AG)')
-h2h('LM24', LM, predict(V2_AG, e), 'landmark frame (v2.0 AG)')
+h2h('LM24', LM, predict(V2_AG, e24), 'landmark frame (v2.0 AG)')
 # imputation-based sensitivity: chained-equations imputation of checklist inputs, all LM24 patients
 imp_cols = ['bun_max', 'spo2_min', 'sbp_min', 'age', 'aniongap_max']
 imp = IterativeImputer(random_state=42, max_iter=10).fit(e.loc[LM, imp_cols])
@@ -220,12 +241,15 @@ print("=" * 72); print("D. eICU 48-H LANDMARK, frozen v2.0")
 print("=" * 72)
 e48 = pd.read_csv(SCRATCH + 'eicu_48h_clean.csv')
 e48 = e48.merge(e[['patientunitstayid', 'lactate', 'uo', 'bun', 'rdw', 'aniongap',
-                   'uniquepid', 'uvn', 'phs', 'first_cs_offset']],
+                   'uniquepid', 'uvn', 'phs', 'first_cs_offset', 'first_arrest_offset',
+                   'ohca_arrest_raw']],
                 on='patientunitstayid', suffixes=('', '_24h'))
 e48 = e48[e48['first_cs_offset'] <= 1440]
 e48 = e48.sort_values(['uniquepid', 'uvn', 'phs', 'patientunitstayid'])
 e48 = e48[~e48['uniquepid'].duplicated(keep='first')]
 l48 = e48[e48['in_icu_48h'] == 1].copy()
+l48['ohca_arrest'] = l48['ohca_arrest_raw']
+l48.loc[(l48['ohca_arrest'] == 1) & (l48['first_arrest_offset'] > 2880), 'ohca_arrest'] = 0
 y48 = l48['hosp_mort'].astype(int).values
 row('LM48', 'n / deaths / mortality', f"{len(l48)} / {y48.sum()} / {100*y48.mean():.1f}%")
 upd = l48.rename(columns={'lactate': 'lact24', 'uo': 'uo24', 'bun': 'bun24', 'rdw': 'rdw24', 'aniongap': 'ag24'})\

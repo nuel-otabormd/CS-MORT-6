@@ -156,6 +156,7 @@ e48 = e48[e48['first_cs_offset'] <= 1440]
 e48 = e48.sort_values(['uniquepid', 'uvn', 'phs', 'patientunitstayid'])
 e48 = e48[~e48['uniquepid'].duplicated(keep='first')]
 l48 = e48[e48['in_icu_48h'] == 1].copy()
+l48.loc[(l48['ohca_arrest'] == 1) & (l48['first_arrest_offset'] > 2880), 'ohca_arrest'] = 0
 ye48 = l48['hosp_mort'].astype(int).values
 upd = l48.rename(columns={'lactate': 'lact24', 'uo': 'uo24', 'bun': 'bun24', 'rdw': 'rdw24', 'aniongap': 'ag24'})\
          .rename(columns={'lactate48': 'lactate', 'uo48': 'uo', 'bun48': 'bun', 'rdw48': 'rdw', 'ag48': 'aniongap'})

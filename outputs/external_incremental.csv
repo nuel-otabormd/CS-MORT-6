@@ -1,7 +1,10 @@
 item,value
-stage_auroc,0.623
-score_auroc,0.747
-both_auroc,0.755
-score_over_stage,+0.133 (+0.095 to +0.169)
-lrt_chi2_p,"135.9, 2.1e-31"
-stage_over_score,+0.008
+stage_auroc,0.613
+score_auroc_continuousAG,0.748
+both_auroc_continuousAG,0.754
+score_over_stage_continuousAG,+0.141 (+0.101 to +0.178)
+lrt_chi2_p_continuousAG,"142.3, 8.4e-33"
+stage_over_score_continuousAG,+0.006
+incremental_integer_hybrid,stage 0.613 / score 0.759 / both 0.767; +0.154 (+0.116 to +0.191); LRT p=7.1e-36
+incremental_continuousAG_stage_no_arrest_rule,stage 0.524 / score 0.748 / both 0.750; +0.226 (+0.179 to +0.272); LRT p=1.6e-40
+incremental_integer_hybrid_stage_no_arrest_rule,stage 0.524 / score 0.759 / both 0.761; +0.237 (+0.193 to +0.283); LRT p=8.4e-43

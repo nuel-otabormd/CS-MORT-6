@@ -1,16 +1,18 @@
 frame,item,value
 LM24,n / deaths / mortality,1047 / 305 / 29.1%
 LM24,hospitals contributing,117
-LM24,v2.0 lactate AUROC,0.758 (0.727-0.789)
-LM24,v2.0 lactate slope/CITL/Brier,1.06 / -0.256 / 0.170
-LM24,v2.0 anion gap AUROC,0.747 (0.714-0.778)
-LM24,v2.0 anion gap slope/CITL/Brier,1.15 / -0.008 / 0.173
-LM24,anion-gap local intercept update (log-odds),-0.008
-LM24,integer card (anion gap) AUROC,0.738 (0.707-0.770)
-LM24,band Low 0-3,n=310 mortality 10.3% (7.4-14.2)
-LM24,band Moderate 4-5,n=313 mortality 20.4% (16.4-25.3)
-LM24,band High 6-7,n=247 mortality 42.9% (36.9-49.1)
-LM24,band Very high 8-15,n=177 mortality 58.2% (50.8-65.2)
+LM24,v2.0 lactate AUROC,0.759 (0.728-0.789)
+LM24,v2.0 lactate slope/CITL/Brier,1.08 / -0.251 / 0.170
+LM24,v2.0 anion gap AUROC,0.748 (0.715-0.780)
+LM24,v2.0 anion gap slope/CITL/Brier,1.17 / -0.001 / 0.172
+LM24,anion-gap local intercept update (log-odds),-0.001
+LM24,"integer card, deployment rule (hybrid) AUROC",0.759 (0.729-0.790)
+LM24,"integer card, anion-gap bands for all (harmonized sensitivity) AUROC",0.738 (0.707-0.770)
+LM24,hybrid card mapped-risk calibration slope/CITL,1.15 / -0.221
+LM24,band Low 0-3,n=296 mortality 8.8% (6.1-12.6)
+LM24,band Moderate 4-5,n=292 mortality 18.8% (14.8-23.7)
+LM24,band High 6-7,n=245 mortality 39.6% (33.7-45.8)
+LM24,band Very high 8-15,n=214 mortality 59.3% (52.7-65.7)
 LM24,observed lactate,52.5%
 LM24,observed anion gap,96.4%
 LM24,observed urine output,60.6%
@@ -18,10 +20,10 @@ LM24,observed BUN,97.4%
 LM24,observed RDW,89.5%
 LM24,all anion-gap-model inputs observed,53.3%
 LM24,all lactate-model inputs observed,29.5%
-LM24_sens,"all landmark stays (n=1,586 frame)",n=1586 deaths=478; AG 0.715 (0.688-0.741); integer 0.699
-LM24_sens,"one stay/patient, any-time documentation",n=1439 deaths=453; AG 0.718 (0.690-0.748); integer 0.705
-LM24_sens,arrest flags first documented after 24 h (primary),5
-LM24_sens,primary AG AUROC with late arrests zeroed,0.748; integer 0.738
+LM24_sens,"all landmark stays (n=1,586 frame)",n=1586 deaths=478; AG 0.713 (0.685-0.739); integer 0.697 (0.669-0.724)
+LM24_sens,"one stay/patient, any-time documentation",n=1439 deaths=453; AG 0.716 (0.688-0.745); integer 0.702 (0.674-0.731)
+LM24_sens,late-documented arrest flags zeroed in primary (n),5
+LM24_sens,primary with late arrest flags retained (sensitivity),AG 0.747; hybrid integer 0.758
 allcomers,n / deaths / mortality,1866 / 644 / 34.5%
 allcomers,v1.1 lactate AUROC,0.757 (0.735-0.780)
 allcomers,v1.1 lactate slope/CITL,0.85 / -0.191
@@ -30,14 +32,14 @@ allcomers,v1.1 anion gap slope/CITL,0.96 / +0.043
 allcomers,"all-comers (native frame, v1.1 AG): n common-scorable",1127 (mortality 34.4%)
 allcomers,"all-comers (native frame, v1.1 AG): model vs BOS,MA2","0.749 vs 0.743, diff +0.006 (-0.026 to +0.037), DeLong P=0.69"
 LM24,landmark frame (v2.0 AG): n common-scorable,654 (mortality 30.0%)
-LM24,"landmark frame (v2.0 AG): model vs BOS,MA2","0.753 vs 0.751, diff +0.001 (-0.042 to +0.044), DeLong P=0.95"
+LM24,"landmark frame (v2.0 AG): model vs BOS,MA2","0.755 vs 0.751, diff +0.004 (-0.039 to +0.046), DeLong P=0.87"
 LM24,"imputed BOS,MA2 (all landmark pts) AUROC",0.735
-LM24,"v2.0 AG vs imputed BOS,MA2",diff +0.012 (-0.026 to +0.049)
+LM24,"v2.0 AG vs imputed BOS,MA2",diff +0.014 (-0.024 to +0.050)
 LM48,n / deaths / mortality,806 / 202 / 25.1%
-LM48,anion gap updated-48h AUROC,"0.723 (0.682-0.763), slope 1.04, CITL -0.147"
-LM48,anion gap stale-24h AUROC,"0.714, slope 0.96, CITL -0.205"
-LM48,lactate updated-48h AUROC,"0.731 (0.691-0.772), slope 1.02, CITL -0.415"
-LM48,lactate stale-24h AUROC,"0.731, slope 0.90, CITL -0.451"
+LM48,anion gap updated-48h AUROC,"0.725 (0.685-0.765), slope 1.07, CITL -0.141"
+LM48,anion gap stale-24h AUROC,"0.716, slope 0.99, CITL -0.200"
+LM48,lactate updated-48h AUROC,"0.732 (0.693-0.774), slope 1.04, CITL -0.412"
+LM48,lactate stale-24h AUROC,"0.732, slope 0.93, CITL -0.447"
 LM48,observed lactate (cumulative),56.9%
 LM48,observed urine output (cumulative),64.8%
 LM48,observed BUN (cumulative),99.4%

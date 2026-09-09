@@ -59,9 +59,12 @@ def card_score_ag(df):
             o = pd.cut(df[f].fillna(MED[f]), bins=BINS_PROT[f], labels=False, right=False)
             total += (2 - o.fillna(0)).astype(int).values * CARD[f]
         elif f == 'lactate':
-            o = pd.cut(df['aniongap'].fillna(MED['aniongap']),
-                       bins=[-1, 12, 18, 999], labels=False, right=False)
-            total += o.fillna(0).astype(int).values * CARD['lactate']
+            has = df['lactate'].notna().values
+            l_lvl = pd.cut(df['lactate'], bins=BINS_RISK['lactate'],
+                           labels=False, right=False).fillna(0).astype(int).values
+            a_lvl = pd.cut(df['aniongap'].fillna(MED['aniongap']),
+                           bins=[-1, 12, 18, 999], labels=False, right=False).fillna(0).astype(int).values
+            total += np.where(has, l_lvl, a_lvl) * CARD['lactate']
         else:
             o = pd.cut(df[f].fillna(MED[f]), bins=BINS_RISK[f], labels=False, right=False)
             total += o.fillna(0).astype(int).values * CARD[f]
@@ -81,6 +84,8 @@ q = (e['in_icu_at_24h'] == 1) & (e['first_cs_offset'] <= 1440)
 el = e[q]
 el = el[~el['uniquepid'].duplicated(keep='first')].copy()
 assert len(el) == 1047, len(el)
+el.loc[(el['ohca_arrest'] == 1) & (el['first_arrest_offset'] > 1440), 'ohca_arrest'] = 0
+el.loc[(el['arrest_dx'] == 1) & (el['first_arrest_offset'] > 1440), 'arrest_dx'] = 0
 yl = el['hosp_mort'].astype(int).values
 def stage_e(r):
     if r['arrest_dx'] == 1: return 'E'
@@ -128,11 +133,31 @@ lrt = 2 * (m_bo.llf - m_st.llf)
 print(f"\n  external incremental: stage {a_st:.3f} / score {a_sc:.3f} / both {a_bo:.3f}; "
       f"score over stage {a_bo-a_st:+.3f} ({np.percentile(dinc,2.5):+.3f} to {np.percentile(dinc,97.5):+.3f}); "
       f"LRT chi2 {lrt:.1f} P={_st.chi2.sf(lrt,1):.1e}; stage over score {a_bo-a_sc:+.3f}")
-pd.DataFrame([dict(item='stage_auroc', value=round(a_st,3)), dict(item='score_auroc', value=round(a_sc,3)),
-              dict(item='both_auroc', value=round(a_bo,3)),
-              dict(item='score_over_stage', value=f"{a_bo-a_st:+.3f} ({np.percentile(dinc,2.5):+.3f} to {np.percentile(dinc,97.5):+.3f})"),
-              dict(item='lrt_chi2_p', value=f"{lrt:.1f}, {_st.chi2.sf(lrt,1):.1e}"),
-              dict(item='stage_over_score', value=f"{a_bo-a_sc:+.3f}")]).to_csv(OUT + 'external_incremental.csv', index=False)
+inc_rows = [dict(item='stage_auroc', value=round(a_st,3)), dict(item='score_auroc_continuousAG', value=round(a_sc,3)),
+            dict(item='both_auroc_continuousAG', value=round(a_bo,3)),
+            dict(item='score_over_stage_continuousAG', value=f"{a_bo-a_st:+.3f} ({np.percentile(dinc,2.5):+.3f} to {np.percentile(dinc,97.5):+.3f})"),
+            dict(item='lrt_chi2_p_continuousAG', value=f"{lrt:.1f}, {_st.chi2.sf(lrt,1):.1e}"),
+            dict(item='stage_over_score_continuousAG', value=f"{a_bo-a_sc:+.3f}")]
+def _inc_extra(stage_v, score_v, tag):
+    m_s = sm.Logit(yl, sm.add_constant(stage_v)).fit(disp=0)
+    m_b = sm.Logit(yl, sm.add_constant(np.column_stack([stage_v, score_v]))).fit(disp=0)
+    a_s = roc_auc_score(yl, m_s.predict()); a_c = roc_auc_score(yl, score_v); a_b = roc_auc_score(yl, m_b.predict())
+    rng2 = np.random.default_rng(42); dd2 = []
+    ps, pb2 = m_s.predict(), m_b.predict()
+    for _ in range(2000):
+        i = rng2.integers(0, len(yl), len(yl))
+        if len(np.unique(yl[i])) > 1: dd2.append(roc_auc_score(yl[i], pb2[i]) - roc_auc_score(yl[i], ps[i]))
+    l2 = 2 * (m_b.llf - m_s.llf)
+    inc_rows.append(dict(item=f'incremental_{tag}',
+        value=f"stage {a_s:.3f} / score {a_c:.3f} / both {a_b:.3f}; +{a_b-a_s:.3f} ({np.percentile(dd2,2.5):+.3f} to {np.percentile(dd2,97.5):+.3f}); LRT p={_st.chi2.sf(l2,1):.1e}"))
+    print(f"  incremental {tag}: stage {a_s:.3f} score {a_c:.3f} both {a_b:.3f} (+{a_b-a_s:.3f})")
+s_hyb = card_score_ag(el).astype(float)
+_inc_extra(stg_n, s_hyb, 'integer_hybrid')
+STG_NA = el['stage'].map({'B':1,'C':2,'D':3,'E':4}).copy()
+stg_na = np.where(el['mcs_pub'] == 1, 3, np.where((el['vaso_count'].fillna(0) > 0) | (el['inotrope_flag'].fillna(0) == 1), 2, 1)).astype(float)
+_inc_extra(stg_na, lp_el, 'continuousAG_stage_no_arrest_rule')
+_inc_extra(stg_na, s_hyb, 'integer_hybrid_stage_no_arrest_rule')
+pd.DataFrame(inc_rows).to_csv(OUT + 'external_incremental.csv', index=False)
 
 # ---- Within-stage cells with MIMIC-frozen tertile cutpoints ----
 mfc = pd.read_csv(OUT + 'figure1_mimic_cutpoints.csv')

@@ -241,6 +241,24 @@ for _ in range(2000):
 row('scai', 'stage-only / score-only / stage+score AUROC', f"{a_stage:.3f} / {a_score:.3f} / {a_both:.3f}")
 row('scai', 'LRT score over stage', f"chi2 {lrt:.1f}, p {p_lrt:.1e}")
 row('scai', 'paired dAUROC (stage+score - stage)', f"{np.mean(dd):+.3f} ({np.percentile(dd,2.5):+.3f} to {np.percentile(dd,97.5):+.3f})")
+def _inc5(stage_v, score_v, tag):
+    m_s = sm.Logit(y, sm.add_constant(stage_v)).fit(disp=0)
+    m_b = sm.Logit(y, sm.add_constant(np.column_stack([stage_v, score_v]))).fit(disp=0)
+    a_s = roc_auc_score(y, m_s.predict()); a_c = roc_auc_score(y, score_v); a_b = roc_auc_score(y, m_b.predict())
+    rng5 = np.random.default_rng(42); d5 = []
+    ps5, pb5 = m_s.predict(), m_b.predict()
+    for _ in range(2000):
+        i = rng5.integers(0, len(y), len(y))
+        if len(np.unique(y[i])) > 1: d5.append(roc_auc_score(y[i], pb5[i]) - roc_auc_score(y[i], ps5[i]))
+    l5 = 2 * (m_b.llf - m_s.llf)
+    row('scai', f'incremental {tag}',
+        f"stage {a_s:.3f} / score {a_c:.3f} / both {a_b:.3f}; +{a_b-a_s:.3f} ({np.percentile(d5,2.5):+.3f} to {np.percentile(d5,97.5):+.3f}); LRT p={stats.chi2.sf(l5,1):.1e}")
+_pag = oofp['oof_ag'].values
+lp_ag = np.log(np.clip(_pag, 1e-9, 1-1e-9) / (1 - np.clip(_pag, 1e-9, 1-1e-9)))
+_inc5(stg.astype(float), lp_ag, 'continuous AG (matched)')
+stg_na5 = np.where((sup>=3)|(mcs>=2),4,np.where((sup==2)|(mcs>=1)|((lac_mx>4)&(sup>=1)),3,np.where((sup>=1)|((lac_mx>=2)&hypo),2,np.where(hypo|(lac_mx>=2),1,0)))).astype(float)
+_inc5(stg_na5, lp_ag, 'continuous AG, stage without arrest rule')
+_inc5(stg_na5, s_full.astype(float), 'integer card, stage without arrest rule')
 LET = {1: 'B', 2: 'C', 3: 'D', 4: 'E'}
 f1 = []
 cutrows = []
