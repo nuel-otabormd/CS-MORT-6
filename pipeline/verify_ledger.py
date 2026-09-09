@@ -98,4 +98,6 @@ checked += 1
 assert len(pd.read_csv(OUT + 'external_calibration_curve_ag.csv')) == 10
 checked += 1
 
+# Threshold operating characteristics derive from the deployed card (S8 panel B)
+contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
 print(f"verify_ledger: {checked} canonical checks passed")

@@ -26,8 +26,13 @@ def md(df, floatfmt=None):
     return '\n'.join([header, sep] + rows)
 
 # ---- landmark threshold table (computed inline, saved) ----
-oof = pd.read_csv(SCRATCH + 'v2_oof_predictions.csv')
-y = oof['y'].values; s = oof['score_v2'].values
+# score the landmark population with the deployed card itself (the stored
+# score_v2 column is step 01's re-derivation variant, not the deployed card)
+import os as _os
+_gl = {'__file__': _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '05_internal_analyses.py')}
+_src = open(_gl['__file__']).read()
+exec(compile(_src.split('# ============ 1+2.')[0], '05_partA', 'exec'), _gl)
+y = _gl['y']; s = _gl['card_score'](_gl['lm'], _gl['MED'])
 rows = []
 for thr in [4, 6, 8, 9]:
     pred = s >= thr
