@@ -78,4 +78,15 @@ if ns:
     assert {785, 978, 496} <= ns, ns
     checked += 1
 
+# Stage-coding and refitting robustness (Supplementary Table S9)
+_r = pd.read_csv(OUT + 'stage_coding_robustness.csv').set_index('tag')
+assert round(_r.loc['eICU continuous AG (frozen)', 'd_cat'], 3) == 0.125
+checked += 1
+assert round(_r.loc['eICU continuous AG (frozen)', 'a_stage_cat'], 3) == 0.630
+checked += 1
+assert round(_r.loc['eICU integer card (deployment rule)', 'd_cat'], 3) == 0.135
+checked += 1
+assert round(_r.loc['MIMIC continuous AG (OOF), stage A merged into B', 'd_cat'], 3) == 0.140
+checked += 1
+
 print(f"verify_ledger: {checked} canonical checks passed")

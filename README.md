@@ -30,6 +30,9 @@ them exactly from the extraction files.
 - `pipeline/01..09_*.py` — the analysis pipeline in dependency order, from landmark
   development through supplement tables. `pipeline/run_all.sh` runs everything.
 - `pipeline/10_sample_size.R` — minimum sample size (Riley criteria, pmsampsize).
+- `pipeline/11_stage_coding_robustness.py` — stage-coding and refitting
+  robustness for the incremental-value analyses (categorical versus ordinal
+  stage, models refit within every bootstrap resample; Supplementary Table S9).
 - `pipeline/verify_ledger.py` — verification gate for the canonical results.
 - `outputs/` — aggregate result tables (no patient-level data).
 - `PROTOCOL.md` — frozen analysis protocol, including the pre-specified decision

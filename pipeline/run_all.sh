@@ -13,4 +13,6 @@ for s in 01_develop_landmark 02_integer_card 03_redevelopment_deployable \
   python3 "$s.py"
 done
 Rscript 10_sample_size.R
+echo "== 11_stage_coding_robustness =="
+python3 11_stage_coding_robustness.py
 python3 verify_ledger.py
