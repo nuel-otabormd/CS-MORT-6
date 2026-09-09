@@ -33,6 +33,10 @@ them exactly from the extraction files.
 - `pipeline/11_stage_coding_robustness.py` — stage-coding and refitting
   robustness for the incremental-value analyses (categorical versus ordinal
   stage, models refit within every bootstrap resample; Supplementary Table S9).
+- `pipeline/12_external_calibration.py` — external calibration deciles and
+  the calibration annotation values for Figure S2.
+- `pipeline/13_render_figures.R` — Figure 1 and Supplementary Figures S1-S7
+  (300 dpi), reading only the outputs tables.
 - `pipeline/verify_ledger.py` — verification gate for the canonical results.
 - `outputs/` — aggregate result tables (no patient-level data).
 - `PROTOCOL.md` — frozen analysis protocol, including the pre-specified decision

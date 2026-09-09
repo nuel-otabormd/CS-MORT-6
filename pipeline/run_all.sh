@@ -15,4 +15,8 @@ done
 Rscript 10_sample_size.R
 echo "== 11_stage_coding_robustness =="
 python3 11_stage_coding_robustness.py
+echo "== 12_external_calibration =="
+python3 12_external_calibration.py
+echo "== 13_render_figures =="
+Rscript 13_render_figures.R
 python3 verify_ledger.py

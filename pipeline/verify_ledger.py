@@ -89,4 +89,13 @@ checked += 1
 assert round(_r.loc['MIMIC continuous AG (OOF), stage A merged into B', 'd_cat'], 3) == 0.140
 checked += 1
 
+# Figure S2 calibration data (external deciles + annotation values)
+_ca = pd.read_csv(OUT + 'calibration_annotations.csv').set_index('panel')
+assert round(_ca.loc['external_aniongap', 'slope'], 2) == 1.17
+checked += 1
+assert round(_ca.loc['external_aniongap', 'brier'], 3) == 0.172
+checked += 1
+assert len(pd.read_csv(OUT + 'external_calibration_curve_ag.csv')) == 10
+checked += 1
+
 print(f"verify_ledger: {checked} canonical checks passed")

@@ -1,0 +1,4 @@
+panel,slope,citl,brier
+internal_lactate,0.99,-0.0,0.187
+internal_aniongap,0.99,0.0,0.189
+external_aniongap,1.17,-0.0,0.172
