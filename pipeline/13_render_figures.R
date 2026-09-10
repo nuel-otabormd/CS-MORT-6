@@ -383,7 +383,7 @@ mp8 <- read.csv(paste0(OUT, "v2_score_risk_mapping.csv"))
 ob <- regmatches(mp8$observed_lm24, regexec("([0-9.]+)% \\(n=([0-9]+)\\)", mp8$observed_lm24))
 mp8$obs <- sapply(ob, function(x) as.numeric(x[2]))
 mp8$n <- sapply(ob, function(x) as.numeric(x[3]))
-open_png("FigS8.png", 8.5, 5.6)
+open_png("FigS8.png", 9.6, 6.3)
 par(mar = c(3.6, 4.2, 1.0, 0.8), family = "sans")
 plot(NA, xlim = c(-0.4, 15.4), ylim = c(0, 100), axes = FALSE, xlab = "", ylab = "",
      xaxs = "i", yaxs = "i")
