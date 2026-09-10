@@ -1,0 +1,426 @@
+CS-MORT-6 pipeline run
+Python 3.9.6
+Rscript (R) version 4.5.2 (2025-10-31)
+== 01_develop_landmark ==
+[cohort] exact LM24: n=2694  deaths=892  mortality=33.1%
+[cohort] excluded from all-comers 3,103: 409 (died on/before 24h or left ICU before 24h)
+
+[v2.0 continuous, lactate form] 5-fold CV (all preprocessing in-fold)
+  AUROC 0.7337 (0.7143-0.7527)   slope 0.99   CITL -0.000
+  [context] v1.1 all-comers model on exact LM24: AUROC 0.7356
+[v2.0 continuous, anion-gap form] AUROC 0.7262 (0.7072-0.7462)   slope 0.99   CITL +0.000
+
+[spec] exact intercepts: lactate -0.8067 (standardized scale), anion-gap -0.8233; full spec -> v2_spec_continuous.csv
+
+[integer v2.0] per-level points: {'lactate': 1, 'uo': 1, 'ohca_arrest': 3, 'age': 1, 'bun': 1, 'rdw': 1}  score range 0-13
+  (v1.1 card for comparison: lactate 2/level, uo 1, ohca 3, age 1, bun 1, rdw 1; range 0-15)
+  missing-value default categories (from LM24 medians {'lactate': 1.9, 'uo': 0.73, 'age': 71.0, 'bun': 33.0, 'rdw': 15.2}): {'lactate': 0, 'uo': 1, 'age': 1, 'bun': 1, 'rdw': 1}
+  in-sample AUROC 0.7212 | optimism-corrected 0.7199 | fold-honest CV 0.7190 (0.6985-0.7398)
+  score->predicted risk: 0:7% 1:10% 2:14% 3:19% 4:25% 5:33% 6:42% 7:52% 8:61% 9:70% 10:77% 11:83% 12:88% 13:91%
+  band upper edges (<10/20/40/60% predicted): [1, 3, 5, 7]
+     band scores   n  mortality
+      Low    0-3 859       13.9
+ Moderate    4-5 846       31.4
+     High    6-7 682       44.3
+Very high   8-13 307       66.8
+
+[done] aggregate outputs written; patient-level OOF predictions in the data directory
+== 02_integer_card ==
+[integer, transported card] fold-honest OOF AUROC 0.7267 (0.7061-0.7470)
+          band   n  deaths  mortality        ci
+       Low 0-3 755      96       12.7 10.5-15.3
+  Moderate 4-5 771     215       27.9 24.8-31.2
+      High 6-7 658     264       40.1 36.4-43.9
+Very high 8-15 510     317       62.2 57.9-66.3
+
+[mapping] score -> LM24 predicted risk (apparent, deployment mapping):
+  0:7% 1:10% 2:13% 3:17% 4:23% 5:29% 6:37% 7:45% 8:53% 9:61% 10:69% 11:76% 12:81% 13:86% 14:90% 15:92%
+[continuous lactate] slope 0.99 (0.89-1.10)  CITL -0.000 (-0.089-+0.089)
+[continuous anion gap] slope 0.99 (0.89-1.11)  CITL +0.000 (-0.090-+0.088)
+
+[done] stage 1b artifacts in outputs/
+== 03_redevelopment_deployable ==
+======================================================================
+CHALLENGER RESULT (per FROZEN_PROTOCOL_20260908.md)
+======================================================================
+  challenger       AUROC 0.7183  slope 1.07  CITL -0.000  Brier 0.1923  NB20 0.1806  NB40 0.0716
+  v2.0 lactate     AUROC 0.7329  slope 0.99  CITL +0.000  Brier 0.1875  NB20 0.1882  NB40 0.0854
+  v2.0 anion gap   AUROC 0.7252  slope 0.99  CITL +0.001  Brier 0.1897  NB20 0.1826  NB40 0.0796
+
+  paired dAUROC challenger - v2.0 lactate : -0.0144 (95% CI -0.0292 to +0.0014)
+  paired dAUROC challenger - v2.0 anion gap: -0.0068 (95% CI -0.0178 to +0.0040)
+
+  outer-fold selection frequency (50 folds): age 100%, ohca_arrest 100%, rdw 100%, aniongap 88%, bun 76%, sbp_min 70%, hemoglobin 26%, bicarbonate 16%, mech_vent 12%, pressor_count 12%, sodium 0%, chloride 0%, creatinine 0%
+  predictors per fold: median 6 (range 6-6)
+
+  full-data challenger variables: ['age', 'ohca_arrest', 'aniongap_h', 'bun', 'rdw', 'hemoglobin']
+  their outer-fold selection frequencies: age 100%, ohca_arrest 100%, aniongap_h 88%, bun 76%, rdw 100%, hemoglobin 26%
+
+[done] challenger_selection.csv, challenger_result.csv
+== 04_external_validation ==
+========================================================================
+A. eICU EXACT 24-H LANDMARK, AMENDED PRIMARY (one stay/patient, CS documented by 24 h)
+========================================================================
+  n / deaths / mortality: 1047 / 305 / 29.1%
+  hospitals contributing: 117
+  v2.0 lactate AUROC: 0.759 (0.728-0.789)
+  v2.0 lactate slope/CITL/Brier: 1.08 / -0.251 / 0.170
+  v2.0 anion gap AUROC: 0.748 (0.715-0.780)
+  v2.0 anion gap slope/CITL/Brier: 1.17 / -0.001 / 0.172
+  anion-gap local intercept update (log-odds): -0.001
+  integer card, deployment rule (hybrid) AUROC: 0.759 (0.729-0.790)
+  integer card, anion-gap bands for all (harmonized sensitivity) AUROC: 0.738 (0.707-0.770)
+  hybrid card mapped-risk calibration slope/CITL: 1.15 / -0.221
+  band Low 0-3: n=296 mortality 8.8% (6.1-12.6)
+  band Moderate 4-5: n=292 mortality 18.8% (14.8-23.7)
+  band High 6-7: n=245 mortality 39.6% (33.7-45.8)
+  band Very high 8-15: n=214 mortality 59.3% (52.7-65.7)
+  observed lactate: 52.5%
+  observed anion gap: 96.4%
+  observed urine output: 60.6%
+  observed BUN: 97.4%
+  observed RDW: 89.5%
+  all anion-gap-model inputs observed: 53.3%
+  all lactate-model inputs observed: 29.5%
+========================================================================
+A2. SENSITIVITY POPULATIONS (frozen model, unchanged)
+========================================================================
+  all landmark stays (n=1,586 frame): n=1586 deaths=478; AG 0.713 (0.685-0.739); integer 0.697 (0.669-0.724)
+  one stay/patient, any-time documentation: n=1439 deaths=453; AG 0.716 (0.688-0.745); integer 0.702 (0.674-0.731)
+  late-documented arrest flags zeroed in primary (n): 5
+  primary with late arrest flags retained (sensitivity): AG 0.747; hybrid integer 0.758
+========================================================================
+B. eICU ALL-COMERS (day-1 severity frame), v1.1 for continuity
+========================================================================
+  n / deaths / mortality: 1866 / 644 / 34.5%
+  v1.1 lactate AUROC: 0.757 (0.735-0.780)
+  v1.1 lactate slope/CITL: 0.85 / -0.191
+  v1.1 anion gap AUROC: 0.749 (0.726-0.772)
+  v1.1 anion gap slope/CITL: 0.96 / +0.043
+========================================================================
+C. BOS,MA2 comparisons
+========================================================================
+  all-comers (native frame, v1.1 AG): n common-scorable: 1127 (mortality 34.4%)
+  all-comers (native frame, v1.1 AG): model vs BOS,MA2: 0.749 vs 0.743, diff +0.006 (-0.026 to +0.037), DeLong P=0.69
+  landmark frame (v2.0 AG): n common-scorable: 654 (mortality 30.0%)
+  landmark frame (v2.0 AG): model vs BOS,MA2: 0.755 vs 0.751, diff +0.004 (-0.039 to +0.046), DeLong P=0.87
+  imputed BOS,MA2 (all landmark pts) AUROC: 0.735
+  v2.0 AG vs imputed BOS,MA2: diff +0.014 (-0.024 to +0.050)
+========================================================================
+D. eICU 48-H LANDMARK, frozen v2.0
+========================================================================
+  n / deaths / mortality: 806 / 202 / 25.1%
+  anion gap updated-48h AUROC: 0.725 (0.685-0.765), slope 1.07, CITL -0.141
+  anion gap stale-24h AUROC: 0.716, slope 0.99, CITL -0.200
+  lactate updated-48h AUROC: 0.732 (0.693-0.774), slope 1.04, CITL -0.412
+  lactate stale-24h AUROC: 0.732, slope 0.93, CITL -0.447
+  observed lactate (cumulative): 56.9%
+  observed urine output (cumulative): 64.8%
+  observed BUN (cumulative): 99.4%
+  observed RDW (cumulative): 93.8%
+  observed anion gap (cumulative): 98.6%
+  all anion-gap-model inputs observed: 60.7%
+
+[LOCKED RUN COMPLETE] outputs/locked_external_results.csv
+== 05_internal_analyses ==
+======================================================================
+1. MIMIC EXACT 48-H LANDMARK (frozen v2.0)
+======================================================================
+  n / deaths / mortality: 2259 / 703 / 31.1%
+  continuous lactate updated-48h: AUROC 0.739 (0.717-0.760), slope 1.10, CITL +0.028
+  continuous lactate stale-24h: AUROC 0.714 (0.692-0.736), slope 0.91, CITL -0.057
+  integer stale vs updated AUROC: 0.700 vs 0.726
+======================================================================
+2. SYMMETRIC TRAJECTORY + archived aOR generator
+======================================================================
+  all 48-h landmark | Improved (<0): n=785 mortality 28.9% (25.9-32.2)
+  all 48-h landmark | Unchanged (=0): n=978 mortality 29.7% (26.9-32.6)
+  all 48-h landmark | Worsened (>0): n=496 mortality 37.5% (33.4-41.8)
+  intermediate 24-h score 4-7 | Improved (<0): n=429 mortality 24.0% (20.2-28.3)
+  intermediate 24-h score 4-7 | Unchanged (=0): n=523 mortality 34.0% (30.1-38.2)
+  intermediate 24-h score 4-7 | Worsened (>0): n=261 mortality 43.3% (37.4-49.4)
+  aOR per +1 change (adj 24-h score): 1.37 (1.27-1.47), p=1.7e-17
+======================================================================
+3. EVENT-TIME DISTRIBUTION (exact timestamps)
+======================================================================
+  buckets 0-6/6-12/12-24/24-48h: 73/70/106/157
+  48h-7d / >7d: 377 / 402
+  anomalies (disclosed): 2 recorded before ICU admission, 1 without timestamp
+======================================================================
+4. CORRELATIONS AND VIF (exact LM24)
+======================================================================
+  lactate model: lactate 1.05  uo 1.08  ohca_arrest 1.02  age 1.08  bun 1.16  rdw 1.10
+  anion-gap model: aniongap 1.22  uo 1.06  ohca_arrest 1.01  age 1.08  bun 1.31  rdw 1.11
+  key Pearson r: lactate-bun -0.0, lactate-rdw 0.06, bun-rdw 0.28, aniongap-bun 0.37
+======================================================================
+5. MICE VS MEDIAN (v2.0 lactate, 5-fold CV)
+======================================================================
+  median: AUROC 0.734, slope 0.99, CITL -0.000
+  mice: AUROC 0.724, slope 1.01, CITL +0.001
+======================================================================
+6. SENSITIVITY COHORTS (frozen v2.0 lactate OOF)
+======================================================================
+  ICD-confirmed only: n=2452 mort 33.2% cont 0.734 integer 0.727
+  Sepsis-3 excluded: n=1321 mort 28.2% cont 0.747 integer 0.739
+  non-OHCA subgroup: n=2438 mort 30.8% cont 0.724 integer 0.712
+  OHCA-free score (all LM24): cont n/a integer 0.711
+======================================================================
+7. FAIRNESS SUBGROUPS (exact LM24, v2.0 lactate OOF)
+======================================================================
+  M: n=1629 deaths=519 AUROC 0.748 (0.724-0.774) slope 1.07 CITL -0.062
+  F: n=1065 deaths=373 AUROC 0.713 (0.682-0.746) slope 0.89 CITL +0.092
+  White: n=1687 deaths=537 AUROC 0.732 (0.706-0.757) slope 1.03 CITL -0.067
+  Black: n=267 deaths=80 AUROC 0.704 (0.631-0.771) slope 0.81 CITL -0.298
+  Hispanic: n=80 deaths=24 AUROC 0.805 (0.692-0.903) slope 1.21 CITL -0.107
+  Asian: n=67 deaths=17 AUROC 0.708 (0.548-0.851) slope 0.68 CITL -0.374
+  Other/Unknown: n=593 deaths=234 AUROC 0.754 (0.715-0.792) slope 1.07 CITL +0.362
+======================================================================
+8. LEDELL INFLUENCE-FUNCTION CI FOR CV AUROC
+======================================================================
+  CV AUROC (fold mean) with IC-based 95% CI: 0.7339 (0.7140-0.7538); pooled bootstrap for comparison 0.7337 (0.7143-0.7527)
+======================================================================
+9. SCAI INCREMENTAL VALUE (exact LM24)
+======================================================================
+  stage-only / score-only / stage+score AUROC: 0.589 / 0.727 / 0.728
+  LRT score over stage: chi2 348.2, p 1.0e-77
+  paired dAUROC (stage+score - stage): +0.139 (+0.116 to +0.163)
+  incremental continuous AG (matched): stage 0.589 / score 0.726 / both 0.728; +0.139 (+0.116 to +0.162); LRT p=1.8e-77
+  incremental continuous AG, stage without arrest rule: stage 0.564 / score 0.726 / both 0.728; +0.165 (+0.140 to +0.190); LRT p=7.4e-85
+  incremental integer card, stage without arrest rule: stage 0.564 / score 0.727 / both 0.728; +0.164 (+0.140 to +0.189); LRT p=6.8e-84
+  stage B within-stage AUROC: n=407 0.636 (0.579-0.692)
+  stage C within-stage AUROC: n=909 0.689 (0.651-0.724)
+  stage D within-stage AUROC: n=699 0.756 (0.717-0.793)
+  stage E within-stage AUROC: n=671 0.728 (0.689-0.765)
+  ohca-free tertile mortality by stage: B 16/30/37; C 16/35/46; D 13/27/58; E 30/49/73
+  non-staging tertile mortality by stage: B 16/32/36; C 15/32/46; D 12/34/53; E 35/51/68
+======================================================================
+11. AVAILABILITY BY HORIZON (MIMIC, in-ICU patients)
+======================================================================
+  6h (n=3068): lactate 69.2%  bun 82.6%  rdw 80.4%  uo 80.9%
+  12h (n=2963): lactate 75.8%  bun 95.5%  rdw 92.1%  uo 91.5%
+  24h (n=2731): lactate 80.8%  bun 99.5%  rdw 98.9%  uo 94.2%
+  48h (n=2296): lactate 85.9%  bun 99.6%  rdw 99.5%  uo 95.0%
+
+[STAGE 05 COMPLETE] outputs/internal_final_results.csv + section CSVs
+== 06_external_descriptive ==
+eICU exact LM24 n=1047; stage totals: {'B': 264, 'C': 380, 'D': 165, 'E': 238}
+  B: Low n=129 7.0% | Mid n=69 27.5% | High n=66 36.4%   spread +29.4
+  C: Low n=173 11.6% | Mid n=108 28.7% | High n=99 53.5%   spread +41.9
+  D: Low n=73 8.2% | Mid n=44 15.9% | High n=48 45.8%   spread +37.6
+  E: Low n=106 33.0% | Mid n=59 54.2% | High n=73 64.4%   spread +31.4
+
+  external incremental: stage 0.613 / score 0.748 / both 0.754; score over stage +0.141 (+0.101 to +0.178); LRT chi2 142.3 P=8.4e-33; stage over score +0.006
+  incremental integer_hybrid: stage 0.613 score 0.759 both 0.767 (+0.154)
+  incremental continuousAG_stage_no_arrest_rule: stage 0.524 score 0.748 both 0.750 (+0.226)
+  incremental integer_hybrid_stage_no_arrest_rule: stage 0.524 score 0.759 both 0.761 (+0.237)
+  frozen-cutpoint panel written
+
+DCA (landmark common-scorable n=654): net benefit at 20%/40%: CS-MORT-6 0.157/0.076, BOS,MA2 recal 0.176/0.057
+
+[ADDENDUM COMPLETE] figure1_eicu_lm24.csv, dca_lm24_common.csv
+== 07_paired_inference ==
+======================================================================
+1. SYMMETRIC CHALLENGER (15 candidates incl. lactate, uo)
+======================================================================
+  symmetric challenger 0.7254 vs v2.0 lactate 0.7329
+  paired diff -0.0073 (95% CI -0.0195 to +0.0047)
+  selection frequency (50 outer folds): age 100%, ohca_arrest 100%, rdw 100%, bun 98%, sbp_min 78%, aniongap 50%, lactate 38%, mech_vent 22%, uo 6%, bicarbonate 4%, hemoglobin 4%
+======================================================================
+2. ALL-COMERS ANION-GAP INTERNAL CV AUROC WITH CI
+======================================================================
+  all-comers AG CV AUROC 0.7616 (0.7443-0.7786)
+======================================================================
+3. MIMIC 48-H: paired CIs + labeled time-specific recalibration
+======================================================================
+  MIMIC updated-vs-stale paired dAUROC +0.0243 (+0.0121 to +0.0361)
+  labeled 48-h recalibration intercept (internal): +0.028; post-update slope 1.10, CITL 0.000 by construction
+======================================================================
+4. eICU 48-H updated-vs-stale paired CI (reporting completion of locked run)
+======================================================================
+  eICU AG updated 0.7246 vs stale 0.7159: paired dAUROC +0.0090 (-0.0122 to +0.0297)
+
+[STAGE 07 COMPLETE]
+== 08_severity_frame ==
+SEVERITY FRAME, regenerated under corrected binning (all-comers, n=3103)
+  internal integer (corrected binning, OOF): 0.7582 (0.7399-0.7742)   [submitted, old binning: 0.765]
+  external integer AG (corrected binning): 0.7320 (0.7085-0.7550)   [submitted, old binning: 0.739]
+  DCA landmark, frozen-vs-frozen at 20%: CS-MORT-6 0.157 | BOS,MA2 published 0.146 | (recalibrated, in-sample: 0.176)
+  DCA landmark, frozen-vs-frozen at 40%: CS-MORT-6 0.076 | BOS,MA2 published 0.057 | (recalibrated, in-sample: 0.057)
+[done] severity_frame_final.csv
+== 09_supplement_tables ==
+generated table blocks written for cross-check (document of record: manuscript/SUPPLEMENT.md)
+landmark threshold table:
+threshold sensitivity specificity  PPV  NPV LRpos LRneg
+     >= 4        0.89        0.37 0.41 0.87  1.41  0.29
+     >= 6        0.65        0.67 0.50 0.80  2.00  0.52
+     >= 8        0.36        0.89 0.62 0.74  3.32  0.72
+     >= 9        0.24        0.94 0.67 0.71  4.14  0.81
+== 10_sample_size ==
+Given input C-statistic = 0.7  & prevalence = 0.331  
+Cox-Snell R-sq = 0.1081  
+ 
+NB: Assuming 0.05 acceptable difference in apparent & adjusted R-squared 
+NB: Assuming 0.05 margin of error in estimation of intercept 
+NB: Events per Predictor Parameter (EPP) assumes prevalence = 0.331  
+ 
+           Samp_size Shrinkage Parameter CS_Rsq Max_Rsq Nag_Rsq   EPP
+Criteria 1       469      0.90         6 0.1081   0.719    0.15 25.87
+Criteria 2       155      0.75         6 0.1081   0.719    0.15  8.55
+Criteria 3       341      0.90         6 0.1081   0.719    0.15 18.81
+Final            469      0.90         6 0.1081   0.719    0.15 25.87
+ 
+ Minimum sample size required for new model development based on user inputs = 469, 
+ with 156 events (assuming an outcome prevalence = 0.331) and an EPP = 25.87 
+ 
+ == 11_stage_coding_robustness ==
+======================================================================
+9. SCAI INCREMENTAL VALUE (exact LM24)
+======================================================================
+  stage-only / score-only / stage+score AUROC: 0.589 / 0.727 / 0.728
+  LRT score over stage: chi2 348.2, p 1.0e-77
+  paired dAUROC (stage+score - stage): +0.139 (+0.116 to +0.163)
+  incremental continuous AG (matched): stage 0.589 / score 0.726 / both 0.728; +0.139 (+0.116 to +0.162); LRT p=1.8e-77
+  incremental continuous AG, stage without arrest rule: stage 0.564 / score 0.726 / both 0.728; +0.165 (+0.140 to +0.190); LRT p=7.4e-85
+  incremental integer card, stage without arrest rule: stage 0.564 / score 0.727 / both 0.728; +0.164 (+0.140 to +0.189); LRT p=6.8e-84
+
+MIMIC stage mortality:
+ stage
+0     0.0
+1    25.8
+2    29.2
+3    29.0
+4    47.5
+
+== MIMIC continuous AG (OOF), stage A merged into B ==
+  stage counts: {1: 415, 2: 909, 3: 699, 4: 671}
+  LINEAR  stage 0.589 both 0.728  d=+0.139  refit-CI (+0.117 to +0.164)
+  CATEG   stage 0.589 both 0.729  d=+0.140  refit-CI (+0.115 to +0.161)  LRT chi2 329.9 p=1.0e-73
+  boot resamples used lin/cat: 2000/2000, failures 0
+
+== MIMIC integer card, stage A merged into B ==
+  stage counts: {1: 415, 2: 909, 3: 699, 4: 671}
+  LINEAR  stage 0.589 both 0.728  d=+0.139  refit-CI (+0.117 to +0.163)
+  CATEG   stage 0.589 both 0.731  d=+0.142  refit-CI (+0.117 to +0.162)  LRT chi2 334.9 p=8.4e-75
+  boot resamples used lin/cat: 2000/2000, failures 0
+
+== MIMIC continuous AG, no-arrest-rule stage ==
+  stage counts: {1: 443, 2: 987, 3: 790, 4: 474}
+  LINEAR  stage 0.563 both 0.728  d=+0.165  refit-CI (+0.139 to +0.192)
+  CATEG   stage 0.563 both 0.729  d=+0.166  refit-CI (+0.139 to +0.190)  LRT chi2 377.9 p=3.5e-84
+  boot resamples used lin/cat: 2000/2000, failures 0
+eICU exact LM24 n=1047; stage totals: {'B': 264, 'C': 380, 'D': 165, 'E': 238}
+  B: Low n=129 7.0% | Mid n=69 27.5% | High n=66 36.4%   spread +29.4
+  C: Low n=173 11.6% | Mid n=108 28.7% | High n=99 53.5%   spread +41.9
+  D: Low n=73 8.2% | Mid n=44 15.9% | High n=48 45.8%   spread +37.6
+  E: Low n=106 33.0% | Mid n=59 54.2% | High n=73 64.4%   spread +31.4
+
+  external incremental: stage 0.613 / score 0.748 / both 0.754; score over stage +0.141 (+0.101 to +0.178); LRT chi2 142.3 P=8.4e-33; stage over score +0.006
+  incremental integer_hybrid: stage 0.613 score 0.759 both 0.767 (+0.154)
+  incremental continuousAG_stage_no_arrest_rule: stage 0.524 score 0.748 both 0.750 (+0.226)
+  incremental integer_hybrid_stage_no_arrest_rule: stage 0.524 score 0.759 both 0.761 (+0.237)
+
+eICU stage mortality:
+ stage
+1    19.7
+2    27.4
+3    21.2
+4    47.9
+
+== eICU continuous AG (frozen) ==
+  stage counts: {1: 264, 2: 380, 3: 165, 4: 238}
+  LINEAR  stage 0.613 both 0.754  d=+0.141  refit-CI (+0.104 to +0.178)
+  CATEG   stage 0.630 both 0.755  d=+0.125  refit-CI (+0.090 to +0.160)  LRT chi2 128.9 p=7.1e-30
+  boot resamples used lin/cat: 2000/2000, failures 0
+
+== eICU integer card (deployment rule) ==
+  stage counts: {1: 264, 2: 380, 3: 165, 4: 238}
+  LINEAR  stage 0.613 both 0.767  d=+0.154  refit-CI (+0.118 to +0.192)
+  CATEG   stage 0.630 both 0.766  d=+0.135  refit-CI (+0.102 to +0.174)  LRT chi2 143.1 p=5.6e-33
+  boot resamples used lin/cat: 2000/2000, failures 0
+
+DONE
+== 12_external_calibration ==
+eICU exact LM24 n=1047; stage totals: {'B': 264, 'C': 380, 'D': 165, 'E': 238}
+  B: Low n=129 7.0% | Mid n=69 27.5% | High n=66 36.4%   spread +29.4
+  C: Low n=173 11.6% | Mid n=108 28.7% | High n=99 53.5%   spread +41.9
+  D: Low n=73 8.2% | Mid n=44 15.9% | High n=48 45.8%   spread +37.6
+  E: Low n=106 33.0% | Mid n=59 54.2% | High n=73 64.4%   spread +31.4
+
+  external incremental: stage 0.613 / score 0.748 / both 0.754; score over stage +0.141 (+0.101 to +0.178); LRT chi2 142.3 P=8.4e-33; stage over score +0.006
+  incremental integer_hybrid: stage 0.613 score 0.759 both 0.767 (+0.154)
+  incremental continuousAG_stage_no_arrest_rule: stage 0.524 score 0.748 both 0.750 (+0.226)
+  incremental integer_hybrid_stage_no_arrest_rule: stage 0.524 score 0.759 both 0.761 (+0.237)
+external deciles written; slope/CITL/Brier 1.17 -0.0 0.172
+            panel  slope  citl  brier
+ internal_lactate   0.99  -0.0  0.187
+internal_aniongap   0.99   0.0  0.189
+external_aniongap   1.17  -0.0  0.172
+DONE
+== 13_render_figures ==
+null device 
+          1 
+Figure1 cells MIMIC: 16.1 29.6 36.5 16 35.4 45.9 13.2 26.7 57.8 26.7 49.2 73.4 
+Figure1 cells eICU: 7 27.5 36.4 11.6 28.7 53.5 8.2 15.9 45.8 33 54.2 64.4 
+[1] 0.735
+[1] 0.533
+[1] 0.271
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
+FigS4 variants: ohca-free non-staging 
+null device 
+          1 
+FigS5 scopes: all 48-h landmark intermediate 24-h score 4-7 
+null device 
+          1 
+FigS6 rows: Other/Unknown, Asian, Hispanic, Black, White, Female, Male 
+null device 
+          1 
+Nomogram base_lp -4.7035 max range 2.3633 total-points max 360 
+null device 
+          1 
+FigS8 points: 13 
+ALL FIGURES DONE
+== 14_reported_values ==
+======================================================================
+14. REPORTED VALUES (exact landmark frames)
+======================================================================
+  availability_lactate: 80.8
+  availability_aniongap: 99.6
+  availability_uo: 94.2
+  availability_bun: 99.7
+  availability_rdw: 99.1
+  availability_all_aniongap_model_inputs: 93.2
+  availability_all_lactate_model_inputs: 75.6
+  internal_lactate_missing_pct: 19.2
+  internal_card_median_rule_auroc: 0.7267
+  internal_card_deployment_rule_auroc: 0.7198   [anion-gap bands where lactate is unobserved]
+  internal_scores_changed_by_deployment_rule: 299
+  worked_example_z_lactate: 0.367
+  worked_example_z_uo: -0.691
+  worked_example_z_ohca_arrest: -0.324
+  worked_example_z_age: 0.166
+  worked_example_z_bun: 0.072
+  worked_example_z_rdw: 0.052
+  worked_example_linear_predictor: -0.3619
+  worked_example_probability: 0.4105
+  worked_example_card_points: 7
+  worked_example_input_lactate: 3.1   [illustrative input, not a result]
+  worked_example_input_uo: 0.4   [illustrative input, not a result]
+  worked_example_input_ohca_arrest: 0   [illustrative input, not a result]
+  worked_example_input_age: 72   [illustrative input, not a result]
+  worked_example_input_bun: 41   [illustrative input, not a result]
+  worked_example_input_rdw: 15.9   [illustrative input, not a result]
+  landmark_outcome_proportion: 0.331
+  deaths_after_48h_pct: 65.6
+  deaths_within_24h: 249
+  screening_extract_outcome_proportion: 0.356   [archived selection extract, 4,315 ICU stays]
+
+[done] reported_values.csv (30 values)
+== verify_ledger ==
+verify_ledger: 40 canonical checks passed

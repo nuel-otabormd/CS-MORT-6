@@ -91,6 +91,12 @@ yl = np.asarray(g6['yl']); stg_e = g6['el']['stage'].map({'B':1,'C':2,'D':3,'E':
 lp_el = g6['lp_el']; s_hyb = np.asarray(g6['s_hyb'], dtype=float)
 mort_e = pd.DataFrame({'stage': stg_e, 'y': yl}).groupby('stage')['y'].agg(['size', 'mean'])
 print('\neICU stage mortality:\n', (mort_e['mean']*100).round(1).to_string())
+_LET = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E'}
+pd.DataFrame([dict(cohort=c, stage=_LET.get(int(i), str(i)), n=int(r['size']),
+                   mortality=round(100 * r['mean'], 1))
+              for c, m in (('MIMIC-IV', mort), ('eICU', mort_e))
+              for i, r in m.iterrows()]) \
+  .to_csv(OUT + 'stage_mortality.csv', index=False)
 RES.append(sens(yl, stg_e, lp_el, 'eICU continuous AG (frozen)'))
 RES.append(sens(yl, stg_e, s_hyb, 'eICU integer card (deployment rule)'))
 

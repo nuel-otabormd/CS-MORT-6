@@ -1,0 +1,31 @@
+item,value,note
+availability_lactate,80.8,
+availability_aniongap,99.6,
+availability_uo,94.2,
+availability_bun,99.7,
+availability_rdw,99.1,
+availability_all_aniongap_model_inputs,93.2,
+availability_all_lactate_model_inputs,75.6,
+internal_lactate_missing_pct,19.2,
+internal_card_median_rule_auroc,0.7267,
+internal_card_deployment_rule_auroc,0.7198,anion-gap bands where lactate is unobserved
+internal_scores_changed_by_deployment_rule,299,
+worked_example_z_lactate,0.367,
+worked_example_z_uo,-0.691,
+worked_example_z_ohca_arrest,-0.324,
+worked_example_z_age,0.166,
+worked_example_z_bun,0.072,
+worked_example_z_rdw,0.052,
+worked_example_linear_predictor,-0.3619,
+worked_example_probability,0.4105,
+worked_example_card_points,7,
+worked_example_input_lactate,3.1,"illustrative input, not a result"
+worked_example_input_uo,0.4,"illustrative input, not a result"
+worked_example_input_ohca_arrest,0,"illustrative input, not a result"
+worked_example_input_age,72,"illustrative input, not a result"
+worked_example_input_bun,41,"illustrative input, not a result"
+worked_example_input_rdw,15.9,"illustrative input, not a result"
+landmark_outcome_proportion,0.331,
+deaths_after_48h_pct,65.6,
+deaths_within_24h,249,
+screening_extract_outcome_proportion,0.356,"archived selection extract, 4,315 ICU stays"

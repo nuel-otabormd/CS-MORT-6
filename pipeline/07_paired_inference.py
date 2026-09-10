@@ -98,7 +98,10 @@ rngA = np.random.default_rng(42); aa = []
 for _ in range(2000):
     i = rngA.integers(0, len(yA), len(yA))
     if len(np.unique(yA[i])) > 1: aa.append(roc_auc_score(yA[i], pA[i]))
-print(f"  all-comers AG CV AUROC {roc_auc_score(yA, pA):.4f} ({np.percentile(aa,2.5):.4f}-{np.percentile(aa,97.5):.4f})")
+_ac = f"{roc_auc_score(yA, pA):.4f} ({np.percentile(aa,2.5):.4f}-{np.percentile(aa,97.5):.4f})"
+print(f"  all-comers AG CV AUROC {_ac}")
+pd.DataFrame([dict(item='all-comers anion-gap CV AUROC (day-1 frame)', value=_ac)]) \
+  .to_csv(OUT + 'allcomers_aniongap_cv.csv', index=False)
 
 # ---------------- 3+4. 48-h paired CIs + labeled internal recalibration ----------------
 print("=" * 70); print("3. MIMIC 48-H: paired CIs + labeled time-specific recalibration")

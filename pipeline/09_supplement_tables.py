@@ -307,7 +307,17 @@ with the intermediate-score subgroup shown separately.
 Figure S6. Subgroup discrimination and calibration at the landmark.
 Figure S7. Nomogram of the continuous anion-gap landmark model.""")
 
-open(DOC, 'w').write('\n\n'.join(D) + '\n')
-print(f"supplement draft written: {len(D)} sections")
+# The authored supplement lives at manuscript/SUPPLEMENT.md and is the
+# document of record; this step computes the landmark threshold table and
+# emits its table blocks for cross-checking, never a competing narrative.
+open(DOC, 'w').write(
+    '# Generated supplement tables (cross-check only)\n\n'
+    'The document of record is manuscript/SUPPLEMENT.md. The blocks below are\n'
+    'regenerated from outputs/ so table values can be diffed against it.\n\n'
+    + '\n\n'.join(
+        '\n'.join(ln for ln in b.split('\n') if ln.lstrip().startswith('|'))
+        for b in D if '\n|' in b or b.lstrip().startswith('|')) + '\n')
+print(f"generated table blocks written for cross-check "
+      f"(document of record: manuscript/SUPPLEMENT.md)")
 print("landmark threshold table:")
 print(thr_tab.to_string(index=False))
