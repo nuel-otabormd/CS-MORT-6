@@ -213,15 +213,14 @@ figure1_eicu_lm24.csv.
 
 ---
 
-## Declarations note for the Word build
+## Declarations
 
-The Declaration of AI-assisted technologies is updated to read: "During the
-preparation of this work the authors used Claude Code (Anthropic) to support
-the development and review of analytical code and database queries. The
-authors reviewed, tested, and verified all code and take full responsibility
-for the content of the published article." The Data Availability statement
-no longer describes the analysis plan as prespecified. Other declarations
-are unchanged from submission.
+Ethics, data availability, acknowledgements and the declaration of
+tool-assisted code development are carried in the submitted manuscript file
+in the form the journal requires. Two were updated in this revision: the
+data availability statement no longer describes the analysis plan as
+prespecified, and the declaration of tool-assisted technologies names the
+tooling used for code development and review.
 
 ## Reference list (20; changes from submission at end)
 

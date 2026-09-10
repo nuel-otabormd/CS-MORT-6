@@ -31,42 +31,42 @@ files the pipeline reproduces all 30 output tables byte for byte.
 
 ## Structure
 
-- `sql/` — BigQuery extraction queries (cohort, features, SCAI components, eICU).
-- `DATA_INPUTS.md` — every input file the pipeline reads: contents, row count,
-  and the query or rule that produces it.
-- `pipeline/01..09_*.py` — the analysis pipeline in dependency order, from landmark
+- `sql/`: BigQuery extraction queries (cohort, features, SCAI components, eICU).
+- `DATA_INPUTS.md`: every input file the pipeline reads, with its contents,
+  row count, and the query or rule that produces it.
+- `pipeline/01..09_*.py`: the analysis pipeline in dependency order, from landmark
   development through the supplement's source tables. `pipeline/run_all.sh` runs
   everything and writes `outputs/RUN_LOG.txt`.
-- `pipeline/10_sample_size.R` — minimum sample size (Riley criteria, pmsampsize).
-- `pipeline/11_stage_coding_robustness.py` — stage-coding and refitting
+- `pipeline/10_sample_size.R`: minimum sample size (Riley criteria, pmsampsize).
+- `pipeline/11_stage_coding_robustness.py`: stage-coding and refitting
   robustness for the incremental-value analyses (categorical versus ordinal
   stage, models refit within every bootstrap resample; Supplementary Table S9).
-- `pipeline/12_external_calibration.py` — external calibration deciles and
+- `pipeline/12_external_calibration.py`: external calibration deciles and
   the calibration annotation values for Figure S2.
-- `pipeline/13_render_figures.R` — Figure 1 and Supplementary Figures S1-S8,
+- `pipeline/13_render_figures.R`: Figure 1 and Supplementary Figures S1-S8,
   rendered from the outputs tables alone.
-- `pipeline/14_reported_values.py` — quantities quoted in the paper that no
+- `pipeline/14_reported_values.py`: quantities quoted in the paper that no
   other step stores (exact-landmark availability, the internal deployment-rule
   rescoring, the worked example, derived proportions), recomputed from the same
   frames the analysis uses.
-- `pipeline/verify_ledger.py` — gate: canonical results match the published values.
-- `pipeline/verify_sources.py` — gate: every value in the manuscript and
+- `pipeline/verify_ledger.py`: gate: canonical results match the published values.
+- `pipeline/verify_sources.py`: gate: every value in the manuscript and
   supplement sources traces to this pipeline.
-- `manuscript/MANUSCRIPT.md`, `manuscript/SUPPLEMENT.md` — the authored text of
+- `manuscript/MANUSCRIPT.md`, `manuscript/SUPPLEMENT.md`: the authored text of
   the paper and its supplement, the documents of record for the submitted Word
   files. Step 09 emits regenerated table blocks for cross-checking only.
-- `manuscript/CARRIED_FORWARD.md` — the few values reported from earlier
+- `manuscript/CARRIED_FORWARD.md`: the few values reported from earlier
   analyses rather than recomputed on each run, named individually with their
   source. Everything not listed there is regenerated.
-- `outputs/` — aggregate result tables and `RUN_LOG.txt`, the console record of
-  the run (no patient-level data).
-- `figures/` — Figure 1 (PNG and 600-dpi TIFF) and Supplementary Figures S1-S8.
-- `PROTOCOL.md` — the analysis protocol, frozen 7 September 2026 before the
+- `outputs/`: aggregate result tables, plus `RUN_LOG.txt`, the console record
+  of the run. No patient-level data.
+- `figures/`: Figure 1 (PNG and 600-dpi TIFF) and Supplementary Figures S1-S8.
+- `PROTOCOL.md`: the analysis protocol, frozen 7 September 2026 before the
   redevelopment analyses were run, including their pre-specified decision rule.
   A dated addendum at the end records the document's own chronology and defines
   precisely what role external data played in the candidate-pool screen; the
   frozen text above it is unaltered.
-- `PROTOCOL_AMENDMENT.md` — the dated amendment correcting the external
+- `PROTOCOL_AMENDMENT.md`: the dated amendment correcting the external
   analysis population, specified before the amended run was executed.
 
 ## Reproduction
@@ -77,7 +77,7 @@ files the pipeline reproduces all 30 output tables byte for byte.
 2. Place the extraction CSVs in `data/` (gitignored), or point `CSMORT6_DATA` at
    their location. Patient-level files must be stored in accordance with the
    PhysioNet data use agreement and are never committed to this repository.
-3. `sh pipeline/run_all.sh` — runs the pipeline end to end with fixed seeds and
+3. `sh pipeline/run_all.sh`: runs the pipeline end to end with fixed seeds and
    finishes with both verification gates. A clean run reproduces every committed
    output table byte for byte.
 
