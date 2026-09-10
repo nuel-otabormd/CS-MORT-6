@@ -9,7 +9,7 @@
 OUT  <- paste0(Sys.getenv("CSMORT6_OUT", file.path(.B, "..", "outputs")), "/")
 FIG  <- paste0(Sys.getenv("CSMORT6_FIG", file.path(.B, "..", "figures")), "/")
 dir.create(FIG, showWarnings = FALSE)
-BLU  <- c("#BDD7E7", "#6BAED6", "#2171B5")
+BLU  <- c("#D7E6F4", "#6BAED6", "#14548C")
 ORG  <- "#E8821E"; NAVY <- "#1F4E79"; LBLU <- "#7EB3E3"
 GRID <- "#E4E4E4"; AXCOL <- "#333333"
 
@@ -25,7 +25,7 @@ open_png <- function(f, w, h) png(file.path(FIG, f), width = w, height = h,
 # ---------- grouped-bar panel (Figure 1, S4, S5) ----------
 bar_panel <- function(d, title, ylim, stages, legend = FALSE,
                       ylab = "In-hospital mortality (%)", group_lab = "Stage",
-                      legend_title = "CS-MORT-6 score") {
+                      legend_title = "CS-MORT-6 score", letter = NULL) {
   n_s <- length(stages); xl <- c(0.5, n_s + 0.5)
   plot(NA, xlim = xl, ylim = ylim, axes = FALSE, xlab = "", ylab = "",
        xaxs = "i", yaxs = "i")
@@ -37,21 +37,23 @@ bar_panel <- function(d, title, ylim, stages, legend = FALSE,
     for (j in 1:3) {
       r <- ds[j, ]
       x0 <- i + off[j] - bw/2; x1 <- i + off[j] + bw/2
-      rect(x0, 0, x1, r$mortality, col = BLU[j], border = NA)
+      rect(x0, 0, x1, r$mortality, col = BLU[j], border = "white", lwd = 0.8)
       ci <- pci(r$ci)
-      segments(i + off[j], ci[1], i + off[j], ci[2], lwd = 1.6, col = "black")
-      segments(i + off[j] - 0.05, ci, i + off[j] + 0.05, ci, lwd = 1.6, col = "black")
-      mtext(format(r$n, big.mark = ","), side = 1, line = 1.45, at = i + off[j],
-            cex = 0.62, col = "#444444")
+      segments(i + off[j], ci[1], i + off[j], ci[2], lwd = 1.6, col = "#333333")
+      segments(i + off[j] - 0.05, ci, i + off[j] + 0.05, ci, lwd = 1.6, col = "#333333")
     }
-    mtext(paste(group_lab, stages[i]), side = 1, line = 0.35, at = i, cex = 0.82)
+    mtext(paste(group_lab, stages[i]), side = 1, line = 0.4, at = i, cex = 0.85)
   }
   axis(2, at = yt, las = 1, lwd = 0, lwd.ticks = 1, cex.axis = 0.95, col.ticks = AXCOL)
   mtext(ylab, side = 2, line = 2.6, cex = 0.95)
-  mtext(title, side = 3, line = 0.4, adj = 0, font = 2, cex = 1.15)
+  u <- par("usr")
+  if (!is.null(letter))
+    mtext(letter, side = 3, line = 0.45, at = u[1], adj = 0, font = 2, cex = 1.25)
+  mtext(title, side = 3, line = 0.45, at = u[1] + (u[2] - u[1]) * (if (is.null(letter)) 0 else 0.075),
+        adj = 0, font = 1, cex = 1.0)
   box(bty = "l", col = AXCOL)
   if (legend)
-    legend("topleft", inset = c(0.01, 0.02), fill = BLU, border = NA,
+    legend("topleft", inset = c(0.01, 0.02), fill = BLU, border = "white",
            legend = c("Low tertile", "Mid tertile", "High tertile"),
            title = legend_title, title.adj = 0, bty = "n", cex = 0.95)
 }
@@ -59,10 +61,12 @@ bar_panel <- function(d, title, ylim, stages, legend = FALSE,
 # ================= FIGURE 1 =================
 f1m <- read.csv(paste0(OUT, "figure1_mimic_lm24.csv"))
 f1e <- read.csv(paste0(OUT, "figure1_eicu_lm24.csv"))
-open_png("Figure1.png", 12, 5.6)
-par(mfrow = c(1, 2), mar = c(3.2, 4.2, 2.2, 0.8), family = "sans")
-bar_panel(f1m, "MIMIC-IV", c(0, 90), c("B", "C", "D", "E"), legend = TRUE)
-bar_panel(f1e, "eICU", c(0, 90), c("B", "C", "D", "E"))
+png(file.path(FIG, "Figure1.png"), width = 7.48, height = 3.55, units = "in",
+    res = 600, pointsize = 8)
+par(mfrow = c(1, 2), mar = c(2.6, 4.2, 2.2, 0.8), family = "sans")
+bar_panel(f1m, "MIMIC-IV (development)", c(0, 90), c("B", "C", "D", "E"),
+          legend = TRUE, letter = "A")
+bar_panel(f1e, "eICU (external)", c(0, 90), c("B", "C", "D", "E"), letter = "B")
 dev.off()
 # Figure1.tif for the journal is converted from Figure1.png (identical
 # pixels) with LZW compression by pipeline packaging (PIL), keeping 300 dpi.
@@ -207,11 +211,11 @@ vn <- unique(v$variant)
 lab4 <- ifelse(grepl("ohca", vn), "Arrest-free card",
                "Four-variable non-staging sub-score")
 open_png("FigS4.png", 12, 5.6)
-par(mfrow = c(1, 2), mar = c(3.2, 4.2, 2.2, 0.8), family = "sans")
-bar_panel(v[v$variant == vn[1], ], paste0("MIMIC-IV, ", lab4[1]), c(0, 90),
-          c("B", "C", "D", "E"), legend = TRUE, legend_title = "Score tertile")
-bar_panel(v[v$variant == vn[2], ], paste0("MIMIC-IV, ", lab4[2]), c(0, 90),
-          c("B", "C", "D", "E"))
+par(mfrow = c(1, 2), mar = c(2.6, 4.2, 2.2, 0.8), family = "sans")
+bar_panel(v[v$variant == vn[1], ], paste0("MIMIC-IV, ", tolower(substr(lab4[1],1,1)), substr(lab4[1],2,99)), c(0, 90),
+          c("B", "C", "D", "E"), legend = TRUE, legend_title = "Score tertile", letter = "A")
+bar_panel(v[v$variant == vn[2], ], paste0("MIMIC-IV, ", tolower(substr(lab4[2],1,1)), substr(lab4[2],2,99)), c(0, 90),
+          c("B", "C", "D", "E"), letter = "B")
 dev.off()
 cat("FigS4 variants:", vn, "\n")
 
@@ -219,7 +223,7 @@ cat("FigS4 variants:", vn, "\n")
 tr <- read.csv(paste0(OUT, "trajectory_symmetric.csv"))
 tr$stage <- sub(" .*", "", tr$group)          # Improved / Unchanged / Worsened
 sc <- unique(tr$scope)
-tr_panel <- function(d, title, legend = FALSE) {
+tr_panel <- function(d, title, legend = FALSE, letter = NULL) {
   d$stage <- factor(d$stage, levels = c("Improved", "Unchanged", "Worsened"))
   d <- d[order(d$stage), ]
   plot(NA, xlim = c(0.4, 3.6), ylim = c(0, 60), axes = FALSE, xlab = "",
@@ -235,13 +239,17 @@ tr_panel <- function(d, title, legend = FALSE) {
   }
   axis(2, at = seq(0, 60, 10), las = 1, lwd = 0, lwd.ticks = 1, cex.axis = 0.95, col.ticks = AXCOL)
   mtext("In-hospital mortality (%)", side = 2, line = 2.6, cex = 0.95)
-  mtext(title, side = 3, line = 0.4, adj = 0, font = 2, cex = 1.05)
+  u <- par("usr")
+  if (!is.null(letter))
+    mtext(letter, side = 3, line = 0.4, at = u[1], adj = 0, font = 2, cex = 1.2)
+  mtext(title, side = 3, line = 0.4, at = u[1] + (u[2] - u[1]) * (if (is.null(letter)) 0 else 0.08),
+        adj = 0, font = 1, cex = 1.0)
   box(bty = "l", col = AXCOL)
 }
 open_png("FigS5.png", 11, 5.2)
 par(mfrow = c(1, 2), mar = c(4.4, 4.2, 2.2, 0.8), family = "sans")
-tr_panel(tr[tr$scope == sc[1], ], "All 48-hour landmark patients")
-tr_panel(tr[tr$scope == sc[2], ], "Intermediate 24-hour score subgroup")
+tr_panel(tr[tr$scope == sc[1], ], "All 48-hour landmark patients", letter = "A")
+tr_panel(tr[tr$scope == sc[2], ], "Intermediate 24-hour score subgroup", letter = "B")
 dev.off()
 cat("FigS5 scopes:", sc, "\n")
 
@@ -309,7 +317,7 @@ TICKS <- list(
   age = list(at = c(27.93, 30, 40, 50, 60, 70, 80, 90, 93),
              lab = c("", "30", "40", "50", "60", "70", "80", "90", "")),
   bun = list(at = c(8, 20, 40, 60, 80, 100, 120, 122.16),
-             lab = c("8", "", "40", "", "80", "", "120", "")),
+             lab = c("8", "", "", "", "", "", "120", "")),
   rdw = list(at = c(12.2, 14, 16, 18, 20, 22, 24, 24.496),
              lab = c("", "14", "16", "18", "20", "22", "24", "")))
 base_lp <- ic + sum(ag$beta_raw_scale * ag$best)
@@ -369,4 +377,36 @@ mtext("Predicted probability", side = 2, at = y_pr, las = 1, line = 0.5, cex = 0
 dev.off()
 cat("Nomogram base_lp", round(base_lp, 4), "max range", round(mx, 4),
     "total-points max", tp_max, "\n")
+
+# ================= FIGURE S8 (integer card: predicted vs observed) =================
+mp8 <- read.csv(paste0(OUT, "v2_score_risk_mapping.csv"))
+ob <- regmatches(mp8$observed_lm24, regexec("([0-9.]+)% \\(n=([0-9]+)\\)", mp8$observed_lm24))
+mp8$obs <- sapply(ob, function(x) as.numeric(x[2]))
+mp8$n <- sapply(ob, function(x) as.numeric(x[3]))
+open_png("FigS8.png", 8.5, 5.6)
+par(mar = c(3.6, 4.2, 1.0, 0.8), family = "sans")
+plot(NA, xlim = c(-0.4, 15.4), ylim = c(0, 100), axes = FALSE, xlab = "", ylab = "",
+     xaxs = "i", yaxs = "i")
+abline(h = seq(20, 100, 20), col = GRID, lwd = 0.9)
+lines(mp8$score, mp8$predicted_risk_pct, col = "#14548C", lwd = 2.4)
+for (i in seq_len(nrow(mp8))) {
+  if (!is.na(mp8$obs[i]) && !is.na(mp8$n[i]) && mp8$n[i] > 0) {
+    k <- round(mp8$obs[i] * mp8$n[i] / 100)
+    ci <- wilson(k, mp8$n[i]) * 100
+    segments(mp8$score[i], ci[1], mp8$score[i], ci[2], col = "#333333", lwd = 1.4)
+  }
+}
+points(mp8$score, mp8$obs, pch = 21, bg = "white", col = "#B45A1F", lwd = 2.2, cex = 1.15)
+axis(1, at = 0:15, cex.axis = 0.9, col = AXCOL)
+axis(2, at = seq(0, 100, 20), las = 1, cex.axis = 0.95, col = AXCOL)
+box(bty = "l", col = AXCOL)
+mtext("CS-MORT-6 integer score", side = 1, line = 2.3)
+mtext("In-hospital mortality (%)", side = 2, line = 2.8)
+legend("topleft", inset = c(0.01, 0.02), bty = "n", cex = 0.95,
+       lwd = c(2.4, NA), pch = c(NA, 21), col = c("#14548C", "#B45A1F"),
+       pt.bg = c(NA, "white"), pt.lwd = 2.2,
+       legend = c("Predicted risk (score-to-risk mapping)",
+                  "Observed landmark mortality (Wilson 95% CI)"))
+dev.off()
+cat("FigS8 points:", sum(!is.na(mp8$obs)), "\n")
 cat("ALL FIGURES DONE\n")
