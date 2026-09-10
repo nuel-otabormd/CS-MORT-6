@@ -23,10 +23,7 @@ table numbering.
 (A) Variable definitions and measurement windows: lactate, blood urea
 nitrogen, and red cell distribution width as the most recent value up to 24
 hours; urine output as cumulative first-24-hour volume divided by weight and
-observed hours (fixed 24-hour denominator in eICU); age and cardiac arrest at
-presentation (a diagnosis-based proxy: arrest diagnosis with emergency
-presentation; out-of-hospital and very early in-hospital arrest cannot be
-distinguished) as admission characteristics; harmonized anion gap as most recent sodium
+observed hours (fixed 24-hour denominator in eICU); age and cardiac arrest as admission characteristics. Cardiac arrest is a diagnosis-based proxy. In MIMIC-IV it required a hospital-admission discharge diagnosis of cardiac arrest together with emergency or urgent admission; that diagnosis carries no event timestamp and therefore cannot establish that the arrest preceded ICU admission or the 24-hour landmark. In eICU it was a structured cardiac-arrest diagnosis documented by the landmark, where the diagnosis offset records documentation time rather than confirmed event onset. Continuing the definitions: harmonized anion gap as most recent sodium
 minus chloride minus bicarbonate. MIMIC-IV phenotype: diagnostic code or
 affirmed discharge-summary documentation plus at least one objective
 hypoperfusion criterion within 24 hours (systolic blood pressure < 90 mmHg,
@@ -79,14 +76,14 @@ band (33.0 mg/dL, 1 point); red cell distribution width the middle band
 |---|---|---|---|---|---|---|---|---|
 | Lactate | Lactate | 0.7 | 12.723 | 1.9 | 2.418 | 1.8608 | 0.496888 | 0.267033 |
 | Lactate | Urine output | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.427892 | -0.568569 |
-| Lactate | Cardiac arrest at presentation | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.325232 | 1.109057 |
+| Lactate | Cardiac arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.325232 | 1.109057 |
 | Lactate | Age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.263458 | 0.018773 |
 | Lactate | Blood urea nitrogen | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.254663 | 0.010217 |
 | Lactate | Red cell distribution width | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.198363 | 0.079777 |
 | Lactate | (intercept) | | | | | | -0.806673 | -4.001369 |
 | Anion gap | Anion gap | 5.0 | 29.0 | 13.0 | 13.3935 | 4.5533 | 0.427884 | 0.093973 |
 | Anion gap | Urine output | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.463905 | -0.616421 |
-| Anion gap | Cardiac arrest at presentation | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.361791 | 1.233727 |
+| Anion gap | Cardiac arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.361791 | 1.233727 |
 | Anion gap | Age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.271008 | 0.019311 |
 | Anion gap | Blood urea nitrogen | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.082329 | 0.003303 |
 | Anion gap | Red cell distribution width | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.186597 | 0.075044 |
@@ -94,7 +91,7 @@ band (33.0 mg/dL, 1 point); red cell distribution width the middle band
 
 Predicted probability = 1 / (1 + exp(-(intercept + sum of beta x z))), with
 z = (winsorized, median-imputed value - mean) / SD; the raw-scale column
-allows direct computation from raw values. Pipeline variable names in the source file: uo (urine output), ohca_arrest (cardiac arrest at presentation), bun, rdw, aniongap. Worked example (lactate
+allows direct computation from raw values. Pipeline variable names in the source file: uo (urine output), ohca_arrest (cardiac arrest), bun, rdw, aniongap. The historical variable name ohca_arrest is retained in the code for continuity and should not be read as confirming out-of-hospital arrest. Worked example (lactate
 formulation): a 72-year-old with lactate 3.1 mmol/L, urine output 0.4
 mL/kg/h, no arrest, BUN 41 mg/dL, RDW 15.9%. Standardized inputs z =
 0.367 (lactate), -0.691 (urine output), -0.324 (arrest), 0.166 (age),
@@ -109,7 +106,7 @@ v2_integer_card.csv)
 | Lactate, mmol/L | < 2 (0); 2 to < 4 (2); >= 4 (4) |
 | Anion gap, mmol/L, when lactate unavailable | < 12 (0); 12 to < 18 (2); >= 18 (4) |
 | Urine output, mL/kg/h | >= 1 (0); 0.5 to < 1 (1); < 0.5 (2) |
-| Cardiac arrest at presentation | no (0); yes (3) |
+| Cardiac arrest | no (0); yes (3) |
 | Age, years | < 65 (0); 65 to < 80 (1); >= 80 (2) |
 | Blood urea nitrogen, mg/dL | < 25 (0); 25 to < 45 (1); >= 45 (2) |
 | Red cell distribution width, % | < 14.5 (0); 14.5 to < 16 (1); >= 16 (2) |
@@ -271,7 +268,7 @@ LR-, positive and negative likelihood ratios.
 ## Table S9. Within-stage resolution and incremental value
 
 Stage assignment rules (EHR-derived, this study). MIMIC-IV, first 24 hours:
-stage E if cardiac arrest at presentation, >= 3 vasoactive agents
+stage E if cardiac arrest, >= 3 vasoactive agents
 (vasopressor count plus inotrope use), or >= 2 mechanical circulatory
 support devices; stage D if 2 vasoactive agents, any device, or maximum
 lactate > 4 mmol/L on >= 1 vasoactive agent; stage C if >= 1 vasoactive
@@ -518,7 +515,7 @@ challenger_selection.csv, challenger_symmetric_selection.csv).
 | Candidate | Deployable pool, % | Symmetric pool, % |
 |---|---|---|
 | Age | 100 | 100 |
-| Cardiac arrest at presentation | 100 | 100 |
+| Cardiac arrest | 100 | 100 |
 | Anion gap (harmonized) | 88 | 50 |
 | Sodium | 0 | 0 |
 | Chloride | 0 | 0 |
