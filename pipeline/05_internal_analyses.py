@@ -148,14 +148,18 @@ row('vif', 'key Pearson r', f"lactate-bun {corr.loc['lactate','bun']}, lactate-r
 print("=" * 70); print("5. MICE VS MEDIAN (v2.0 lactate, 5-fold CV)"); print("=" * 70)
 def cv_auc(imp_kind):
     Xc = lm[['lactate'] + ['uo', 'ohca_arrest', 'age', 'bun', 'rdw']].astype(float)
-    Xc = Xc.clip(Xc.quantile(.01), Xc.quantile(.99), axis=1)
     pp = np.zeros(len(y))
     for tr, te in StratifiedKFold(5, shuffle=True, random_state=42).split(Xc, y):
+        # winsorization limits come from the training fold only; computing them
+        # on the whole population would let the held-out fold shape them
+        _lo, _hi = Xc.iloc[tr].quantile(.01), Xc.iloc[tr].quantile(.99)
+        _Xtr = Xc.iloc[tr].clip(_lo, _hi, axis=1)
+        _Xte = Xc.iloc[te].clip(_lo, _hi, axis=1)
         im = IterativeImputer(random_state=42, max_iter=10, sample_posterior=True) \
              if imp_kind == 'mice' else SimpleImputer(strategy='median')
         md = Pipeline([('i', im), ('s', StandardScaler()),
-                       ('l', LogisticRegression(max_iter=800, C=0.5))]).fit(Xc.iloc[tr], y[tr])
-        pp[te] = md.predict_proba(Xc.iloc[te])[:, 1]
+                       ('l', LogisticRegression(max_iter=800, C=0.5))]).fit(_Xtr, y[tr])
+        pp[te] = md.predict_proba(_Xte)[:, 1]
     sl, ci = slope_citl(pp, y)
     return roc_auc_score(y, pp), sl, ci
 for kind in ['median', 'mice']:

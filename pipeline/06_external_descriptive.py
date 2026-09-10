@@ -178,6 +178,10 @@ e2 = e.merge(pd.read_csv(SCRATCH + 'eicu_cmp.csv'), on='patientunitstayid', how=
 q2 = (e2['in_icu_at_24h'] == 1) & (e2['first_cs_offset'] <= 1440)
 el2 = e2[q2]
 el2 = el2[~el2['uniquepid'].duplicated(keep='first')].copy()
+# same arrest-timing rule as the primary cohort above: a diagnosis first
+# recorded after the landmark cannot establish arrest at the scoring time
+el2.loc[(el2['ohca_arrest'] == 1) & (el2['first_arrest_offset'] > 1440), 'ohca_arrest'] = 0
+el2.loc[(el2['arrest_dx'] == 1) & (el2['first_arrest_offset'] > 1440), 'arrest_dx'] = 0
 yl2 = el2['hosp_mort'].astype(int).values
 el2['p_ag'] = predict(V2_AG, el2)
 bm = ((el2.bun_max >= 25).astype(int) + (el2.spo2_min < 88).astype(int) + (el2.sbp_min < 80).astype(int)

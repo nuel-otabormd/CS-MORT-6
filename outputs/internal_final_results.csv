@@ -17,7 +17,7 @@ vif,lactate model,lactate 1.05  uo 1.08  ohca_arrest 1.02  age 1.08  bun 1.16  r
 vif,anion-gap model,aniongap 1.22  uo 1.06  ohca_arrest 1.01  age 1.08  bun 1.31  rdw 1.11
 vif,key Pearson r,"lactate-bun -0.0, lactate-rdw 0.06, bun-rdw 0.28, aniongap-bun 0.37"
 imputation,median,"AUROC 0.734, slope 0.99, CITL -0.000"
-imputation,mice,"AUROC 0.724, slope 1.01, CITL +0.001"
+imputation,mice,"AUROC 0.725, slope 1.01, CITL +0.001"
 sensitivity,ICD-confirmed only,n=2452 mort 33.2% cont 0.734 integer 0.727
 sensitivity,Sepsis-3 excluded,n=1321 mort 28.2% cont 0.747 integer 0.739
 sensitivity,non-OHCA subgroup,n=2438 mort 30.8% cont 0.724 integer 0.712

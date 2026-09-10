@@ -58,9 +58,7 @@ predictors at the landmark (outcome proportion 0.331): n=469 with 156
 events, satisfied by the 2,694 patients with 892 events. For the original
 outcome-informed screen, the honest parameter count is the full pool of 58
 candidate parameters, evaluated in the population the archived selection
-code actually used, the program's broader screening
-extract of 4,315 ICU stays with 1,537 deaths (outcome proportion 0.356): minimum n=4,386 with
-1,562 events, which that extract fell marginally short of. This is
+code actually used, the program's broader screening extract of 4,315 ICU stays with 1,537 deaths (outcome proportion 0.356): minimum n=4,386 with 1,563 events. Those 4,315 stays are not independent observations; they arise from 3,479 admissions of 3,192 patients, so the effective sample is smaller than the row count and the screen did not meet the requirement. This is
 consistent with the disclosed optimism from selection preceding
 cross-validation; the nested redevelopment analyses in Table S14 assess
 robustness to the selection step.
@@ -217,11 +215,11 @@ with existing scores; repeat stays included):
 
 | Metric | MIMIC-IV (n=3,103) | eICU (1,866 stays; 132 hospitals) |
 |---|---|---|
-| Continuous, lactate | 0.778 (0.760-0.794) | 0.757 (0.733-0.780) |
-| Continuous, anion gap | 0.762 (0.744-0.779) | 0.749 (0.725-0.772) |
+| Continuous, lactate | 0.778 (0.760-0.794) | 0.757 (0.735-0.780) |
+| Continuous, anion gap | 0.762 (0.744-0.779) | 0.749 (0.726-0.772) |
 | Integer card | 0.758 (0.740-0.774) | 0.732 (0.709-0.755) |
 | Calibration | out-of-fold slope 0.98 (lactate formulation) | anion gap slope 0.96, CITL +0.04 |
-| BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.038); P = .69 |
+| BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.037); P = .69 |
 
 Exploratory sensitivity on the primary landmark population: scored on all
 patients after chained-equations imputation of missing checklist components
@@ -437,12 +435,7 @@ hours), a coarser flag than the exact-timestamp landmark in panel A
 only 0.734 (n=2,452), Sepsis-3 excluded 0.747 (n=1,321), no-arrest subgroup
 0.724 (n=2,438), arrest-free integer card 0.711.
 
-(B) Imputation: median 0.734 (slope 0.99) versus stochastic
-chained-equations imputation 0.724 (slope 1.01). The chained-equations
-analysis used scikit-learn IterativeImputer (sample_posterior enabled,
-maximum 10 iterations, seed 42), fitted within each cross-validation
-training fold and applied to its test fold; it is a single stochastic
-imputation per fold, without multiple-imputation pooling.
+(B) Imputation: median 0.734 (slope 0.99) versus stochastic chained-equations imputation 0.725 (slope 1.01). The chained-equations analysis used scikit-learn IterativeImputer (sample_posterior enabled, maximum 10 iterations, seed 42), fitted within each cross-validation training fold and applied to its test fold, as were the winsorization limits; it is a single stochastic imputation per fold, without multiple-imputation pooling.
 
 (C) Variance inflation factors, every predictor, both formulations
 (landmark, on the winsorized, imputed, standardized design):
@@ -553,7 +546,7 @@ observed (mechanical ventilation is treated as absent when unrecorded).
 Net benefit = (true positives - false positives x odds(threshold)) / n,
 over thresholds 5% to 70% in 1% steps. With frozen published probabilities
 for both models: at the 20% threshold, net benefit 0.157 (CS-MORT-6 anion
-gap) versus 0.146 (BOS,MA2 published mapping); at 40%, 0.076 versus 0.057.
+gap) versus 0.146 (BOS,MA2 published mapping); at 40%, 0.078 versus 0.057.
 A BOS,MA2 curve recalibrated within the evaluation sample is a labeled
 in-sample sensitivity that favors the comparator at lower thresholds
 (0.176 at 20%) and not at higher ones (0.057 at 40%). Curve data:
