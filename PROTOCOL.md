@@ -86,3 +86,40 @@ comparisons in both frames including the imputed-BOS,MA2 sensitivity. No
 model, card, band, threshold, or mapping change afterward. The manuscript
 acknowledges that eICU informed the submitted validation and revision
 diagnostics, so confirmation in an untouched cohort remains necessary.
+
+## Addendum, added 10 September 2026
+
+Added after the protocol was frozen and after all analyses were complete.
+Nothing above this line has been altered; this note records chronology and
+resolves two readings of the text above that are open to misinterpretation.
+
+**Chronology of this document.** The protocol was frozen on 7 September 2026
+and archived unchanged. It entered this repository on 8 September 2026 in the
+commit that restructured the canonical pipeline, and has not been modified
+since. The candidate-pool paragraph above refers to "the conversation record
+of 8 Sep 2026", which postdates the stated freeze; this is a clerical error in
+the original and not evidence of later editing, since the file carries a single
+modification timestamp of 7 September 2026 and one commit in this repository.
+The screen results that reference points to are the observed eICU availability
+figures, which are reproduced in the paragraph itself (SpO2 78.2%, GCS 71.7%,
+lactate 49.1%, urine output 56.7%, bilirubin 59.9%). They are properties of
+data completeness, contain no outcome information, and could not have been
+tuned to any result.
+
+**What "External (eICU) data play no role in any decision" means here.** The
+opening paragraph states that external data played no role in any decision in
+this protocol, while the challenger candidate pool required at least 80%
+observed availability in both databases, which is an eICU-derived eligibility
+criterion. The two statements are reconciled as follows: no eICU outcome, no
+eICU model fit, and no eICU performance estimate informed any decision in this
+document. What eICU contributed to the candidate pool is the observability of
+each variable, used to exclude predictors that could not be computed in an
+external setting at all. The identity decision itself was made on MIMIC-IV
+cross-validation alone, as stated, and the external data were used once at the
+end in a single locked execution.
+
+This distinction is disclosed rather than relied upon. The closing paragraph of
+this protocol already records that eICU informed the submitted validation and
+the revision's diagnostics, and the manuscript's Limitations state that eICU
+informed both the comparator's development and our analytic choices, so
+confirmation in an untouched cohort remains necessary.

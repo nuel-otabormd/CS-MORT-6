@@ -45,17 +45,29 @@ files the pipeline reproduces all 30 output tables byte for byte.
   the calibration annotation values for Figure S2.
 - `pipeline/13_render_figures.R` — Figure 1 and Supplementary Figures S1-S8,
   rendered from the outputs tables alone.
+- `pipeline/14_reported_values.py` — quantities quoted in the paper that no
+  other step stores (exact-landmark availability, the internal deployment-rule
+  rescoring, the worked example, derived proportions), recomputed from the same
+  frames the analysis uses.
 - `pipeline/verify_ledger.py` — gate: canonical results match the published values.
 - `pipeline/verify_sources.py` — gate: every value in the manuscript and
   supplement sources traces to this pipeline.
 - `manuscript/MANUSCRIPT.md`, `manuscript/SUPPLEMENT.md` — the authored text of
   the paper and its supplement, the documents of record for the submitted Word
   files. Step 09 emits regenerated table blocks for cross-checking only.
+- `manuscript/CARRIED_FORWARD.md` — the few values reported from earlier
+  analyses rather than recomputed on each run, named individually with their
+  source. Everything not listed there is regenerated.
 - `outputs/` — aggregate result tables and `RUN_LOG.txt`, the console record of
   the run (no patient-level data).
 - `figures/` — Figure 1 (PNG and 600-dpi TIFF) and Supplementary Figures S1-S8.
-- `PROTOCOL.md` — frozen analysis protocol, including the pre-specified decision
-  rule for the redevelopment sensitivity analyses.
+- `PROTOCOL.md` — the analysis protocol, frozen 7 September 2026 before the
+  redevelopment analyses were run, including their pre-specified decision rule.
+  A dated addendum at the end records the document's own chronology and defines
+  precisely what role external data played in the candidate-pool screen; the
+  frozen text above it is unaltered.
+- `PROTOCOL_AMENDMENT.md` — the dated amendment correcting the external
+  analysis population, specified before the amended run was executed.
 
 ## Reproduction
 
