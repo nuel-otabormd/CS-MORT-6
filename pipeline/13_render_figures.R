@@ -20,7 +20,7 @@ wilson <- function(k, n, z = 1.959964) {
     (p + z^2/(2*n) + z*sqrt(p*(1-p)/n + z^2/(4*n^2))) / d)
 }
 open_png <- function(f, w, h) png(file.path(FIG, f), width = w, height = h,
-                                  units = "in", res = 300)
+                                  units = "in", res = 420)
 
 # ---------- grouped-bar panel (Figure 1, S4, S5) ----------
 bar_panel <- function(d, title, ylim, stages, legend = FALSE,
