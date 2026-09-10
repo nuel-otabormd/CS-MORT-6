@@ -24,7 +24,6 @@ not carried forward.
 |---|---|---|
 | 0.778 (0.760-0.794) | S6(B), internal continuous lactate | submitted analysis, day-1 frame |
 | 0.98 | S6(B), internal calibration slope, lactate formulation | submitted analysis, day-1 frame |
-| +0.038 | S6(B), upper bound of the day-1 BOS,MA2 difference interval | submitted analysis, day-1 frame |
 
 ## Development model-class comparison
 

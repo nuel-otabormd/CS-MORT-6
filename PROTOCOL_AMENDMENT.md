@@ -51,3 +51,23 @@ cutpoints, mirroring the internal analyses.
 
 No result computed under this amendment may feed back into any model,
 card, band, threshold, or mapping.
+
+## Clarification (9 September 2026, recorded before the corresponding rerun)
+
+1. Late-documented arrest flags (first arrest diagnosis after 1,440 minutes;
+   5 records in the primary population) are set to zero in the PRIMARY
+   external analyses, for the score inputs and for stage assignment alike;
+   the unzeroed analysis becomes the sensitivity.
+2. The primary external integer-card evaluation follows the printed
+   deployment rule exactly: lactate bands when lactate is observed,
+   anion-gap bands otherwise. The anion-gap-bands-for-all evaluation is
+   retained as the harmonized sensitivity. No point value, band boundary,
+   or mapping changes.
+3. Incremental value over the EHR-derived stage is reported with matched
+   score formulations in both cohorts (continuous anion-gap model, and the
+   integer card), with stage variants that remove the arrest rule reported
+   as robustness analyses.
+4. "First qualifying stay" denotes the deterministic selection order
+   (unitvisitnumber, then patienthealthsystemstayid, then
+   patientunitstayid); chronological order across separate hospitalizations
+   is not always establishable in eICU.
