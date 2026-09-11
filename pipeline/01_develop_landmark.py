@@ -160,18 +160,23 @@ print(f"  missing-value default categories (from LM24 medians {dict(round(med_lm
 a_in = roc_auc_score(y, score)
 # optimism: rederive points inside each bootstrap
 optim = []
+boot_points = []                      # point vector re-derived in each resample
 rng = np.random.default_rng(42)
 for _ in range(500):
     i = rng.integers(0, len(y), len(y))
     pb = derive_points(O[i], y[i])
+    boot_points.append(pb.copy())
     optim.append(roc_auc_score(y[i], (O[i] * pb).sum(1)) - roc_auc_score(y, (O * pb).sum(1)))
 # fold-honest CV: points rederived per training fold
 oof_int = np.zeros(len(lm))
+oof_tra = np.zeros(len(lm))           # transported (submitted) point schedule, same folds
+V11 = np.array([2, 1, 3, 1, 1, 1])    # lactate 2/level, uo 1, arrest 3, age 1, bun 1, rdw 1
 for tr, te in StratifiedKFold(5, shuffle=True, random_state=42).split(lm, y):
     med_tr = lm.iloc[tr][CONT].median()
     Otr = ordinal_frame(lm.iloc[tr], med_tr); Ote = ordinal_frame(lm.iloc[te], med_tr)
     ptr = derive_points(Otr, y[tr])
     oof_int[te] = (Ote * ptr).sum(1)
+    oof_tra[te] = (Ote * V11).sum(1)
 a_cv = roc_auc_score(y, oof_int); loi, hii = auc_ci(y, oof_int)
 print(f"  in-sample AUROC {a_in:.4f} | optimism-corrected {a_in-np.mean(optim):.4f} "
       f"| fold-honest CV {a_cv:.4f} ({loi:.4f}-{hii:.4f})")
@@ -196,6 +201,38 @@ for i, lab in enumerate(labels):
                      n=int(mk.sum()), mortality=round(100 * y[mk].mean(), 1)))
 bands = pd.DataFrame(rows)
 print(bands.to_string(index=False))
+
+# --- card re-derivation: transported schedule versus re-derived, plus point stability ---
+a_tra = roc_auc_score(y, oof_tra)
+a_red = roc_auc_score(y, oof_int)
+_rng = np.random.default_rng(42)
+_d = []
+for _ in range(2000):
+    i = _rng.integers(0, len(y), len(y))
+    if len(np.unique(y[i])) > 1:
+        _d.append(roc_auc_score(y[i], oof_tra[i]) - roc_auc_score(y[i], oof_int[i]))
+_d = np.asarray(_d)
+_lo, _hi = np.percentile(_d, 2.5), np.percentile(_d, 97.5)
+_rows = [
+    dict(metric='transported_card_oof_auroc',   value=f"{a_tra:.6f}"),
+    dict(metric='rederived_card_oof_auroc',     value=f"{a_red:.6f}"),
+    dict(metric='transported_minus_rederived',  value=f"{a_tra - a_red:.6f}"),
+    dict(metric='diff_ci_lower_2p5',            value=f"{_lo:.6f}"),
+    dict(metric='diff_ci_upper_97p5',           value=f"{_hi:.6f}"),
+    dict(metric='diff_ci_includes_zero',        value=str(bool(_lo <= 0 <= _hi))),
+    dict(metric='bootstrap_resamples_diff',     value='2000'),
+    dict(metric='bootstrap_resamples_points',   value=str(len(boot_points))),
+]
+_bp = np.vstack(boot_points)
+for _j, _f in enumerate(F6):
+    _vals, _cnt = np.unique(_bp[:, _j], return_counts=True)
+    for _v, _c in zip(_vals, _cnt):
+        _rows.append(dict(metric=f'points_{_f}_{int(_v)}pt_pct',
+                          value=f"{100.0 * _c / len(boot_points):.1f}"))
+pd.DataFrame(_rows).to_csv(OUT + 'card_rederivation.csv', index=False)
+print(f"\n[card re-derivation] transported {a_tra:.4f} vs re-derived {a_red:.4f}; "
+      f"difference {a_tra-a_red:+.6f} (95% CI {_lo:+.6f} to {_hi:+.6f}; "
+      f"includes zero: {bool(_lo <= 0 <= _hi)})")
 
 # The deployed integer card table is written by the card-freeze stage.
 bands.to_csv(OUT + 'v2_risk_bands.csv', index=False)

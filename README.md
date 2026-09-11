@@ -38,6 +38,11 @@ output tables byte for byte.
 - `sql/`: BigQuery extraction queries (cohort, features, SCAI components, eICU).
 - `DATA_INPUTS.md`: every input file the pipeline reads, with its contents,
   row count, and the query or rule that produces it.
+- `pipeline/00_predictor_screen.py`: the archived screen that chose the six
+  predictors, re-executed. It predates the 24-hour landmark design and runs on the
+  pre-landmark baseline extract, so it is not part of `run_all.sh` and feeds no
+  reported landmark or external result; it is included for provenance. Writes
+  `outputs/predictor_screen_stability.csv` and `outputs/predictor_screen_parsimony.csv`.
 - `pipeline/01..09_*.py`: the analysis pipeline in dependency order, from landmark
   development through the supplement's source tables. `pipeline/run_all.sh` runs
   everything and writes `outputs/RUN_LOG.txt`.

@@ -1,4 +1,7 @@
 # Figure renderer: Figure 1 and Supplementary Figures S1-S7, 300 dpi.
+# Supplementary figure numbering follows the revised supplement: S4 integer
+# card, S5 within-stage variants, S6 trajectory, S7 subgroups. The nomogram
+# is rendered for the repository only and is not submitted.
 # Every plotted value is read from the canonical outputs/ CSVs. The only
 # hand-entered numbers are the S1 flow counts, each traceable: 4,315 / 3,103
 # re-verified from the screening extract (in_primary_cohort sums to 3,103);
@@ -22,7 +25,7 @@ wilson <- function(k, n, z = 1.959964) {
 open_png <- function(f, w, h) png(file.path(FIG, f), width = w, height = h,
                                   units = "in", res = 420)
 
-# ---------- grouped-bar panel (Figure 1, S4, S5) ----------
+# ---------- grouped-bar panel (Figure 1, S6, S7) ----------
 bar_panel <- function(d, title, ylim, stages, legend = FALSE,
                       ylab = "In-hospital mortality (%)", group_lab = "Stage",
                       legend_title = "CS-MORT-6 score", letter = NULL) {
@@ -205,21 +208,21 @@ text(69, yl[1] + 0.72 * diff(yl), "Common-scorable landmark set\n(n = 654, 30.0%
      adj = 1, cex = 0.9, col = "#333333")
 dev.off()
 
-# ================= FIGURE S4 (variants) =================
+# ================= FIGURE S5 (within-stage variants) =================
 v <- read.csv(paste0(OUT, "figure1_variants_mimic.csv"))
 vn <- unique(v$variant)
 lab4 <- ifelse(grepl("ohca", vn), "Arrest-free card",
                "Four-variable non-staging sub-score")
-open_png("FigS4.png", 12, 5.6)
+open_png("FigS5.png", 12, 5.6)
 par(mfrow = c(1, 2), mar = c(2.6, 4.2, 2.2, 0.8), family = "sans")
 bar_panel(v[v$variant == vn[1], ], paste0("MIMIC-IV, ", tolower(substr(lab4[1],1,1)), substr(lab4[1],2,99)), c(0, 90),
           c("B", "C", "D", "E"), legend = TRUE, legend_title = "Score tertile", letter = "A")
 bar_panel(v[v$variant == vn[2], ], paste0("MIMIC-IV, ", tolower(substr(lab4[2],1,1)), substr(lab4[2],2,99)), c(0, 90),
           c("B", "C", "D", "E"), letter = "B")
 dev.off()
-cat("FigS4 variants:", vn, "\n")
+cat("FigS5 variants:", vn, "\n")
 
-# ================= FIGURE S5 (trajectory) =================
+# ================= FIGURE S6 (trajectory) =================
 tr <- read.csv(paste0(OUT, "trajectory_symmetric.csv"))
 tr$stage <- sub(" .*", "", tr$group)          # Improved / Unchanged / Worsened
 sc <- unique(tr$scope)
@@ -246,19 +249,19 @@ tr_panel <- function(d, title, legend = FALSE, letter = NULL) {
         adj = 0, font = 1, cex = 1.0)
   box(bty = "l", col = AXCOL)
 }
-open_png("FigS5.png", 11, 5.2)
+open_png("FigS6.png", 11, 5.2)
 par(mfrow = c(1, 2), mar = c(4.4, 4.2, 2.2, 0.8), family = "sans")
 tr_panel(tr[tr$scope == sc[1], ], "All 48-hour landmark patients", letter = "A")
 tr_panel(tr[tr$scope == sc[2], ], "Intermediate 24-hour score subgroup", letter = "B")
 dev.off()
-cat("FigS5 scopes:", sc, "\n")
+cat("FigS6 scopes:", sc, "\n")
 
-# ================= FIGURE S6 (subgroups) =================
+# ================= FIGURE S7 (subgroups) =================
 fs <- read.csv(paste0(OUT, "fairness_subgroups_lm24.csv"))
 fs$label <- fs$subgroup
 fs$label[fs$label == "M"] <- "Male"; fs$label[fs$label == "F"] <- "Female"
 fs <- fs[nrow(fs):1, ]                       # top-down display order
-open_png("FigS6.png", 12, 5.0)
+open_png("FigS7.png", 12, 5.0)
 par(mfrow = c(1, 2), mar = c(4.2, 8.2, 2.4, 1.0), family = "sans")
 yy <- seq_len(nrow(fs))
 plot(NA, xlim = c(0.48, 0.95), ylim = c(0.5, nrow(fs) + 0.5), axes = FALSE,
@@ -292,16 +295,17 @@ box(bty = "l", col = AXCOL)
 mtext("Calibration-in-the-large", side = 1, line = 2.4, cex = 0.95)
 mtext("B   Calibration", side = 3, line = 0.6, adj = 0, font = 2, cex = 1.1)
 dev.off()
-cat("FigS6 rows:", paste(fs$label, collapse = ", "), "\n")
+cat("FigS7 rows:", paste(fs$label, collapse = ", "), "\n")
 
-# ================= FIGURE S7 (nomogram, anion-gap model) =================
+# ===== nomogram (anion-gap model): retained in the repository, NOT a
+# ===== supplementary figure in the submitted package =====
 sp <- read.csv(paste0(OUT, "v2_spec_continuous.csv"))
 ag <- sp[sp$model == "anion-gap" & sp$variable != "(intercept)", ]
 ic <- sp[sp$model == "anion-gap" & sp$variable == "(intercept)", "beta_raw_scale"]
 vars <- data.frame(
   var = c("aniongap", "uo", "ohca_arrest", "age", "bun", "rdw"),
   name = c("Anion gap, mmol/L", "Urine output, mL/kg/h",
-           "Cardiac arrest at presentation", "Age, years",
+           "Cardiac arrest", "Age, years",
            "Blood urea nitrogen, mg/dL", "Red cell distribution width, %"))
 ag <- merge(vars, ag, by.x = "var", by.y = "variable", sort = FALSE)
 ag$lo <- ag$winsor_lo; ag$hi <- ag$winsor_hi
@@ -330,7 +334,7 @@ for (k in 1:3) {
   lp_pts <- base_lp + tp / 100 * mx
   stopifnot(abs(lp_direct - lp_pts) < 1e-9)
 }
-open_png("FigS7.png", 10.5, 7.2)
+open_png("nomogram_not_submitted.png", 10.5, 7.2)
 par(mar = c(1.5, 12.5, 1.5, 1.5), family = "sans")
 nrows <- 6 + 2
 plot(NA, xlim = c(0, 100), ylim = c(0.4, nrows + 1.2), axes = FALSE,
@@ -378,12 +382,12 @@ dev.off()
 cat("Nomogram base_lp", round(base_lp, 4), "max range", round(mx, 4),
     "total-points max", tp_max, "\n")
 
-# ================= FIGURE S8 (integer card: predicted vs observed) =================
+# ================= FIGURE S4 (integer card: predicted vs observed) =================
 mp8 <- read.csv(paste0(OUT, "v2_score_risk_mapping.csv"))
 ob <- regmatches(mp8$observed_lm24, regexec("([0-9.]+)% \\(n=([0-9]+)\\)", mp8$observed_lm24))
 mp8$obs <- sapply(ob, function(x) as.numeric(x[2]))
 mp8$n <- sapply(ob, function(x) as.numeric(x[3]))
-open_png("FigS8.png", 9.6, 6.3)
+open_png("FigS4.png", 9.6, 6.3)
 par(mar = c(3.6, 4.2, 1.0, 0.8), family = "sans")
 plot(NA, xlim = c(-0.4, 15.4), ylim = c(0, 100), axes = FALSE, xlab = "", ylab = "",
      xaxs = "i", yaxs = "i")
@@ -408,5 +412,5 @@ legend("topleft", inset = c(0.01, 0.02), bty = "n", cex = 0.95,
        legend = c("Predicted risk (score-to-risk mapping)",
                   "Observed landmark mortality (Wilson 95% CI)"))
 dev.off()
-cat("FigS8 points:", sum(!is.na(mp8$obs)), "\n")
+cat("FigS4 points:", sum(!is.na(mp8$obs)), "\n")
 cat("ALL FIGURES DONE\n")

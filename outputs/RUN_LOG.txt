@@ -24,6 +24,8 @@ Rscript (R) version 4.5.2 (2025-10-31)
      High    6-7 682       44.3
 Very high   8-13 307       66.8
 
+[card re-derivation] transported 0.7267 vs re-derived 0.7190; difference +0.007616 (95% CI +0.003403 to +0.012060; includes zero: False)
+
 [done] aggregate outputs written; patient-level OOF predictions in the data directory
 == 02_integer_card ==
 [integer, transported card] fold-honest OOF AUROC 0.7267 (0.7061-0.7470)
@@ -156,7 +158,7 @@ D. eICU 48-H LANDMARK, frozen v2.0
 5. MICE VS MEDIAN (v2.0 lactate, 5-fold CV)
 ======================================================================
   median: AUROC 0.734, slope 0.99, CITL -0.000
-  mice: AUROC 0.724, slope 1.01, CITL +0.001
+  mice: AUROC 0.725, slope 1.01, CITL +0.001
 ======================================================================
 6. SENSITIVITY COHORTS (frozen v2.0 lactate OOF)
 ======================================================================
@@ -215,7 +217,7 @@ eICU exact LM24 n=1047; stage totals: {'B': 264, 'C': 380, 'D': 165, 'E': 238}
   incremental integer_hybrid_stage_no_arrest_rule: stage 0.524 score 0.759 both 0.761 (+0.237)
   frozen-cutpoint panel written
 
-DCA (landmark common-scorable n=654): net benefit at 20%/40%: CS-MORT-6 0.157/0.076, BOS,MA2 recal 0.176/0.057
+DCA (landmark common-scorable n=654): net benefit at 20%/40%: CS-MORT-6 0.157/0.078, BOS,MA2 recal 0.176/0.057
 
 [ADDENDUM COMPLETE] figure1_eicu_lm24.csv, dca_lm24_common.csv
 == 07_paired_inference ==
@@ -245,7 +247,7 @@ SEVERITY FRAME, regenerated under corrected binning (all-comers, n=3103)
   internal integer (corrected binning, OOF): 0.7582 (0.7399-0.7742)   [submitted, old binning: 0.765]
   external integer AG (corrected binning): 0.7320 (0.7085-0.7550)   [submitted, old binning: 0.739]
   DCA landmark, frozen-vs-frozen at 20%: CS-MORT-6 0.157 | BOS,MA2 published 0.146 | (recalibrated, in-sample: 0.176)
-  DCA landmark, frozen-vs-frozen at 40%: CS-MORT-6 0.076 | BOS,MA2 published 0.057 | (recalibrated, in-sample: 0.057)
+  DCA landmark, frozen-vs-frozen at 40%: CS-MORT-6 0.078 | BOS,MA2 published 0.057 | (recalibrated, in-sample: 0.057)
 [done] severity_frame_final.csv
 == 09_supplement_tables ==
 generated table blocks written for cross-check (document of record: manuscript/SUPPLEMENT.md)
@@ -372,19 +374,19 @@ null device
           1 
 null device 
           1 
-FigS4 variants: ohca-free non-staging 
+FigS5 variants: ohca-free non-staging 
 null device 
           1 
-FigS5 scopes: all 48-h landmark intermediate 24-h score 4-7 
+FigS6 scopes: all 48-h landmark intermediate 24-h score 4-7 
 null device 
           1 
-FigS6 rows: Other/Unknown, Asian, Hispanic, Black, White, Female, Male 
+FigS7 rows: Other/Unknown, Asian, Hispanic, Black, White, Female, Male 
 null device 
           1 
 Nomogram base_lp -4.7035 max range 2.3633 total-points max 360 
 null device 
           1 
-FigS8 points: 13 
+FigS4 points: 13 
 ALL FIGURES DONE
 == 14_reported_values ==
 ======================================================================
@@ -423,4 +425,4 @@ ALL FIGURES DONE
 
 [done] reported_values.csv (30 values)
 == verify_ledger ==
-verify_ledger: 40 canonical checks passed
+verify_ledger: 64 canonical checks passed

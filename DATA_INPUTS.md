@@ -57,3 +57,13 @@ The column `score_v2` in that file is the landmark re-derivation card examined
 in the point-schedule sensitivity analysis, not the deployed card. Nothing in
 the published results is computed from it; the deployed card is built by
 `card_score()` in `05_internal_analyses.py` from the printed point schedule.
+
+## feat_baseline_full.csv
+
+The pre-landmark baseline extract for the archived predictor screen
+(`pipeline/00_predictor_screen.py`): 4,315 MIMIC-IV ICU stays with documented
+cardiogenic shock, 1,537 in-hospital deaths, from 3,479 admissions of 3,192
+patients. One row per ICU stay, so stays are not independent observations.
+Produced by `sql/01_cohort_generation.sql` and `sql/03_feature_extraction.sql`
+without the one-stay-per-patient and landmark restrictions applied later.
+Read by the screen only; no landmark or external result depends on it.

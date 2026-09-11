@@ -38,6 +38,7 @@ ALLOW = {
     '10.5281',            # Zenodo DOI prefix
     '3.9', '4.5',         # Python / R versions
     '2008', '2022', '2014', '2015',   # database year spans
+    '427.5',              # ICD-9 code for cardiac arrest (a code, not a result)
 }
 
 NUM = re.compile(r'\d+\.\d+')

@@ -100,4 +100,64 @@ checked += 1
 
 # Threshold operating characteristics derive from the deployed card (S8 panel B)
 contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
+# --- card re-derivation: every metric verified, by name ---------------------
+# The output-to-expected check is metric-specific: each value is read from its
+# own labelled row. The output-to-document check is anchored, so a value must
+# appear in its labelled position inside the supplement's point-schedule
+# paragraph, not merely somewhere in the file.
+_CARD_FMT = {
+    'transported_card_oof_auroc':  ('0.7267', 4),
+    'rederived_card_oof_auroc':    ('0.7190', 4),
+    'transported_minus_rederived': ('0.0076', 4),
+    'diff_ci_lower_2p5':           ('0.0034', 4),
+    'diff_ci_upper_97p5':          ('0.0121', 4),
+    'diff_ci_includes_zero':       ('False',  None),
+    'bootstrap_resamples_diff':    ('2000',   None),
+    'bootstrap_resamples_points':  ('500',    None),
+    'points_lactate_1pt_pct':      ('64.2',   1),
+    'points_lactate_2pt_pct':      ('35.8',   1),
+    'points_uo_1pt_pct':           ('100.0',  1),
+    'points_ohca_arrest_2pt_pct':  ('38.8',   1),
+    'points_ohca_arrest_3pt_pct':  ('61.0',   1),
+    'points_ohca_arrest_4pt_pct':  ('0.2',    1),
+    'points_age_1pt_pct':          ('100.0',  1),
+    'points_bun_1pt_pct':          ('100.0',  1),
+    'points_rdw_1pt_pct':          ('100.0',  1),
+}
+# only these five are printed in the supplement; each must sit beside its label
+_CARD_DOC = {
+    'transported_card_oof_auroc':  'AUROC of {v},',
+    'rederived_card_oof_auroc':    'with {v} when',
+    'transported_minus_rederived': 'difference {v},',
+    'diff_ci_lower_2p5':           '95% CI {v}-',
+    'diff_ci_upper_97p5':          '-{v})',
+}
+
+_m = pd.read_csv(OUT + 'card_rederivation.csv').set_index('metric')['value'].astype(str).to_dict()
+assert set(_m) == set(_CARD_FMT), (
+    f"card_rederivation.csv metric set changed: "
+    f"missing {set(_CARD_FMT) - set(_m)}, unexpected {set(_m) - set(_CARD_FMT)}")
+for _k, (_shown, _dp) in _CARD_FMT.items():
+    _got = f"{float(_m[_k]):.{_dp}f}" if _dp is not None else _m[_k]
+    assert _got == _shown, f"card_rederivation.csv:{_k} is {_got}, expected {_shown}"
+    checked += 1
+# internal consistency of the interval and the difference
+_lo, _hi = float(_m['diff_ci_lower_2p5']), float(_m['diff_ci_upper_97p5'])
+assert (_m['diff_ci_includes_zero'] == 'True') == (_lo <= 0 <= _hi), \
+    'card_rederivation.csv: includes-zero flag disagrees with the interval'
+assert abs((float(_m['transported_card_oof_auroc']) - float(_m['rederived_card_oof_auroc']))
+           - float(_m['transported_minus_rederived'])) < 2e-6, \
+    'card_rederivation.csv: difference does not equal the two AUROCs'  # 6-dp rounding
+checked += 2
+# anchored document check, scoped to the point-schedule paragraph
+_sup = open(os.path.join(_B, '..', 'manuscript', 'SUPPLEMENT.md')).read()
+assert '(C) Point-schedule sensitivity.' in _sup, \
+    'SUPPLEMENT.md: the point-schedule sensitivity paragraph is missing'
+_blk = ' '.join(_sup.split('(C) Point-schedule sensitivity.', 1)[1]
+                    .split('\n\n', 1)[0].split())
+for _k, _tpl in _CARD_DOC.items():
+    _need = _tpl.format(v=_CARD_FMT[_k][0])
+    assert _need in _blk, f"SUPPLEMENT.md point-schedule paragraph: expected {_need!r}"
+    checked += 1
+
 print(f"verify_ledger: {checked} canonical checks passed")
