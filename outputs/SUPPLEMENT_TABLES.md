@@ -151,3 +151,92 @@ regenerated from outputs/ so table values can be diffed against it.
 | pressor_count | 0.0 |
 | lactate | 38.0 |
 | uo | 6.0 |
+
+| section | item | value |
+|---|---|---|
+| lm48 | n / deaths / mortality | 2259 / 703 / 31.1% |
+| lm48 | continuous lactate updated-48h | AUROC 0.739 (0.717-0.760), slope 1.10, CITL +0.028 |
+| lm48 | continuous lactate stale-24h | AUROC 0.714 (0.692-0.736), slope 0.91, CITL -0.057 |
+| lm48 | integer stale vs updated AUROC | 0.700 vs 0.726 |
+| trajectory | all 48-h landmark | Improved (<0) | n=785 mortality 28.9% (25.9-32.2) |
+| trajectory | all 48-h landmark | Unchanged (=0) | n=978 mortality 29.7% (26.9-32.6) |
+| trajectory | all 48-h landmark | Worsened (>0) | n=496 mortality 37.5% (33.4-41.8) |
+| trajectory | intermediate 24-h score 4-7 | Improved (<0) | n=429 mortality 24.0% (20.2-28.3) |
+| trajectory | intermediate 24-h score 4-7 | Unchanged (=0) | n=523 mortality 34.0% (30.1-38.2) |
+| trajectory | intermediate 24-h score 4-7 | Worsened (>0) | n=261 mortality 43.3% (37.4-49.4) |
+| trajectory | aOR per +1 change (adj 24-h score) | 1.37 (1.27-1.47), p=1.7e-17 |
+| event-time | buckets 0-6/6-12/12-24/24-48h | 73/70/106/157 |
+| event-time | 48h-7d / >7d | 377 / 402 |
+| event-time | anomalies (disclosed) | 2 recorded before ICU admission, 1 without timestamp |
+| vif | lactate model | lactate 1.05  uo 1.08  ohca_arrest 1.02  age 1.08  bun 1.16  rdw 1.10 |
+| vif | anion-gap model | aniongap 1.22  uo 1.06  ohca_arrest 1.01  age 1.08  bun 1.31  rdw 1.11 |
+| vif | key Pearson r | lactate-bun -0.0, lactate-rdw 0.06, bun-rdw 0.28, aniongap-bun 0.37 |
+| imputation | median | AUROC 0.734, slope 0.99, CITL -0.000 |
+| imputation | mice | AUROC 0.725, slope 1.01, CITL +0.001 |
+| sensitivity | ICD-confirmed only | n=2452 mort 33.2% cont 0.734 integer 0.727 |
+| sensitivity | Sepsis-3 excluded | n=1321 mort 28.2% cont 0.747 integer 0.739 |
+| sensitivity | non-OHCA subgroup | n=2438 mort 30.8% cont 0.724 integer 0.712 |
+| sensitivity | OHCA-free score (all LM24) | cont n/a integer 0.711 |
+| fairness | M | n=1629 deaths=519 AUROC 0.748 (0.724-0.774) slope 1.07 CITL -0.062 |
+| fairness | F | n=1065 deaths=373 AUROC 0.713 (0.682-0.746) slope 0.89 CITL +0.092 |
+| fairness | White | n=1687 deaths=537 AUROC 0.732 (0.706-0.757) slope 1.03 CITL -0.067 |
+| fairness | Black | n=267 deaths=80 AUROC 0.704 (0.631-0.771) slope 0.81 CITL -0.298 |
+| fairness | Hispanic | n=80 deaths=24 AUROC 0.805 (0.692-0.903) slope 1.21 CITL -0.107 |
+| fairness | Asian | n=67 deaths=17 AUROC 0.708 (0.548-0.851) slope 0.68 CITL -0.374 |
+| fairness | Other/Unknown | n=593 deaths=234 AUROC 0.754 (0.715-0.792) slope 1.07 CITL +0.362 |
+| cvauc | CV AUROC (fold mean) with IC-based 95% CI | 0.7339 (0.7140-0.7538); pooled bootstrap for comparison 0.7337 (0.7143-0.7527) |
+| scai | stage-only / score-only / stage+score AUROC | 0.589 / 0.727 / 0.728 |
+| scai | LRT score over stage | chi2 348.2, p 1.0e-77 |
+| scai | paired dAUROC (stage+score - stage) | +0.139 (+0.116 to +0.163) |
+| scai | incremental continuous AG (matched) | stage 0.589 / score 0.726 / both 0.728; +0.139 (+0.116 to +0.162); LRT p=1.8e-77 |
+| scai | incremental continuous AG, stage without arrest rule | stage 0.564 / score 0.726 / both 0.728; +0.165 (+0.140 to +0.190); LRT p=7.4e-85 |
+| scai | incremental integer card, stage without arrest rule | stage 0.564 / score 0.727 / both 0.728; +0.164 (+0.140 to +0.189); LRT p=6.8e-84 |
+| scai | stage B within-stage AUROC | n=407 0.636 (0.579-0.692) |
+| scai | stage C within-stage AUROC | n=909 0.689 (0.651-0.724) |
+| scai | stage D within-stage AUROC | n=699 0.756 (0.717-0.793) |
+| scai | stage E within-stage AUROC | n=671 0.728 (0.689-0.765) |
+| scai | ohca-free tertile mortality by stage | B 16/30/37; C 16/35/46; D 13/27/58; E 30/49/73 |
+| scai | non-staging tertile mortality by stage | B 16/32/36; C 15/32/46; D 12/34/53; E 35/51/68 |
+| availability | 6h (n=3068) | lactate 69.2%  bun 82.6%  rdw 80.4%  uo 80.9% |
+| availability | 12h (n=2963) | lactate 75.8%  bun 95.5%  rdw 92.1%  uo 91.5% |
+| availability | 24h (n=2731) | lactate 80.8%  bun 99.5%  rdw 98.9%  uo 94.2% |
+| availability | 48h (n=2296) | lactate 85.9%  bun 99.6%  rdw 99.5%  uo 95.0% |
+
+| item | value |
+|---|---|
+| stage_auroc | 0.613 |
+| score_auroc_continuousAG | 0.748 |
+| both_auroc_continuousAG | 0.754 |
+| score_over_stage_continuousAG | +0.141 (+0.101 to +0.178) |
+| lrt_chi2_p_continuousAG | 142.3, 8.4e-33 |
+| stage_over_score_continuousAG | +0.006 |
+| incremental_integer_hybrid | stage 0.613 / score 0.759 / both 0.767; +0.154 (+0.116 to +0.191); LRT p=7.1e-36 |
+| incremental_continuousAG_stage_no_arrest_rule | stage 0.524 / score 0.748 / both 0.750; +0.226 (+0.179 to +0.272); LRT p=1.6e-40 |
+| incremental_integer_hybrid_stage_no_arrest_rule | stage 0.524 / score 0.759 / both 0.761; +0.237 (+0.193 to +0.283); LRT p=8.4e-43 |
+
+| variant | stage | tertile | n | mortality | ci |
+|---|---|---|---|---|---|
+| ohca-free | B | Low | 168 | 16.1 | 11.3-22.4 |
+| ohca-free | B | Mid | 135 | 29.6 | 22.6-37.8 |
+| ohca-free | B | High | 104 | 36.5 | 27.9-46.1 |
+| ohca-free | C | Low | 419 | 16.0 | 12.8-19.8 |
+| ohca-free | C | Mid | 257 | 35.4 | 29.8-41.4 |
+| ohca-free | C | High | 233 | 45.9 | 39.6-52.3 |
+| ohca-free | D | Low | 310 | 13.2 | 9.9-17.5 |
+| ohca-free | D | Mid | 202 | 26.7 | 21.1-33.2 |
+| ohca-free | D | High | 187 | 57.8 | 50.6-64.6 |
+| ohca-free | E | Low | 255 | 29.8 | 24.5-35.7 |
+| ohca-free | E | Mid | 248 | 48.8 | 42.6-55.0 |
+| ohca-free | E | High | 168 | 72.6 | 65.4-78.8 |
+| non-staging | B | Low | 179 | 15.6 | 11.0-21.7 |
+| non-staging | B | Mid | 137 | 32.1 | 24.9-40.3 |
+| non-staging | B | High | 91 | 36.3 | 27.1-46.5 |
+| non-staging | C | Low | 337 | 14.8 | 11.4-19.0 |
+| non-staging | C | Mid | 342 | 31.9 | 27.2-37.0 |
+| non-staging | C | High | 230 | 46.1 | 39.8-52.5 |
+| non-staging | D | Low | 306 | 12.4 | 9.2-16.6 |
+| non-staging | D | Mid | 233 | 34.3 | 28.5-40.6 |
+| non-staging | D | High | 160 | 53.1 | 45.4-60.7 |
+| non-staging | E | Low | 295 | 34.9 | 29.7-40.5 |
+| non-staging | E | Mid | 238 | 51.3 | 44.9-57.5 |
+| non-staging | E | High | 138 | 68.1 | 59.9-75.3 |

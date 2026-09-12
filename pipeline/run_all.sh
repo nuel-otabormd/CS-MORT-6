@@ -12,6 +12,8 @@
 # Two gates run at the end and both must pass:
 #   verify_ledger.py   the canonical results match the published values
 #   verify_sources.py  every value in manuscript/*.md traces to this pipeline
+#   verify_tables.py   every regenerated table value is carried into the supplement
+
 cd "$(dirname "$0")"
 OUTDIR="${CSMORT6_OUT:-../outputs}"
 mkdir -p "$OUTDIR"
@@ -50,3 +52,5 @@ cat "$LOG"
 # its output there would let it satisfy itself on the next run.
 echo "== verify_sources =="
 python3 verify_sources.py
+echo "== verify_tables =="
+python3 verify_tables.py

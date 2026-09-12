@@ -115,11 +115,13 @@ coefficients in the 24-hour development population. Laboratory predictors were
 the most recent values through 24 hours, urine output was the cumulative
 first-24-hour rate, and age was an admission characteristic. Cardiac arrest
 was identified from diagnosis records rather than time-stamped event data
-(Supplementary Table S2). A separate continuous formulation replaced lactate
-with harmonized anion gap, calculated as sodium minus chloride minus
-bicarbonate. In the primary external validation the integer score used lactate
-categories when lactate was observed and anion-gap categories otherwise;
-internally, missing components received their development-median categories.
+(Supplementary Table S2). Because lactate was incompletely observed, a
+separately fitted continuous formulation replaced lactate with harmonized
+anion gap, calculated as sodium minus chloride minus bicarbonate, retaining
+the other five predictors. In the primary external validation the integer
+score used lactate categories when lactate was observed and anion-gap
+categories otherwise; internally, missing components received their
+development-median categories.
 
 Continuous formulations used L2-penalized (ridge) logistic regression with
 C=0.5. The penalty was not tuned. Coefficients, intercepts, and the
@@ -197,8 +199,8 @@ Among patients eligible at 48 hours, AUROC improved from 0.714 to 0.739 in
 MIMIC-IV (difference 0.024, 95% CI, 0.012-0.036). In eICU, AUROC changed from
 0.716 to 0.725 (difference 0.009, 95% CI, -0.012 to 0.030). Among patients
 with intermediate 24-hour scores, mortality was 24.0% after improvement and
-43.3% after worsening. The adjusted odds ratio was 1.37 per point increase
-(95% CI, 1.27-1.47) (Supplementary Table S10).
+43.3% after worsening. Adjusted for the 24-hour score, each one-point increase
+carried an odds ratio of 1.37 (95% CI, 1.27-1.47) (Supplementary Table S10).
 
 In eICU, availability was 96.4% for anion gap, 60.6% for urine output, and
 52.5% for lactate. All anion-gap-model inputs were observed in 53.3%
@@ -217,7 +219,7 @@ did not improve on the fixed six-variable model (Supplementary Table S14).
 Patients assigned to the same EHR-derived SCAI stage had different mortality
 risks, and CS-MORT-6 separated them in both cohorts. Mortality differed by 20
 to 47 percentage points between the lowest and highest thirds of the score
-within every stage. Adding the score to the stage raised AUROC from 0.589 to
+within stages B to E. Adding the score to the stage raised AUROC from 0.589 to
 0.728 in MIMIC-IV, whereas adding the stage to the score moved it only from
 0.726 to 0.728. The score therefore added far more to the stage than the stage
 added to the score, in both cohorts. That supports CS-MORT-6 as a complement
@@ -237,8 +239,8 @@ estimated difference from BOS,MA2 was small, but its confidence interval did
 not establish equivalence or superiority. CS-MORT-6 offers a six-variable
 integer score without imaging or procedural findings, and separates risk
 within EHR-derived stages. The eICU anion-gap model had no average calibration
-offset, although its slope of 1.17 indicates that predicted risks varied less
-than observed risks.
+offset, although its slope of 1.17 indicates that predictions were
+insufficiently extreme on the log-odds scale.
 
 Updating at 48 hours improved discrimination internally, but the uncertain
 external difference does not establish serial validity. Prospective studies
@@ -262,12 +264,17 @@ account for uncertainty arising from predictor selection.
 
 The 48-hour analysis reapplied the 24-hour model. Complete anion-gap-model
 inputs were observed in only 53.3% of external patients, so scores often used
-the missing-data rule. The arrest diagnosis was untimed in MIMIC-IV and may
-have followed ICU admission or the 24-hour assessment. Urine output used
-different denominators between cohorts. External staging used fewer variables.
-Because eICU contributed to BOS,MA2 development and informed some analytic
-choices in the present study, the external validation was not fully
-independent. Confirmation in an untouched cohort is needed.
+the missing-data rule. Retrospectively recorded values may not have been
+available to clinicians at the time of assessment, and early
+emergency-department use and the effect of documentation delay were not
+evaluated. In MIMIC-IV the arrest diagnosis was untimed and could have been
+recorded after the landmark, so a predictor may carry information from after
+the assessment time. The present results therefore do not establish
+performance using only information available in real time at 24 hours. Urine
+output used different denominators between cohorts. External staging used
+fewer variables. Because eICU contributed to BOS,MA2 development and informed
+some analytic choices in the present study, the external validation was not
+fully independent. Confirmation in an untouched cohort is needed.
 
 ## 5. Conclusions
 
@@ -288,6 +295,7 @@ real-time performance require prospective evaluation.
 | Continuous anion-gap AUROC | 0.726 (0.707-0.746) | 0.748 (0.715-0.780) |
 | Integer score AUROC | 0.727 (0.706-0.747) | 0.759 (0.729-0.790) |
 | Calibration slope / CITL, anion-gap formulation | 0.99 / 0.00, out of fold | 1.17 / 0.00 |
+| Calibration slope / CITL, integer score | - | 1.15 / -0.22 |
 | Brier score, anion-gap formulation | 0.189, out of fold | 0.172 |
 | Incremental AUROC over EHR-derived stage, continuous anion-gap formulation | 0.139 (0.116-0.162) | 0.141 (0.101-0.178) |
 | BOS,MA2 comparison | Not applicable | 0.004 (-0.039 to 0.046), P = .87, n=654 |
@@ -297,7 +305,7 @@ influence-function estimator [16]; the integer-score interval used a
 patient-level bootstrap of fold-honest scores. Externally the integer score
 used lactate categories when lactate was observed and anion-gap categories
 otherwise; internally, missing components took their development-median
-categories. Incremental AUROCs are apparent within-cohort estimates. BOS,MA2
+categories. The two instruments calibrate differently: the continuous model has no average offset externally, whereas the integer score under-predicts on average. Incremental AUROCs are apparent within-cohort estimates. BOS,MA2
 intervals are patient-level bootstrap, with P from the DeLong method.
 Supplementary Figures S1 to S4 show cohort flow, calibration, decision
 curves, and observed risk by score.

@@ -202,6 +202,29 @@ nb40 = dca.iloc[(dca['threshold'] - 0.40).abs().argmin()]
 # The authored supplement lives at manuscript/SUPPLEMENT.md and is the
 # document of record; this step computes the landmark threshold table and
 # emits its table blocks for cross-checking, never a competing narrative.
+# Additional cross-check blocks: outputs whose values reach the supplement but
+# had no regenerated block, so verify_tables.py could not see them. These four
+# files together held 262 of the supplement's 487 decimal values.
+_extra = []
+# Only files the supplement reproduces in full are listed. Files holding
+# full-precision intermediates (stage_coding_robustness, dca_lm24_common) or
+# values quoted selectively (locked_external_results, card_rederivation,
+# reported_values) are deliberately excluded: requiring every one of their
+# values to appear would fail on numbers the supplement never prints.
+# Those are covered instead by verify_ledger's metric-specific checks.
+for _f in ('internal_final_results.csv', 'external_incremental.csv',
+           'figure1_variants_mimic.csv'):
+    _p = OUT + _f
+    if not _os.path.exists(_p):
+        continue
+    _d = pd.read_csv(_p)
+    _rows = ['| ' + ' | '.join(str(c) for c in _d.columns) + ' |',
+             '|' + '---|' * len(_d.columns)]
+    for _, _r in _d.iterrows():
+        _rows.append('| ' + ' | '.join('' if pd.isna(v) else str(v) for v in _r) + ' |')
+    _extra.append('\n'.join(_rows))
+D = D + _extra
+
 open(DOC, 'w').write(
     '# Generated supplement tables (cross-check only)\n\n'
     'The document of record is manuscript/SUPPLEMENT.md. The blocks below are\n'
