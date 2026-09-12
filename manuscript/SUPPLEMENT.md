@@ -53,7 +53,11 @@ population comprise 431 with shock first documented after the landmark and 108
 that were not the patient's first qualifying stay. In the primary external
 analyses the 5 arrest flags first entered after 24 hours are set to zero for
 score and stage alike (sensitivity in Table S7). The 48-hour analyses apply
-the same rule at 2,880 minutes.
+the same rule at 2,880 minutes. Forty-eight-hour values are cumulative rather
+than interval-restricted: laboratory predictors are the most recent value up
+to 48 hours from ICU admission, and urine output is cumulative first-48-hour
+volume divided by weight and observed hours, with a fixed 48-hour denominator
+in eICU.
 
 Landmark eligibility is being alive and in the ICU at 24 hours from ICU
 admission, defined as ICU discharge at or after, and no recorded death at or
@@ -193,10 +197,12 @@ mapped predicted risk 44.9%, observed landmark mortality at score 7: 42.5%
 Apply the intervals exactly as printed: a urine output of 0.5 mL/kg/h scores 1
 point and 1.0 mL/kg/h scores 0 points, because higher output is protective.
 Deployment rule: the card substitutes the anion-gap bands for the lactate
-bands when lactate is unavailable. The primary external evaluation follows
-this rule (lactate observed in 52.5%, anion-gap bands otherwise); internally,
-a missing component scores its development-median category (Table S2, panel
-D), with the deployment-rule rescoring reported in Table S8. An
+bands when lactate is unavailable. If neither is observed the component takes
+the anion-gap development-median category (2 points), and an absent arrest
+record is scored as no arrest. The primary external evaluation follows this
+rule (lactate observed in 52.5%, anion-gap bands otherwise); internally, a
+missing component scores its development-median category (Table S2, panel D),
+with the deployment-rule rescoring reported in Table S8. An
 anion-gap-bands-for-all evaluation is the harmonized external sensitivity. The
 continuous anion-gap model in panel A is a separately fitted model, not a
 substitution into the lactate equation.
@@ -227,7 +233,10 @@ S4)
 
 Baseline characteristics of the 24-hour landmark populations of both cohorts,
 the primary analysis population, and of the full documented-cardiogenic-shock
-cohorts.
+cohorts. Continuous variables are median (interquartile range) and categorical
+variables n (%). The P values in panel B are carried forward from the
+submitted baseline comparison and are descriptive only; no inference in this
+study depends on them.
 
 ## Table S6. Death-timing distribution, exact timestamps
 
@@ -527,12 +536,13 @@ cross-validation). Deployable pool (13 candidates with harmonized definitions
 and ≥80% availability in both databases): 0.718 versus 0.733 for the
 six-variable model; paired difference -0.014 (95% CI -0.029 to +0.001).
 Symmetric pool (lactate and urine output restored): 0.725; paired difference
--0.007 (95% CI -0.020 to +0.005). Neither met the replacement criteria set
-before the analysis was run. Because predictor selection preceded
-cross-validation in the retained model, its confidence intervals do not
-reflect selection uncertainty; these redevelopment analyses assess robustness
-to the selection step but do not incorporate that uncertainty into the
-retained model's interval.
+-0.007 (95% CI -0.020 to +0.005). Neither met the replacement criteria, which
+are stated in full in the frozen challenger-analysis section of the archived
+analysis protocol. Because predictor selection preceded cross-validation in
+the retained model, its confidence intervals do not reflect selection
+uncertainty; these redevelopment analyses assess robustness to the selection
+step but do not incorporate that uncertainty into the retained model's
+interval.
 
 Outer-fold selection frequencies for both runs. The deployable pool holds 13
 candidates; the symmetric pool adds lactate and urine output (15). A dash
