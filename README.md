@@ -97,7 +97,7 @@ for byte.
    their location. Patient-level files must be stored in accordance with the
    PhysioNet data use agreement and are never committed to this repository.
 3. `sh pipeline/run_all.sh`: runs the pipeline end to end with fixed seeds and
-   finishes with both verification gates. A clean run reproduces every committed
+   finishes with the three verification gates. A clean run reproduces every committed
    output table byte for byte.
 
 Environment: Python 3.9+ with the pinned versions in `requirements.txt`; R with

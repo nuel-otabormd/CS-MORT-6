@@ -9,7 +9,7 @@
 #          $CSMORT6_FIG (default ../figures). Patient-level intermediates stay
 #          in the data directory and are never committed.
 #
-# Two gates run at the end and both must pass:
+# Three gates run at the end and all must pass:
 #   verify_ledger.py   the canonical results match the published values
 #   verify_sources.py  every value in manuscript/*.md traces to this pipeline
 #   verify_tables.py   every regenerated table value is carried into the supplement

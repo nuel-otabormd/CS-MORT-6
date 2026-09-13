@@ -39,7 +39,7 @@ print('=' * 70)
 print('14. REPORTED VALUES (exact landmark frames)')
 print('=' * 70)
 
-# ---- availability at the exact 24-hour landmark (Supplementary Table S11A) ----
+# ---- availability at the exact 24-hour landmark (Supplementary Table S7(A)) ----
 obs = {v: lm[v].notna() for v in ('lactate', 'aniongap', 'uo', 'bun', 'rdw')}
 for v, mask in obs.items():
     rec(f'availability_{v}', f'{100 * mask.mean():.1f}')
@@ -48,7 +48,7 @@ lac_inputs = obs['lactate'] & obs['uo'] & obs['bun'] & obs['rdw']
 rec('availability_all_aniongap_model_inputs', f'{100 * ag_inputs.mean():.1f}')
 rec('availability_all_lactate_model_inputs', f'{100 * lac_inputs.mean():.1f}')
 
-# ---- internal deployment-rule rescoring (Supplementary Table S8A) ----
+# ---- internal deployment-rule rescoring (Supplementary Table S9(A)) ----
 lac_missing = lm['lactate'].isna().values
 rec('internal_lactate_missing_pct', f'{100 * lac_missing.mean():.1f}')
 s_med = card_score(lm, MED)
@@ -66,7 +66,7 @@ rec('internal_card_deployment_rule_auroc', f'{roc_auc_score(y, s_deploy):.4f}',
     'anion-gap bands where lactate is unobserved')
 rec('internal_scores_changed_by_deployment_rule', int((s_deploy != s_med).sum()))
 
-# ---- worked example (Supplementary Table S3A) ----
+# ---- worked example (Supplementary Table S4(A)) ----
 spec = pd.read_csv(OUT + 'v2_spec_continuous.csv')
 lac_spec = {r['variable']: r for _, r in spec[spec.model == 'lactate'].iterrows()}
 example = {'lactate': 3.1, 'uo': 0.4, 'ohca_arrest': 0, 'age': 72, 'bun': 41, 'rdw': 15.9}

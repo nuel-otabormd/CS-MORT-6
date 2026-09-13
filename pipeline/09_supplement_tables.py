@@ -62,7 +62,7 @@ dca = pd.read_csv(OUT + 'dca_lm24_common.csv')
 
 D = []
 
-D.append("## Table S3. Full model specification (landmark estimation)\n\n(A) Continuous models, exact values (source: v2_spec_continuous.csv)\n\n"
+D.append("## Table S4. Full model specification (landmark estimation)\n\n(A) Continuous models, exact values (source: v2_spec_continuous.csv)\n\n"
          + md(spec.fillna('')) +
 """
 
@@ -106,7 +106,7 @@ _bos = _LK[('allcomers', 'all-comers (native frame, v1.1 AG): model vs BOS,MA2')
 _bos = _bos.replace(', diff', '; diff').replace(', DeLong P=0.69', '; P = .69')
 _slope, _citl = _LK[('allcomers', 'v1.1 anion gap slope/CITL')].split(' / ')
 _citl = _citl[0] + str(Decimal(_citl[1:]).quantize(Decimal('0.01'), ROUND_HALF_UP))
-D.append("""## Table S6. Day-1 severity-frame performance (all admissions)
+D.append("""## Table S10(B). Day-1 performance among all admissions (severity frame)
 
 | Metric | MIMIC-IV (n=3,103) | eICU (1,866 stays; 132 hospitals) |
 |---|---|---|
@@ -122,14 +122,14 @@ D.append("""## Table S6. Day-1 severity-frame performance (all admissions)
     _r3(_sev['severity external integer AG corrected']),
     _slope, _citl, _bos))
 
-D.append("## Table S7. Death-timing distribution, exact timestamps (source: event_time_exact.csv)\n\n" + md(evt) +
+D.append("## Table S6. Death-timing distribution, exact timestamps (source: event_time_exact.csv)\n\n" + md(evt) +
 """
 
 Two records carry death timestamps preceding ICU admission and one death has
 no timestamp; all three are retained in mortality counts and disclosed here.
 65.6% of deaths occur after 48 hours.""")
 
-D.append("## Table S8. Landmark risk bands and threshold operating characteristics\n\n(A) Risk bands, out-of-fold (source: v2_risk_bands_oof.csv); eICU external bands in the locked-run results\n\n"
+D.append("## Table S9. Landmark risk bands and threshold operating characteristics\n\n(A) Risk bands, out-of-fold (source: v2_risk_bands_oof.csv); eICU external bands in the locked-run results\n\n"
          + md(bands) + """
 
 eICU primary landmark (deployment-rule card), from the locked run: Low 8.8%
@@ -141,7 +141,7 @@ landmark_thresholds.csv)
 
 """ + md(thr_tab))
 
-D.append("## Table S9. Within-stage resolution and incremental value\n\n(A) Within-stage tertile mortality, exact landmark (sources: figure1_mimic_lm24.csv, figure1_eicu_lm24.csv)\n\n"
+D.append("## Table S12. Within-stage resolution and incremental value\n\n(A) Within-stage tertile mortality, exact landmark (sources: figure1_mimic_lm24.csv, figure1_eicu_lm24.csv)\n\n"
          + md(pd.concat([f1m, f1e])) + """
 
 (B) Incremental value (MIMIC-IV, landmark): EHR-derived stage alone AUROC
@@ -156,7 +156,7 @@ OHCA-free card (MIMIC B 16/30/37, C 16/35/46, D 13/27/58, E 30/49/73) and a
 four-variable sub-score of variables taking no part in staging (B 16/32/36,
 C 15/32/46, D 12/34/53, E 35/51/68).""")
 
-D.append("## Table S10. 48-hour reassessment and score trajectory\n\n" + """
+D.append("## Table S14. 48-hour reassessment and score trajectory\n\n" + """
 (B) Symmetric trajectory (source: trajectory_symmetric.csv)
 
 """ + md(traj) + """
@@ -165,7 +165,7 @@ Adjusted odds ratio per one-point 24-to-48-hour increase, adjusted for the
 24-hour score: 1.37 (95% CI 1.27-1.47), P < .001; generator archived in the
 pipeline.""")
 
-D.append("## Table S11. Observed-data availability and scorability\n\n" + """
+D.append("## Table S7. Observed-data availability and scorability\n\n" + """
 (A) Exact 24-hour landmark. MIMIC-IV: lactate 80.8%, anion gap 99.6%, urine
 output 94.2%, BUN 99.7%, RDW 99.1%; all anion-gap-model inputs 93.2%; all
 lactate-model inputs 75.6% (source: reported_values.csv). eICU primary
@@ -183,7 +183,7 @@ source: availability_by_horizon_mimic.csv)
 
 """ + md(avail))
 
-D.append("## Table S12. Sensitivity analyses, imputation, and collinearity\n\n" + """
+D.append("## Table S8. Sensitivity analyses, imputation, and collinearity\n\n" + """
 (A) Sensitivity cohorts (landmark, frozen model out-of-fold): ICD-confirmed
 only 0.734 (n=2,452), Sepsis-3 excluded 0.747 (n=1,321), non-OHCA subgroup
 0.724 (n=2,438), OHCA-free integer card 0.711.
@@ -205,7 +205,7 @@ Other/Unknown category is heterogeneous. Site-level recalibration and
 equity monitoring are recommended before deployment; race-specific
 correction and fairness-weighted training were deliberately not applied.""")
 
-D.append("## Table S14. Redevelopment sensitivity analyses\n\n" + """
+D.append("## Table S11. Redevelopment sensitivity analyses\n\n" + """
 Fully nested redevelopment (selection inside 10-times-repeated 5-fold outer
 cross-validation; decision rule specified and archived before execution).
 Deployable pool (13 candidates with harmonized definitions and >= 80%
