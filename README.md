@@ -2,13 +2,13 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20617606.svg)](https://doi.org/10.5281/zenodo.20617606)
 
-Code and reproduction materials for **"CS-MORT-6: A Mortality Risk Score That Adds
-Resolution Within EHR-Derived SCAI Stages in Cardiogenic Shock"** (International
+Code and reproduction materials for **"CS-MORT-6: A Mortality Score That Refines
+Risk Within EHR-Derived SCAI Stages in Cardiogenic Shock"** (International
 Journal of Cardiology).
 
 CS-MORT-6 is a six-variable integer mortality score for documented cardiogenic shock
-(lactate or a harmonized anion-gap substitution, urine output, cardiac arrest at
-presentation, age, blood urea nitrogen, red cell distribution width), developed in MIMIC-IV
+(lactate or a harmonized anion-gap substitution, urine output, cardiac arrest,
+age, blood urea nitrogen, red cell distribution width), developed in MIMIC-IV
 and externally evaluated in the eICU Collaborative Research Database. The primary
 evaluation is a 24-hour landmark analysis: performance is estimated among patients
 alive and in the ICU at 24 hours, the point at which the completed score could first
