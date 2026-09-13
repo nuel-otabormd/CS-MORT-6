@@ -78,7 +78,7 @@ if ns:
     assert {785, 978, 496} <= ns, ns
     checked += 1
 
-# Stage-coding and refitting robustness (Supplementary Table S9)
+# Stage-coding and refitting robustness (Supplementary Table S12, panel B)
 _r = pd.read_csv(OUT + 'stage_coding_robustness.csv').set_index('tag')
 assert round(_r.loc['eICU continuous AG (frozen)', 'd_cat'], 3) == 0.125
 checked += 1
