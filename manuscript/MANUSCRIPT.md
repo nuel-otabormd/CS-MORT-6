@@ -115,7 +115,7 @@ score based on the approach of Sullivan and colleagues [15] was retained, with
 re-estimation of its score-to-risk mapping (Supplementary Tables S3 and S4).
 Because lactate was incompletely observed, a separate continuous model
 replaced lactate with harmonized anion gap, retaining the other five
-predictors. The integer score was therefore scored differently in the two
+predictors. The integer score's missing-component rule differed between
 cohorts: externally it used lactate categories when available and anion-gap
 categories otherwise, whereas internally a missing component took its
 development-median category (Supplementary Tables S2 and S4).
@@ -217,8 +217,8 @@ calibration offset, although its slope of 1.17 indicates that predicted risks
 were insufficiently spread on the log-odds scale, and the integer score
 over-predicted on average.
 
-Calibration varied across subgroups, including by race, and the smallest
-groups were imprecisely estimated. We did not recalibrate within those groups.
+Calibration varied across subgroups, including by race, and estimates for
+the smallest groups were imprecise. We did not recalibrate within those groups.
 Matching the score to each group's observed mortality would carry forward any
 part of those differences that reflects care rather than severity of illness
 [18]. Nor did we impose fairness constraints, which can reduce within-group
