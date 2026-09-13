@@ -22,8 +22,9 @@ table numbering.
 
 (A) Variable definitions and measurement windows. Lactate, blood urea
 nitrogen, and red cell distribution width are the most recent value up to 24
-hours; harmonized anion gap is the most recent sodium minus chloride minus
-bicarbonate; urine output is cumulative first-24-hour volume divided by weight
+hours; harmonized anion gap is sodium minus chloride minus bicarbonate, each
+component taken as its own most recent value up to 24 hours rather than from a
+single draw; urine output is cumulative first-24-hour volume divided by weight
 and observed hours, with a fixed 24-hour denominator in eICU; age is an
 admission characteristic. Cardiac arrest was identified from diagnosis records
 rather than from time-stamped event data. In MIMIC-IV it required a
@@ -333,7 +334,8 @@ deployment rule (anion-gap bands for the 19.2% of patients without an observed
 lactate) gives AUROC 0.720, versus 0.727 under the missing-component rule.
 
 (B) Diagnostic accuracy at integer thresholds, landmark population, card
-scored exactly as in Table S4 panel C
+scored using the integer-score rules in Table S4 panel B with the internal
+missing-component rule in Table S2 panel D
 
 | Threshold | Sensitivity | Specificity | PPV | NPV | LR+ | LR- |
 |---|---|---|---|---|---|---|
@@ -362,7 +364,10 @@ first documented after 24 hours (5 in the primary) are zeroed throughout these
 rows; retaining them gives anion gap 0.747 and deployment-rule card 0.758.
 
 (B) Day-1 performance among all admissions (retained for comparability with
-existing scores; repeat stays included):
+existing scores; repeat stays included). As in Table 1, the integer card is
+not scored identically in the two columns: internally a missing component
+took its development-median category, externally the deployment rule
+substituted anion-gap bands.
 
 | Metric | MIMIC-IV (n=3,103) | eICU (1,866 stays; 132 hospitals) |
 |---|---|---|
@@ -487,21 +492,21 @@ staging vital signs, and seven had no lactate recorded in the staging window;
 their cohort hypoperfusion criterion was met through measurements outside the
 staging component set, so absent components under-stage them. Stage-coding and
 refitting robustness: the stage enters the primary incremental models as a
-single ordinal term; recoding it as unordered categories relaxes the ordering
-assumption, and refitting the stage-only and stage-plus-score models within
-every bootstrap resample propagates their estimation uncertainty. In MIMIC-IV
-the recoding leaves the stage AUROC at 0.589 and the increments essentially
-unchanged (continuous anion gap +0.140, 95% CI +0.115 to +0.161; integer card
-+0.142, +0.117 to +0.162). In eICU, stage-specific mortality is not monotone
-(B 19.7%, C 27.4%, D 21.2%, E 47.9%; in MIMIC-IV stages C and D are close at
-29.2% and 29.0%), so the unordered coding discriminates better alone (0.630
-versus 0.613); the score still added +0.125 (+0.090 to +0.160) over the
-categorical stage for the continuous anion-gap model and +0.135 (+0.102 to
-+0.174) for the deployment-rule card, likelihood-ratio P < .001 throughout.
-Refitting within resamples leaves the primary ordinal-term intervals
-essentially unchanged (eICU continuous anion gap +0.104 to +0.178 versus the
-reported +0.101 to +0.178). Stage A (n=8) is merged into stage B for the
-categorical coding.
+single ordinal term; recoding it as unordered categories allows each stage its
+own association with mortality, and refitting the stage-only and
+stage-plus-score models within every bootstrap resample propagates their
+estimation uncertainty. In MIMIC-IV the recoding leaves the stage AUROC at
+0.589 and the increments essentially unchanged (continuous anion gap +0.140,
+95% CI +0.115 to +0.161; integer card +0.142, +0.117 to +0.162). In eICU,
+stage-specific mortality is not monotone (B 19.7%, C 27.4%, D 21.2%, E 47.9%;
+in MIMIC-IV stages C and D are close at 29.2% and 29.0%), so the unordered
+coding discriminates better alone (0.630 versus 0.613); the score still added
++0.125 (+0.090 to +0.160) over the categorical stage for the continuous
+anion-gap model and +0.135 (+0.102 to +0.174) for the deployment-rule card,
+likelihood-ratio P < .001 throughout. Refitting within resamples leaves the
+primary ordinal-term intervals essentially unchanged (eICU continuous anion
+gap +0.104 to +0.178 versus the reported +0.101 to +0.178). Stage A (n=8) is
+merged into stage B for the categorical coding.
 
 (C) Robustness of the gradient, MIMIC-IV. Arrest-free card: stages B through D
 are unchanged from panel A because the assignment rules place all recorded
@@ -515,13 +520,13 @@ red cell distribution width): B n=179/137/91, 15.6 (11.0-21.7) / 32.1
 (44.9-57.5) / 68.1 (59.9-75.3). Both variants are plotted in Figure S5.
 
 (D) Transportability of within-stage thresholds. Applying the MIMIC-frozen
-per-stage tertile cutpoints unchanged to the eICU primary landmark. Cutpoints
-are the MIMIC-IV low/mid boundaries by stage (B at 3 and 5, C at 4 and 6, D at
-4 and 6, E at 5 and 8 points), applied left-inclusive. Group sizes
-low/mid/high: B 82/89/93; C 173/108/99; D 97/35/33; E 78/87/73. Mortality low
-to high: B 2.4 / 20.2 / 34.4; C 11.6 / 28.7 / 53.5; D 12.4 / 14.3 / 54.5; E
-23.1 / 56.3 / 64.4 percent, monotonic in every stage. The sample-tertile cells
-in panel A are descriptive; panel D evaluates fixed, transported thresholds.
+per-stage tertile cutpoints unchanged to the eICU primary landmark. Score
+ranges for the low, middle and high groups are, by stage: B 0-3, 4-5, 6-15; C
+0-4, 5-6, 7-15; D 0-4, 5-6, 7-15; E 0-5, 6-8, 9-15. Group sizes low/mid/high:
+B 82/89/93; C 173/108/99; D 97/35/33; E 78/87/73. Mortality low to high: B 2.4
+/ 20.2 / 34.4; C 11.6 / 28.7 / 53.5; D 12.4 / 14.3 / 54.5; E 23.1 / 56.3 /
+64.4 percent, monotonic in every stage. The sample-tertile cells in panel A
+are descriptive; panel D evaluates fixed, transported thresholds.
 
 ## Table S13. Subgroup discrimination and calibration
 

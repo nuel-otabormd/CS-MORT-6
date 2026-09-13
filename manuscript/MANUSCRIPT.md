@@ -115,9 +115,11 @@ score based on the approach of Sullivan and colleagues [15] was retained, with
 re-estimation of its score-to-risk mapping (Supplementary Tables S3 and S4).
 Because lactate was incompletely observed, a separate continuous model
 replaced lactate with harmonized anion gap, retaining the other five
-predictors. Externally, the integer score used lactate categories when
-available and anion-gap categories otherwise. Internally, missing components
-received development-median categories (Supplementary Tables S2 and S4).
+predictors. The integer score was therefore scored differently in the two
+cohorts: externally it used lactate categories when available and anion-gap
+categories otherwise, whereas internally a missing component took its
+development-median category. Rescoring the internal cohort under the external
+rule is reported in Supplementary Table S9 (Supplementary Tables S2 and S4).
 
 Discrimination was summarized by the area under the receiver operating
 characteristic curve (AUROC). Internal validation used five-fold
@@ -216,14 +218,15 @@ calibration offset, although its slope of 1.17 indicates that predicted risks
 were insufficiently spread on the log-odds scale, and the integer score
 over-predicted on average.
 
-Calibration varied across subgroups, including by race. We did not recalibrate
-within those groups. Matching the score to each group's observed mortality
-would carry forward any part of those differences that reflects care rather
-than severity of illness [18]. Nor did we impose fairness constraints, which
-can reduce within-group performance without consistently improving calibration
-[19]. Because equal calibration and equal error rates cannot both hold when
-outcome rates differ between groups [20], we report subgroup performance
-rather than adjust it, and recommend local evaluation before clinical use.
+Calibration varied across subgroups, including by race, and the smallest
+groups were imprecisely estimated. We did not recalibrate within those groups.
+Matching the score to each group's observed mortality would carry forward any
+part of those differences that reflects care rather than severity of illness
+[18]. Nor did we impose fairness constraints, which can reduce within-group
+performance without consistently improving calibration [19]. Because equal
+calibration and equal error rates cannot both hold when outcome rates differ
+between groups [20], we report subgroup performance rather than adjust it, and
+recommend local evaluation before clinical use.
 
 Reapplying the 24-hour model at 48 hours improved discrimination internally,
 but the external difference remained uncertain, so serial validity is not
@@ -269,6 +272,7 @@ performance using real-time inputs and repeated assessment.
 | Continuous lactate AUROC | 0.734 (0.714-0.754) | 0.759 (0.728-0.789) |
 | Continuous anion-gap AUROC | 0.726 (0.707-0.746) | 0.748 (0.715-0.780) |
 | Integer score AUROC | 0.727 (0.706-0.747) | 0.759 (0.729-0.790) |
+| Calibration slope / CITL, lactate formulation | 0.99 / 0.00, out of fold | 1.08 / -0.25 |
 | Calibration slope / CITL, anion-gap formulation | 0.99 / 0.00, out of fold | 1.17 / 0.00 |
 | Calibration slope / CITL, integer score | - | 1.15 / -0.22 |
 | Brier score, anion-gap formulation | 0.189, out of fold | 0.172 |
@@ -280,11 +284,14 @@ intervals used the cross-validated influence-function estimator [16]; all
 other intervals are percentile bootstrap (2,000 resamples, seed 42).
 Incremental AUROCs were estimated in the same patients used to fit the
 combined models. The BOS,MA2 row reports the AUROC difference (CS-MORT-6 minus
-BOS,MA2) with a DeLong P value. Externally the integer score used lactate
-categories when observed and anion-gap categories otherwise. AUROC, area under
-the receiver operating characteristic curve; CITL, calibration-in-the-large
-(negative values indicate overprediction); EHR, electronic health record. See
-Supplementary Figures S1 to S4.
+BOS,MA2) with a DeLong P value. The integer score is not scored identically in
+the two columns: externally it used lactate categories when observed and
+anion-gap categories otherwise, internally a missing component took its
+development-median category, and rescoring internally under the external rule
+gives 0.720 (Supplementary Table S9). AUROC, area under the receiver operating
+characteristic curve; CITL, calibration-in-the-large (negative values indicate
+overprediction); EHR, electronic health record. See Supplementary Figures S1
+to S4.
 
 ## Figure 1. In-hospital mortality by CS-MORT-6 tertile within EHR-derived SCAI stages
 

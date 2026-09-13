@@ -12,30 +12,41 @@ all are descriptive comparisons.
 
 ## Day-1 all-admissions analysis, submitted version
 
-Supplementary Table S6 panel B reports the day-1 (all-admissions) frame of
+Supplementary Table S10 panel B reports the day-1 (all-admissions) frame of
 the submitted analysis alongside the landmark results, so a reader can see
 what changed when the estimand changed. The continuous-model values in that
 panel come from the submitted analysis; the integer-card values in the same
 panel were regenerated under the corrected binning by
-`pipeline/08_severity_frame.py` (0.758 internal, 0.732 external) and are
-not carried forward.
+`pipeline/08_severity_frame.py` (0.758 internal under the internal
+missing-component rule, 0.732 external under the anion-gap deployment rule)
+and are not carried forward.
 
 | Value | Appears in | Source |
 |---|---|---|
-| 0.778 (0.760-0.794) | S6(B), internal continuous lactate | submitted analysis, day-1 frame |
-| 0.98 | S6(B), internal calibration slope, lactate formulation | submitted analysis, day-1 frame |
+| 0.778 (0.760-0.794) | S10(B), internal continuous lactate | submitted analysis, day-1 frame |
+| 0.98 | S10(B), internal calibration slope, lactate formulation | submitted analysis, day-1 frame |
 
 ## Development model-class comparison
 
-Supplementary Table S4 panel A reports the bake-off run during development
+Supplementary Table S3 panel A reports the bake-off run during development
 on the wider candidate pool, labelled with that provenance in the caption.
 It is a historical record of how the model class was chosen and is not
 re-run; the final model is ridge logistic regression as specified in
-`PROTOCOL.md`.
+`PROTOCOL.md`. No step of the current pipeline regenerates any value in
+this panel, so all eight are listed here. They are descriptive of the
+model-class choice only: none feeds the final model, card, bands,
+thresholds or mapping.
 
 | Value | Appears in | Source |
 |---|---|---|
-| 1.61 | S4(A), random-forest calibration slope | archived development bake-off |
+| 0.792 | S3(A), ridge AUROC | archived development bake-off |
+| 0.93 | S3(A), ridge calibration slope | archived development bake-off |
+| 0.792 | S3(A), LASSO AUROC | archived development bake-off |
+| 0.95 | S3(A), LASSO calibration slope | archived development bake-off |
+| 0.790 | S3(A), random-forest AUROC | archived development bake-off |
+| 1.61 | S3(A), random-forest calibration slope | archived development bake-off |
+| 0.796 | S3(A), gradient-boosting AUROC | archived development bake-off |
+| 0.75 | S3(A), gradient-boosting calibration slope | archived development bake-off |
 
 ## Not carried forward
 
