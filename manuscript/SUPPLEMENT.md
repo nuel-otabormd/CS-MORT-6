@@ -153,7 +153,7 @@ remained the primary specification.
 
 (A) Continuous models, exact values
 
-| Model | Variable | Winsor low | Winsor high | Impute median | Mean | SD | Standardized beta | Raw-scale beta |
+| Model | Variable | Winsor low | Winsor high | Impute median | Mean | SD | z-scale beta | Raw-scale beta |
 |---|---|---|---|---|---|---|---|---|
 | Lactate | Lactate | 0.7 | 12.723 | 1.9 | 2.418 | 1.8608 | 0.496888 | 0.267033 |
 | Lactate | Urine output | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.427892 | -0.568569 |
@@ -171,7 +171,8 @@ remained the primary specification.
 | Anion gap | (intercept) | | | | | | -0.82333 | -4.290575 |
 
 Predicted probability = 1 / (1 + exp(-(intercept + sum of beta x z))), with z
-= (winsorized, median-imputed value - mean) / SD; the raw-scale column allows
+= (winsorized, median-imputed value - mean) / SD; the z-scale betas apply to
+z, and the raw-scale column allows
 direct computation from winsorized and median-imputed values, without
 standardization. The arrest indicator is not restricted to out-of-hospital
 arrest. Worked example (lactate formulation): a 72-year-old with lactate 3.1

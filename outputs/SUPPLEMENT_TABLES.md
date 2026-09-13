@@ -47,13 +47,13 @@ regenerated from outputs/ so table values can be diffed against it.
 | 14 | 89.6 | n<10 |
 | 15 | 92.3 | n<10 |
 
-| Metric | MIMIC-IV (n=3,103) | eICU (n=1,866; 132 hospitals) |
+| Metric | MIMIC-IV (n=3,103) | eICU (1,866 stays; 132 hospitals) |
 |---|---|---|
-| Continuous, lactate | 0.778 (0.760-0.794) | 0.757 (0.733-0.780) |
-| Continuous, anion gap | 0.762 (0.744-0.779) | 0.749 (0.725-0.772) |
+| Continuous, lactate | 0.778 (0.760-0.794) | 0.757 (0.735-0.780) |
+| Continuous, anion gap | 0.762 (0.744-0.779) | 0.749 (0.726-0.772) |
 | Integer card | 0.758 (0.740-0.774) | 0.732 (0.709-0.755) |
-| Calibration, anion gap | slope 0.98 (internal) | slope 0.96, CITL +0.04 |
-| BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.038); P = .69 |
+| Calibration | out-of-fold slope 0.98 (lactate formulation) | anion gap slope 0.96, CITL +0.04 |
+| BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.037); P = .69 |
 
 | death_before_icu | d_0_6 | d_6_12 | d_12_24 | d_24_48 | d_48_168 | d_gt168 | death_no_timestamp | total_deaths |
 |---|---|---|---|---|---|---|---|---|
