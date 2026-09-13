@@ -265,7 +265,7 @@ inputs 60.7%.
 (C) Availability by horizon, MIMIC (temporal trend). These denominators count
 patients in the ICU at each whole-hour boundary (n=2,731 at 24 hours), a
 coarser flag than the exact-timestamp landmark in panel A (n=2,694), which is
-the primary accounting; hence the small differences at 24 hours
+the primary accounting; hence the small differences at 24 hours.
 
 | Horizon, h | In ICU, n | Lactate | BUN | RDW | Urine output |
 |---|---|---|---|---|---|
@@ -587,13 +587,14 @@ S3. Decision curves in the landmark common-scorable set: frozen-versus-frozen
 primary analysis with the in-sample recalibrated comparator as a sensitivity.
 Net benefit is plotted against threshold probability over 5% to 70% in 1%
 steps, in the 654 primary-landmark patients (196 deaths, 30.0% mortality) with
-all five BOS,MA2 laboratory and vital-sign inputs observed; mechanical
-ventilation is treated as absent when unrecorded. Net benefit = (true
+the five BOS,MA2 inputs other than mechanical
+ventilation observed; mechanical ventilation is treated as absent when
+unrecorded. Net benefit = (true
 positives − false positives × odds(threshold)) / n. With frozen published
 probabilities, net benefit at the 20% threshold is 0.157 for CS-MORT-6 anion
 gap versus 0.146 for BOS,MA2, and at 40% is 0.078 versus 0.057. The
 recalibrated comparator curve is shown because an in-sample recalibration
-favours BOS,MA2 at lower thresholds (0.176 at 20%) and not at higher ones
+favors BOS,MA2 at lower thresholds (0.176 at 20%) and not at higher ones
 (0.057 at 40%). Figure S4. The integer card drawn: predicted risk from the
 score-to-risk mapping (line) and observed landmark mortality with Wilson 95%
 confidence intervals (points), from Table S4 panel C. Figure S5. Within-stage

@@ -201,7 +201,7 @@ SCAI staging standardizes how the severity of shock is described, but it does
 not rank risk among patients within a stage. CS-MORT-6 ranked risk within
 stages in MIMIC-IV, and its cutpoints transported unchanged to eICU. Registry
 studies have pursued similar refinement through repeated assessment and
-machine-learning phenotypes [8,9], though in a multicentre registry rather
+machine-learning phenotypes [8,9], though in a multicenter registry rather
 than in routine electronic records. The limited gain from adding EHR-derived
 stage to the anion-gap model may partly reflect their overlapping
 cardiac-arrest information, and does not imply that stage carries no
@@ -276,7 +276,7 @@ performance using real-time inputs and repeated assessment.
 | Calibration slope / CITL, integer score | - | 1.15 / -0.22 |
 | Brier score, anion-gap formulation | 0.189, out of fold | 0.172 |
 | Incremental AUROC over EHR-derived stage, continuous anion-gap formulation | 0.139 (0.116-0.162) | 0.141 (0.101-0.178) |
-| BOS,MA2 comparison, continuous anion gap | Not applicable | 0.004 (-0.039 to 0.046),<br>p = .87, n=654 |
+| BOS,MA2 comparison, continuous anion gap | Not applicable | 0.004 (-0.039 to 0.046),<br>P = .87, n=654 |
 
 Footnote: parentheses show 95% confidence intervals. Internal continuous-model
 intervals used the cross-validated influence-function estimator [16]; all
