@@ -165,8 +165,8 @@ on the fixed six-variable model (Supplementary Table S11).
 Within EHR-derived SCAI stages, mortality differed by 20 to 47 percentage
 points between the lowest and highest CS-MORT-6 tertiles in MIMIC-IV, with a
 similar pattern in eICU (Figure 1 and Supplementary Table S12). Applying the
-MIMIC-IV cutpoints unchanged to eICU, rather than eICU's own tertiles,
-produced monotonically rising mortality across score groups in every stage.
+MIMIC-IV cutpoints unchanged to eICU produced monotonically rising mortality
+across score groups in every stage.
 Adding the continuous anion-gap model to SCAI stage increased AUROC from 0.589
 to 0.728 in MIMIC-IV and from 0.613 to 0.754 in eICU. Adding stage to the
 anion-gap model changed AUROC from 0.726 to 0.728 in MIMIC-IV and from 0.748
