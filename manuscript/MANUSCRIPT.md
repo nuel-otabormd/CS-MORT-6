@@ -64,15 +64,15 @@ Keywords: cardiogenic shock; risk score; SCAI stage; landmark analysis; external
 ## 1. Introduction
 
 Cardiogenic shock remains among the most lethal conditions in cardiovascular
-medicine. After acute myocardial infarction, in-hospital mortality remains 30%
-to 50% despite advances in revascularization, mechanical circulatory support,
-and systems of care [1]. Risk stratification in the first day guides
-escalation to advanced therapies, transfer within regionalized networks, and
-goals-of-care discussions. The Society for Cardiovascular Angiography and
-Interventions (SCAI) shock classification communicates severity and tracks
-mortality across five stages [2,3]. However, it is an ordinal clinical
-classification, and patients assigned to the same stage can have substantially
-different outcomes [4].
+medicine, with in-hospital mortality of 30% to 50% despite advances in
+revascularization, mechanical circulatory support (MCS), and systems of care
+[1]. Early risk stratification guides escalation to advanced therapies,
+transfer within regionalized networks, and goals-of-care discussions. The
+Society for Cardiovascular Angiography and Interventions (SCAI) shock
+classification provides an ordinal framework for communicating shock severity
+and stratifying mortality risk across five stages [2,3]. However,
+heterogeneity in mortality risk persists among patients assigned to the same
+stage [4].
 
 Existing quantitative scores each carry a practical constraint. CardShock
 requires echocardiographic ejection fraction [5], IABP-SHOCK II requires
@@ -85,204 +85,179 @@ after completion of the score's measurement window.
 
 ## 2. Methods
 
-We used MIMIC-IV (Beth Israel Deaconess Medical Center, 2008 to 2022) for
-development and the eICU Collaborative Research Database (208 hospitals, 2014
-to 2015) for external validation [10,11]. Reporting followed TRIPOD+AI [12]
-(Supplementary Table S1). MIMIC-IV patients had a diagnostic code or affirmed
-discharge-summary documentation of cardiogenic shock plus at least one of the
-following within 24 hours: systolic blood pressure <90 mmHg, mean arterial
-pressure <65 mmHg, lactate ≥2 mmol/L, or vasoactive, inotropic, or mechanical
-circulatory support (Supplementary Table S2). Because case identification used
-discharge diagnoses and discharge summaries, cardiogenic shock was determined
-retrospectively from the completed hospitalization rather than solely from
-information available at 24 hours. In eICU, cardiogenic shock was identified
-from the structured diagnosis table. The primary external-validation cohort
-retained the first qualifying ICU stay per patient and required the diagnosis
-to have been entered by 24 hours.
+We used MIMIC-IV (Beth Israel Deaconess Medical Center, 2008-2022) for
+development and the eICU Collaborative Research Database (208 hospitals,
+2014-2015) for external validation [10,11]. Reporting followed TRIPOD+AI [12]
+(checklist, Supplementary Table S1). Adults aged ≥18 years with cardiogenic
+shock were identified in MIMIC-IV by a documentation-anchored phenotype
+(diagnostic code or affirmed discharge-summary documentation) plus at least
+one physiological or support criterion within 24 hours (systolic blood
+pressure <90 mmHg, mean arterial pressure <65 mmHg, lactate ≥2 mmol/L, or
+vasoactive, inotropic, or mechanical circulatory support). MIMIC-IV case
+identification used the completed hospitalization. In eICU, we required a
+structured diagnosis entered by 24 hours and retained the first qualifying ICU
+stay per patient. Primary analyses used a 24-hour landmark after ICU admission
+among patients alive and still in the ICU [13], with subsequent in-hospital
+mortality as the primary outcome. Supplementary Table S2 details phenotype,
+cohort, and variable definitions.
 
-Primary analyses used a 24-hour landmark and included patients alive and still
-in the ICU at that time [13]. The outcome was in-hospital death after 24
-hours. Minimum sample size was calculated using the method of Riley and
-colleagues, both for the fixed six-predictor model and for the earlier screen
-that selected those predictors [14].
+Laboratory predictors used the most recent value up to 24 hours rather than
+the worst. We compared penalized logistic regression (ridge and LASSO), random
+forests, and gradient boosting, and adopted ridge regression for calibration
+stability and the transparent integer score it enables. Six predictors
+(lactate, urine output, cardiac arrest, age, blood urea nitrogen, and red cell
+distribution width) were chosen by bootstrap stability selection with
+L1-penalized logistic regression and clinical review, then held fixed for
+coefficient and intercept re-estimation at 24 hours using L2 penalization
+(C=0.5, untuned). Sample-size calculations addressed the fixed model and
+predictor screen [14] (Supplementary Table S2). The original 0-to-15 integer
+score based on the approach of Sullivan and colleagues [15] was retained, with
+re-estimation of its score-to-risk mapping (Supplementary Tables S3 and S4).
+Because lactate was incompletely observed, a separate continuous model
+replaced lactate with harmonized anion gap, retaining the other five
+predictors. Externally, the integer score used lactate categories when
+available and anion-gap categories otherwise. Internally, missing components
+received development-median categories (Supplementary Tables S2 and S4).
 
-CS-MORT-6 comprises lactate, urine output, cardiac arrest, age, blood urea
-nitrogen, and red cell distribution width. The six predictors were retained
-from an earlier 58-parameter screen using bootstrap stability selection with
-L1-penalized logistic regression and clinical review (Supplementary Table S3).
-The present analysis treated these predictors as fixed and re-estimated their
-coefficients in the 24-hour development population. Laboratory predictors were
-the most recent values through 24 hours, urine output was the cumulative
-first-24-hour rate, and age was an admission characteristic. Cardiac arrest
-was identified from diagnosis records rather than time-stamped event data
-(Supplementary Table S2). Because lactate was incompletely observed, a
-separately fitted continuous formulation replaced lactate with harmonized
-anion gap, calculated as sodium minus chloride minus bicarbonate, retaining
-the other five predictors. In the primary external validation the integer
-score used lactate categories when lactate was observed and anion-gap
-categories otherwise; internally, missing components received their
-development-median categories.
+Discrimination was summarized by the area under the receiver operating
+characteristic curve (AUROC). Internal validation used five-fold
+cross-validation with preprocessing within folds. CIs used influence-function
+estimation for continuous models [16] and patient-level bootstrap of
+out-of-fold integer scores (Table 1). Calibration used the calibration slope,
+calibration-in-the-large (CITL), and the Brier score. Clinical utility was
+assessed by decision-curve analysis. Correlations and variance inflation
+factors assessed collinearity. For external validation, continuous models and
+risk mapping were fixed on the development data and applied unchanged to eICU,
+with comparison against BOS,MA2 by the DeLong method [7,17].
 
-Continuous formulations used L2-penalized (ridge) logistic regression with
-C=0.5. The penalty was not tuned. Coefficients, intercepts, and the
-score-to-risk mapping were estimated in the 24-hour development population.
-The original 0-to-15 point schedule was retained, with points proportional to
-coefficients from a logistic model using categorized predictors in the spirit
-of the Sullivan system [15]. Thresholds were left-inclusive, and missing
-components received the development-median category (Supplementary Tables S3
-and S4).
-
-Internal validation used five-fold cross-validation with preprocessing within
-folds and influence-function confidence intervals for AUROC [16]. Calibration
-was assessed by slope, calibration-in-the-large (CITL), and Brier score.
-Correlations and variance inflation factors assessed collinearity. For
-external validation, fitted models, thresholds, and risk mapping were applied
-unchanged to eICU. Comparison with BOS,MA2 used the DeLong method [7,17].
-
-EHR-derived SCAI stages were assigned from recorded blood pressure, lactate,
-vasoactive therapy, mechanical circulatory support, and cardiac arrest using
-rules adapted from consensus definitions [2-4] (Supplementary Table S2).
-Incremental discrimination was assessed within each cohort by likelihood-ratio
-testing and paired bootstrap. Because the combined models were fitted and
-evaluated within the same cohort, these increments are apparent. Exploratory
-analyses reapplied the score at 48 hours. Analyses used Python 3.9 and R with
-a fixed random seed.
+EHR-derived SCAI stages were operationalized from blood pressure, lactate,
+therapies, device support, and cardiac arrest using adapted consensus rules
+[2-4] (Supplementary Table S2). Within-stage stratification used score
+tertiles within each stage and cohort. Incremental discrimination was assessed
+by likelihood-ratio testing and paired bootstrap. Increments are apparent
+within-cohort estimates: the combined models were fitted and evaluated in the
+same cohort. Exploratory analyses reapplied the 24-hour model at 48 hours
+among patients alive and still in the ICU, without fitting a separate 48-hour
+model. Analyses used Python 3.9 and R with a fixed random seed.
 
 ## 3. Results
 
-The MIMIC-IV cohort comprised 3,103 adults with documented cardiogenic shock,
-with 1,188 in-hospital deaths (38.3%). Of these, 249 occurred within 24 hours
-and 779 (65.6%) after 48 hours (Supplementary Tables S5 and S6). The primary
-24-hour population included 2,694 patients with 892 subsequent deaths (33.1%),
-above the calculated minimum of 156 events.
+Of 3,103 MIMIC-IV patients with cardiogenic shock, 1,188 died in hospital
+(38.3%). Of these deaths, 249 occurred within 24 hours and 779 (65.6%) after
+48 hours (Supplementary Tables S5 and S6). The primary 24-hour population
+included 2,694 patients with 892 subsequent deaths (33.1%), exceeding the
+156-event minimum. The primary eICU population included 1,047 patients with
+305 deaths (29.1%) across 117 hospitals. In eICU, availability was 96.4% for
+anion gap, 60.6% for urine output, and 52.5% for lactate. All anion-gap-model
+inputs were observed in 53.3% (Supplementary Table S7). All variance
+inflation factors were ≤1.31 (Supplementary Table S8).
 
-For predicting in-hospital death after the 24-hour assessment, internal
-cross-validated AUROC was 0.734 (95% CI, 0.714-0.754) for the lactate
-formulation, 0.726 (0.707-0.746) for the anion-gap formulation, and 0.727 for
-the integer score (Table 1).
-
-The primary eICU population included 1,047 patients with 305 deaths (29.1%)
-across 117 hospitals. AUROC was 0.748 (95% CI, 0.715-0.780) for the frozen
-anion-gap formulation, with slope 1.17, CITL 0.00, and Brier score 0.172.
-AUROC was 0.759 for both the lactate formulation (0.728-0.789) and the integer
-score using lactate when available and anion gap otherwise (0.729-0.790). The
-anion-gap model yielded AUROCs of 0.713 to 0.716 in broader external
-populations without the 24-hour documentation restriction (Supplementary Table
-S7). Mortality increased across score bands from 12.7% to 62.2% internally and
-from 8.8% to 59.3% externally (Supplementary Table S8).
-
-When patients who died or left the ICU before 24 hours were retained, AUROC
-was 0.778 internally and 0.749 externally (Supplementary Table S7). Among
-patients scorable with both models, the AUROC difference from BOS,MA2 was
-0.006 (95% CI, -0.026 to 0.037) in that analysis and 0.004 (-0.039 to 0.046)
-in the primary 24-hour analysis. CardShock and IABP-SHOCK II could not be
-calculated in eICU [5,6].
+Internal cross-validated AUROCs were 0.734 for the continuous lactate model,
+0.726 for the anion-gap model, and 0.727 for the integer score. Externally the
+anion-gap model reached 0.748 and the other two 0.759 (Table 1). Mortality by
+score band is reported in Supplementary Table S9. In MIMIC-IV, including
+patients who died or left the ICU before 24 hours yielded an AUROC of 0.778
+for the lactate model (Supplementary Table S10). In fully nested
+cross-validation, redevelopment from broader candidate pools did not improve
+on the fixed six-variable model (Supplementary Table S11).
 
 Within EHR-derived SCAI stages, mortality differed by 20 to 47 percentage
-points between the lowest and highest CS-MORT-6 tertiles, with similar
-separation in eICU (Figure 1 and Supplementary Table S9). In MIMIC-IV, AUROC
-for post-24-hour death within individual stages ranged from 0.636 in stage B
-to 0.756 in stage D. Using the continuous anion-gap formulation in both
-cohorts, adding CS-MORT-6 to SCAI stage increased AUROC from 0.589 to 0.728 in
-MIMIC-IV and from 0.613 to 0.754 in eICU. The increases were 0.139 (95% CI,
-0.116-0.162) and 0.141 (0.101-0.178), both P < .001. Conversely, adding
-EHR-derived SCAI stage to CS-MORT-6 changed AUROC from 0.726 to 0.728 and from
-0.748 to 0.754, respectively.
+points between the lowest and highest CS-MORT-6 tertiles in MIMIC-IV, with a
+similar pattern in eICU (Figure 1 and Supplementary Table S12). Applying the
+MIMIC-IV cutpoints unchanged to eICU, rather than eICU's own tertiles,
+produced monotonically rising mortality across score groups in every stage.
+Adding the continuous anion-gap model to SCAI stage increased AUROC from 0.589
+to 0.728 in MIMIC-IV and from 0.613 to 0.754 in eICU. Adding stage to the
+anion-gap model changed AUROC from 0.726 to 0.728 in MIMIC-IV and from 0.748
+to 0.754 in eICU.
 
-In MIMIC-IV, the within-stage gradient persisted after cardiac arrest was
-removed from the score and with a four-variable score containing no staging
-variables. In both cohorts, incremental discrimination persisted when cardiac
-arrest was removed from the stage definition and when stage was modeled as
-categorical (Supplementary Table S9).
+In MIMIC-IV, mortality differences between CS-MORT-6 tertiles within SCAI
+stages persisted when cardiac arrest was removed from the score and when the
+score was restricted to four predictors not used to assign SCAI stage. In both
+cohorts, the continuous anion-gap model still increased AUROC over SCAI stage
+alone when cardiac arrest was excluded from the rules used to assign stage.
+The gain also remained when stages were entered as separate categories,
+allowing each stage its own association with mortality (Supplementary Table
+S12).
 
-Among patients eligible at 48 hours, AUROC improved from 0.714 to 0.739 in
-MIMIC-IV (difference 0.024, 95% CI, 0.012-0.036). In eICU, AUROC changed from
-0.716 to 0.725 (difference 0.009, 95% CI, -0.012 to 0.030). Among patients
-with intermediate 24-hour scores, mortality was 24.0% after improvement and
-43.3% after worsening. Adjusted for the 24-hour score, each one-point increase
-carried an odds ratio of 1.37 (95% CI, 1.27-1.47) (Supplementary Table S10).
+Among 654 eICU patients scorable with both models, the AUROC difference
+between the continuous anion-gap model and BOS,MA2 was 0.004 (95% CI, -0.039
+to 0.046). CardShock and IABP-SHOCK II could not be calculated in eICU [5,6].
+In broader eICU populations without the 24-hour documentation restriction,
+anion-gap-model AUROCs were 0.713 to 0.716 (Supplementary Table S10).
 
-In eICU, availability was 96.4% for anion gap, 60.6% for urine output, and
-52.5% for lactate. All anion-gap-model inputs were observed in 53.3%
-(Supplementary Table S11). All variance inflation factors were 1.31 or lower
-(Supplementary Table S12).
+In MIMIC-IV, subgroup AUROCs for the lactate formulation ranged from 0.70 to
+0.81. CITL was -0.37 among Asian patients, -0.30 among Black patients, and
+0.36 in the Other or Unknown group (Supplementary Table S13).
 
-In MIMIC-IV, subgroup AUROCs ranged from 0.70 to 0.81. CITL ranged from -0.37
-among Asian patients and -0.30 among Black patients to 0.36 in the Other or
-Unknown group (Supplementary Table S13).
-
-In fully nested cross-validation, redevelopment from broader candidate pools
-did not improve on the fixed six-variable model (Supplementary Table S14).
+Among patients eligible at 48 hours, exploratory reassessment changed AUROC by
+0.024 (95% CI, 0.012-0.036) in MIMIC-IV and 0.009 (-0.012 to 0.030) in eICU
+compared with the 24-hour assessment (Supplementary Table S14).
 
 ## 4. Discussion
 
-Patients assigned to the same EHR-derived SCAI stage had different mortality
-risks, and CS-MORT-6 separated them in both cohorts. Mortality differed by 20
-to 47 percentage points between the lowest and highest thirds of the score
-within stages B to E. Adding the score to the stage raised AUROC from 0.589 to
-0.728 in MIMIC-IV, whereas adding the stage to the score moved it only from
-0.726 to 0.728. The score therefore added far more to the stage than the stage
-added to the score, in both cohorts. That supports CS-MORT-6 as a complement
-to staging; it does not show that the stage carries no prognostic information.
+SCAI staging standardizes how the severity of shock is described, but it does
+not rank risk among patients within a stage. CS-MORT-6 ranked risk within
+stages in MIMIC-IV, and its cutpoints transported unchanged to eICU. Registry
+studies have pursued similar refinement through repeated assessment and
+machine-learning phenotypes [8,9], though in a multicentre registry rather
+than in routine electronic records. The limited gain from adding EHR-derived
+stage to the anion-gap model may partly reflect their overlapping
+cardiac-arrest information, and does not imply that stage carries no
+prognostic information.
 
-SCAI staging and CS-MORT-6 serve complementary purposes. SCAI staging
-standardizes the description of shock severity, whereas CS-MORT-6 quantifies
-mortality risk among patients assigned to the same stage. Registry studies
-have pursued similar within-stage refinement through repeated assessment and
-machine-learning phenotypes [8,9]. CS-MORT-6 uses six variables drawn from the
-first day of intensive care and requires no imaging or procedural findings,
-although complete inputs were not consistently observed and prospective
-real-time calculation remains to be established.
-
+CS-MORT-6 uses six variables and requires no imaging or procedural findings.
 Discrimination was moderate. Among patients scorable with both models, the
-estimated difference from BOS,MA2 was small, but its confidence interval did
-not establish equivalence or superiority. CS-MORT-6 offers a six-variable
-integer score without imaging or procedural findings, and separates risk
-within EHR-derived stages. The eICU anion-gap model had no average calibration
-offset, although its slope of 1.17 indicates that predictions were
-insufficiently extreme on the log-odds scale.
+difference in AUROC between the continuous anion-gap model and BOS,MA2 was
+small, but its confidence interval did not establish equivalence or
+superiority. The two scores share three of six variables: age, blood urea
+nitrogen, and anion gap [7]. In eICU the anion-gap model had no average
+calibration offset, although its slope of 1.17 indicates that predicted risks
+were insufficiently spread on the log-odds scale, and the integer score
+over-predicted on average.
 
-Updating at 48 hours improved discrimination internally, but the uncertain
-external difference does not establish serial validity. Prospective studies
-should assess score changes using measurements collected in real time.
+Calibration varied across subgroups, including by race. We did not recalibrate
+within those groups. Matching the score to each group's observed mortality
+would carry forward any part of those differences that reflects care rather
+than severity of illness [18]. Nor did we impose fairness constraints, which
+can reduce within-group performance without consistently improving calibration
+[19]. Because equal calibration and equal error rates cannot both hold when
+outcome rates differ between groups [20], we report subgroup performance
+rather than adjust it, and recommend local evaluation before clinical use.
 
-Subgroup calibration varied, but we did not apply race-specific correction,
-because recorded race is a social classification and such correction may
-perpetuate disparities [18-20]. Calibration should be evaluated locally and by
-subgroup before clinical use [18].
+Reapplying the 24-hour model at 48 hours improved discrimination internally,
+but the external difference remained uncertain, so serial validity is not
+established. The association between score change and subsequent death is a
+monitoring observation rather than a validated dynamic prediction model.
+CS-MORT-6 is a stratification tool rather than a treatment determinant, and
+whether embedding it in a decision-support workflow improves outcomes requires
+prospective evaluation.
 
 ### 4.1. Study limitations
 
-This study has limitations. Ascertainment relied partly on documented
-recognition of cardiogenic shock, so performance cannot be assumed in early or
-unrecognized presentations. Development was single-center, although the
-external cohort included 117 hospitals. The historical predictor screen
-treated repeated ICU stays as independent observations, preceded landmark
-cross-validation, and did not meet its calculated sample-size requirement
-(Supplementary Table S3). The internal-validation intervals therefore do not
-account for uncertainty arising from predictor selection.
+Case identification relied on documented recognition of cardiogenic shock, so
+performance cannot be assumed in early or unrecognized presentations.
+Development was single-center, though external validation spanned 117
+hospitals. Predictors were selected before landmark cross-validation, so the
+internal-validation intervals do not account for selection uncertainty.
 
-The 48-hour analysis reapplied the 24-hour model. Complete anion-gap-model
-inputs were observed in only 53.3% of external patients, so scores often used
-the missing-data rule. Retrospectively recorded values may not have been
-available to clinicians at the time of assessment, and early
-emergency-department use and the effect of documentation delay were not
-evaluated. In MIMIC-IV the arrest diagnosis was untimed and could have been
-recorded after the landmark, so a predictor may carry information from after
-the assessment time. The present results therefore do not establish
-performance using only information available in real time at 24 hours. Urine
-output used different denominators between cohorts. External staging used
-fewer variables. Because eICU contributed to BOS,MA2 development and informed
-some analytic choices in the present study, the external validation was not
-fully independent. Confirmation in an untouched cohort is needed.
+In MIMIC-IV the arrest diagnosis was untimed and could have been recorded
+after the landmark, so a predictor may carry information from after the
+assessment time. Performance using only information available in real time at
+24 hours is therefore not established, and early emergency-department use and
+the effect of documentation delay were not evaluated.
+
+Because eICU contributed to BOS,MA2 development and informed some analytic
+choices in the present study, the external validation was not fully
+independent. Confirmation in an untouched cohort is needed.
 
 ## 5. Conclusions
 
 At 24 hours, CS-MORT-6 distinguished mortality risk among patients assigned to
-the same EHR-derived SCAI stage and retained moderate discrimination during
-external validation. Its value lies in quantifying risk within a qualitative
-stage rather than replacing SCAI classification. Repeated scoring and
-real-time performance require prospective evaluation.
+the same EHR-derived SCAI stage in both cohorts, with moderate discrimination.
+Its value lies in quantifying risk within an EHR-derived SCAI stage rather
+than replacing SCAI classification. Prospective evaluation should establish
+performance using real-time inputs and repeated assessment.
 
 ---
 
@@ -298,27 +273,28 @@ real-time performance require prospective evaluation.
 | Calibration slope / CITL, integer score | - | 1.15 / -0.22 |
 | Brier score, anion-gap formulation | 0.189, out of fold | 0.172 |
 | Incremental AUROC over EHR-derived stage, continuous anion-gap formulation | 0.139 (0.116-0.162) | 0.141 (0.101-0.178) |
-| BOS,MA2 comparison | Not applicable | 0.004 (-0.039 to 0.046), P = .87, n=654 |
+| BOS,MA2 comparison, continuous anion gap | Not applicable | 0.004 (-0.039 to 0.046),<br>p = .87, n=654 |
 
-Footnote: internal continuous-model intervals used the cross-validated
-influence-function estimator [16]; the integer-score interval used a
-patient-level bootstrap of fold-honest scores. Externally the integer score
-used lactate categories when lactate was observed and anion-gap categories
-otherwise; internally, missing components took their development-median
-categories. The two instruments calibrate differently: the continuous model has no average offset externally, whereas the integer score under-predicts on average. Incremental AUROCs are apparent within-cohort estimates. BOS,MA2
-intervals are patient-level bootstrap, with P from the DeLong method.
-Supplementary Figures S1 to S4 show cohort flow, calibration, decision
-curves, and observed risk by score.
+Footnote: parentheses show 95% confidence intervals. Internal continuous-model
+intervals used the cross-validated influence-function estimator [16]; all
+other intervals are percentile bootstrap (2,000 resamples, seed 42).
+Incremental AUROCs were estimated in the same patients used to fit the
+combined models. The BOS,MA2 row reports the AUROC difference (CS-MORT-6 minus
+BOS,MA2) with a DeLong P value. Externally the integer score used lactate
+categories when observed and anion-gap categories otherwise. AUROC, area under
+the receiver operating characteristic curve; CITL, calibration-in-the-large
+(negative values indicate overprediction); EHR, electronic health record. See
+Supplementary Figures S1 to S4.
 
-## Figure 1. Mortality across CS-MORT-6 tertiles within EHR-derived SCAI stages
+## Figure 1. In-hospital mortality by CS-MORT-6 tertile within EHR-derived SCAI stages
 
-In-hospital mortality across low, middle, and high CS-MORT-6 tertiles within
-EHR-derived SCAI stages B to E in the MIMIC-IV and eICU cohorts at 24 hours.
-Whiskers show Wilson 95% confidence intervals. Cell sizes are reported in
-Supplementary Table S9. Stage A is not displayed because it contained eight
-MIMIC-IV patients, no eICU patients, and no deaths. Sensitivity analyses,
-48-hour score trajectories, and subgroup performance appear in Supplementary
-Figures S5 to S7.
+Bars show subsequent in-hospital mortality among patients alive and still in
+the ICU 24 hours after ICU admission in MIMIC-IV (A) and eICU (B). Tertiles
+were defined within each SCAI stage and separately within each cohort. Error
+bars show Wilson 95% confidence intervals. Group sizes are reported in
+Supplementary Table S12. Stage A was omitted (eight MIMIC-IV patients, no eICU
+patients, and no deaths). Supplementary Figures S5 to S7 show sensitivity
+analyses, 48-hour score trajectories, and subgroup performance.
 
 ---
 
@@ -363,12 +339,12 @@ S1 TRIPOD+AI checklist. S2 definitions, cohorts, staging rules and
 missing-component handling. S3 model development and card-stability
 sensitivity. S4 full model specification, both formulations, exact intercepts,
 card, score-to-risk mapping, worked example. S5 baseline characteristics. S6
-death-timing distribution. S7 external populations and day-1 all-admissions
-performance with the BOS,MA2 comparison. S8 landmark risk bands and threshold
-accuracy. S9 within-stage cells, within-stage AUROCs, incremental value and
-variants. S10 48-hour reassessment and trajectory. S11 availability and
-scorability. S12 sensitivity cohorts, imputation, correlations and VIF. S13
-subgroup discrimination and calibration. S14 redevelopment sensitivity
-analyses. Figures: S1 cohort flow with landmark;
+death-timing distribution. S7 availability and scorability. S8 sensitivity
+cohorts, imputation, correlations and VIF. S9 landmark risk bands and
+threshold accuracy. S10 external populations and day-1 all-admissions
+performance with the BOS,MA2 comparison. S11 redevelopment sensitivity
+analyses. S12 within-stage cells, within-stage AUROCs, incremental value and
+variants. S13 subgroup discrimination and calibration. S14 48-hour
+reassessment and trajectory. Figures: S1 cohort flow with landmark;
 S2 calibration curves; S3 decision curves; S4 integer card, predicted versus
 observed; S5 within-stage variants; S6 trajectory; S7 subgroups.
