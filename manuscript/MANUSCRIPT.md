@@ -118,8 +118,7 @@ replaced lactate with harmonized anion gap, retaining the other five
 predictors. The integer score was therefore scored differently in the two
 cohorts: externally it used lactate categories when available and anion-gap
 categories otherwise, whereas internally a missing component took its
-development-median category. Rescoring the internal cohort under the external
-rule is reported in Supplementary Table S9 (Supplementary Tables S2 and S4).
+development-median category (Supplementary Tables S2 and S4).
 
 Discrimination was summarized by the area under the receiver operating
 characteristic curve (AUROC). Internal validation used five-fold
