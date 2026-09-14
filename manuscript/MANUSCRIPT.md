@@ -280,8 +280,7 @@ performance using real-time inputs and repeated assessment.
 
 Footnote: parentheses show 95% confidence intervals: the cross-validated
 influence-function estimator for internal continuous models [16]; percentile
-bootstrap otherwise (2,000 resamples, seed 42). Incremental AUROCs are
-apparent within-cohort estimates. The BOS,MA2 row is the AUROC difference
+bootstrap otherwise (2,000 resamples, seed 42). The BOS,MA2 row is the AUROC difference
 (CS-MORT-6 minus BOS,MA2) with a DeLong P value. The integer score is scored
 differently in the two columns: externally, lactate categories when observed
 and anion-gap categories otherwise; internally, development-median categories
