@@ -155,7 +155,7 @@ inflation factors were ≤1.31 (Supplementary Table S8).
 
 Internal cross-validated AUROCs were 0.734 for the continuous lactate model,
 0.726 for the anion-gap model, and 0.727 for the integer score. Externally the
-anion-gap model reached 0.748 and the other two 0.759 (Table 1). Mortality by
+anion-gap model reached 0.748 and the lactate model 0.759 (Table 1). Mortality by
 score band is reported in Supplementary Table S9. In MIMIC-IV, including
 patients who died or left the ICU before 24 hours yielded an AUROC of 0.778
 for the lactate model (Supplementary Table S10). In fully nested
