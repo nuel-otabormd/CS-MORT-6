@@ -255,11 +255,11 @@ independent. Confirmation in an untouched cohort is needed.
 
 ## 5. Conclusions
 
-At 24 hours, CS-MORT-6 distinguished mortality risk among patients assigned to
-the same EHR-derived SCAI stage in both cohorts, with moderate discrimination.
-Its value lies in quantifying risk within an EHR-derived SCAI stage rather
-than replacing SCAI classification. Prospective evaluation should establish
-performance using real-time inputs and repeated assessment.
+In two large intensive care databases, CS-MORT-6 refined mortality risk
+within EHR-derived SCAI stages at 24 hours. Its main contribution is not
+superior discrimination, but quantification of the risk that qualitative
+staging leaves unresolved. Prospective evaluation is needed to establish
+performance with real-time inputs and repeated assessment.
 
 ---
 
