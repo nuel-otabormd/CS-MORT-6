@@ -278,19 +278,18 @@ performance using real-time inputs and repeated assessment.
 | Incremental AUROC over EHR-derived stage, continuous anion-gap formulation | 0.139 (0.116-0.162) | 0.141 (0.101-0.178) |
 | BOS,MA2 comparison, continuous anion gap | Not applicable | 0.004 (-0.039 to 0.046),<br>P = .87, n=654 |
 
-Footnote: parentheses show 95% confidence intervals. Internal continuous-model
-intervals used the cross-validated influence-function estimator [16]; all
-other intervals are percentile bootstrap (2,000 resamples, seed 42).
-Incremental AUROCs were estimated in the same patients used to fit the
-combined models. The BOS,MA2 row reports the AUROC difference (CS-MORT-6 minus
-BOS,MA2) with a DeLong P value. The integer score is not scored identically in
-the two columns: externally it used lactate categories when observed and
-anion-gap categories otherwise, internally a missing component took its
-development-median category, and rescoring internally under the external rule
-gives 0.720 (Supplementary Table S9). AUROC, area under the receiver operating
-characteristic curve; CITL, calibration-in-the-large (negative values indicate
-overprediction); EHR, electronic health record. See Supplementary Figures S1
-to S4.
+Footnote: parentheses show 95% confidence intervals: the cross-validated
+influence-function estimator for internal continuous models [16]; percentile
+bootstrap otherwise (2,000 resamples, seed 42). Incremental AUROCs are
+apparent within-cohort estimates. The BOS,MA2 row is the AUROC difference
+(CS-MORT-6 minus BOS,MA2) with a DeLong P value. The integer score is scored
+differently in the two columns: externally, lactate categories when observed
+and anion-gap categories otherwise; internally, development-median categories
+for missing components; rescoring internally under the external rule gives
+0.720 (Supplementary Table S9). AUROC, area under the receiver operating
+characteristic curve; CITL, calibration-in-the-large (negative values
+indicate overprediction); EHR, electronic health record. See Supplementary
+Figures S1 to S4.
 
 ## Figure 1. In-hospital mortality by CS-MORT-6 tertile within EHR-derived SCAI stages
 
