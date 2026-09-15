@@ -98,8 +98,8 @@ identification used the completed hospitalization. In eICU, we required a
 structured diagnosis entered by 24 hours and retained the first qualifying ICU
 stay per patient. Primary analyses used a 24-hour landmark after ICU admission
 among patients alive and still in the ICU [13], with subsequent in-hospital
-mortality as the primary outcome. Supplementary Table S2 details phenotype,
-cohort, and variable definitions.
+mortality as the primary outcome. The Supplementary Methods and Table S2
+detail phenotype, cohort, and variable definitions.
 
 Laboratory predictors used the most recent value up to 24 hours rather than
 the worst. We compared penalized logistic regression (ridge and LASSO), random
@@ -110,7 +110,7 @@ distribution width) were chosen by bootstrap stability selection with
 L1-penalized logistic regression and clinical review, then held fixed for
 coefficient and intercept re-estimation at 24 hours using L2 penalization
 (C=0.5, untuned). Sample-size calculations addressed the fixed model and
-predictor screen [14] (Supplementary Table S2). The original 0-to-15 integer
+predictor screen [14] (Supplementary Methods). The original 0-to-15 integer
 score based on the approach of Sullivan and colleagues [15] was retained, with
 re-estimation of its score-to-risk mapping (Supplementary Tables S3 and S4).
 Because lactate was incompletely observed, a separate continuous model
