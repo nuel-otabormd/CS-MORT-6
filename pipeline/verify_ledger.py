@@ -98,7 +98,7 @@ checked += 1
 assert len(pd.read_csv(OUT + 'external_calibration_curve_ag.csv')) == 10
 checked += 1
 
-# Threshold operating characteristics derive from the deployed card (S8 panel B)
+# Threshold operating characteristics derive from the deployed card (Table S9, panel B)
 contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
 # --- card re-derivation: every metric verified, by name ---------------------
 # The output-to-expected check is metric-specific: each value is read from its
