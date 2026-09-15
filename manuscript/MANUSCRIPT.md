@@ -88,7 +88,7 @@ after completion of the score's measurement window.
 We used MIMIC-IV (Beth Israel Deaconess Medical Center, 2008-2022) for
 development and the eICU Collaborative Research Database (208 hospitals,
 2014-2015) for external validation [10,11]. Reporting followed TRIPOD+AI [12]
-(checklist, Supplementary Table S1). Adults aged ≥18 years with cardiogenic
+(Supplementary Table S1). Adults aged ≥18 years with cardiogenic
 shock were identified in MIMIC-IV by a documentation-anchored phenotype
 (diagnostic code or affirmed discharge-summary documentation) plus at least
 one physiological or support criterion within 24 hours (systolic blood
