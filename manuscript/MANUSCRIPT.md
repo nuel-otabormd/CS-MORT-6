@@ -94,7 +94,7 @@ documentation-anchored phenotype (diagnostic code or affirmed
 discharge-summary documentation) plus at least one physiological or support
 criterion within 24 hours, and in eICU by a structured diagnosis entered by
 24 hours, retaining the first qualifying ICU stay per patient (Supplementary
-Methods). Primary analyses used a 24-hour landmark after ICU admission
+Table S2). Primary analyses used a 24-hour landmark after ICU admission
 among patients alive and still in the ICU [13], with subsequent in-hospital
 mortality as the primary outcome.
 
@@ -333,10 +333,10 @@ appearance. All five added references were read in full before citation.
 
 ## Supplement map (build order)
 
-Supplementary Methods (five subsections, extending the main-text Methods):
-cohort definition and landmark eligibility; predictor measurement; sample
-size and predictor screen; integer scoring and missing data; sensitivity and
-48-hour analyses. S1 TRIPOD+AI checklist. S2
+Supplementary Methods (four subsections, extending the main-text Methods):
+predictor measurement; sample size and predictor screen; integer scoring and
+missing data; sensitivity and 48-hour analyses. The phenotype criteria sit
+in the Table S2 note and the landmark eligibility rule in the Table S4 note. S1 TRIPOD+AI checklist. S2
 EHR-derived SCAI stage rules. S3 full model specification, both formulations,
 exact intercepts, card with missing-component defaults, score-to-risk
 mapping, worked example, point-schedule sensitivity. S4 landmark baseline

@@ -14,14 +14,6 @@ for Cardiovascular Angiography and Interventions.
 
 ## Supplementary Methods
 
-### Cohort definition and landmark eligibility
-
-The MIMIC-IV phenotype's physiological and support criteria are systolic
-blood pressure < 90 mmHg, mean arterial pressure < 65 mmHg, lactate ≥2
-mmol/L, or vasoactive, inotropic, or mechanical circulatory support, within
-24 hours. Landmark eligibility is ICU discharge at or after, and no recorded
-death at or before, 24 hours; no record falls at exactly 24 hours.
-
 ### Predictor measurement
 
 The harmonized anion gap is sodium minus chloride minus bicarbonate, each
@@ -29,10 +21,9 @@ component its own most recent value rather than a single draw. Urine output
 is cumulative volume divided by weight and observed hours, with a fixed
 denominator in eICU. Cardiac arrest is a diagnosis-record indicator without
 an event timestamp: in MIMIC-IV a hospital-admission discharge diagnosis
-(ICD-10 I46.x or ICD-9 427.5) with emergency or urgent admission, which
-cannot establish that the arrest preceded ICU admission or the landmark; in
-eICU a structured cardiac-arrest diagnosis documented by the landmark, whose
-offset records documentation rather than onset.
+(ICD-10 I46.x or ICD-9 427.5) with emergency or urgent admission; in eICU a
+structured cardiac-arrest diagnosis with an emergency admission source,
+documented by the landmark.
 
 ### Sample size and predictor screen
 
@@ -95,7 +86,10 @@ emergency-admission restriction of the score's arrest predictor, so 238 of
 1,047 primary-landmark patients are staged E while 147 carry the arrest
 point. These pragmatic rules follow the 2022 update's therapy-intensity
 guidance for stages C through E and are not the operationalization of
-Jentzer et al.
+Jentzer et al. The cohort phenotype's physiological and support criteria are
+systolic blood pressure < 90 mmHg, mean arterial pressure < 65 mmHg, lactate
+≥2 mmol/L, or vasoactive, inotropic, or mechanical circulatory support,
+within 24 hours.
 
 ## Table S3. Full model specification (landmark estimation)
 
@@ -177,7 +171,8 @@ remained the primary specification.
 ## Table S4. Baseline characteristics of the landmark analysis populations
 
 Continuous variables are median (interquartile range) and categorical
-variables n (%).
+variables n (%). Landmark eligibility is ICU discharge at or after, and no
+recorded death at or before, 24 hours; no record falls at exactly 24 hours.
 
 ## Table S5. Observed-data availability and scorability
 
