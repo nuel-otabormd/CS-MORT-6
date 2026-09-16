@@ -19,14 +19,8 @@ for Cardiovascular Angiography and Interventions.
 The MIMIC-IV phenotype's physiological and support criteria are systolic
 blood pressure < 90 mmHg, mean arterial pressure < 65 mmHg, lactate ≥2
 mmol/L, or vasoactive, inotropic, or mechanical circulatory support, within
-24 hours. Landmark eligibility is operationalized as ICU discharge at or
-after, and no recorded death at or before, 24 hours; no death or discharge is
-timestamped at exactly 24 hours, so boundary convention affects no count. The
-primary external population is each patient's first landmark stay with shock
-documented at or before 1,440 minutes; the all-stays population and the
-one-stay-per-patient population without the documentation-timing restriction
-are sensitivity analyses (Table S8). Exclusion counts and the death-timing
-distribution accompany Figure S1.
+24 hours. Landmark eligibility is ICU discharge at or after, and no recorded
+death at or before, 24 hours; no record falls at exactly 24 hours.
 
 ### Predictor measurement
 
@@ -46,39 +40,25 @@ Minimum sample size follows Riley et al (pmsampsize: binary outcome,
 anticipated C-statistic 0.70, observed outcome proportion, stated parameter
 count, target shrinkage 0.9, margin of error 0.05). Re-estimating the six
 fixed predictors at the landmark (outcome proportion 0.331) requires 469
-patients with 156 events, which the landmark population exceeds. The
-development-time predictor screen evaluated 58 candidate
+patients with 156 events. The development-time predictor screen evaluated 58
+candidate
 parameters in 4,315 ICU stays from 3,192 patients (1,537 deaths), using 400
 bootstrap resamples of L1-penalized logistic regression; 38 parameters were
 selected (absolute coefficient above 1e-6) in at least 80% of resamples, five
 of the six retained predictors in 400 of 400, and blood urea nitrogen in 399
 of 400. Parameters requiring imaging, neurological assessment,
 treatment-dependent measurement, or additional hemodynamic information were
-not carried into a bedside score. The screen was outcome-informed, preceded
-cross-validation, treated repeated stays as independent, and did not meet its
-own requirement of 4,386 observations with 1,563 events, so the retained
-model's intervals do not reflect selection uncertainty; nested redevelopment
-placing selection inside 10-times-repeated 5-fold cross-validation (Table S9)
-assesses robustness to this step.
+not carried into a bedside score. The screen treated repeated stays as
+independent and did not meet its own requirement of 4,386 observations with
+1,563 events; nested redevelopment placing selection inside 10-times-repeated
+5-fold cross-validation (Table S9) assesses robustness to the selection step.
 
 ### Integer scoring and missing data
 
-Externally the card substitutes the anion-gap bands when lactate is
-unavailable; when neither is observed, the component scores the anion-gap
-development-median category (2 points), and an absent arrest record scores
-as no arrest. An anion-gap-bands-for-all evaluation is the harmonized
-external sensitivity (Table S8). Availability in Table S5 is observed data;
-after these rules every patient is evaluable.
-
-### Comparator and within-stage analyses
-
-BOS,MA2 comparisons used the common-scorable eICU set, with an in-sample
-recalibrated comparator and an imputed-all-patients evaluation as sensitivity
-analyses (Table S8 and Figure S3). Within-stage tertile ties produced unequal
-group sizes. MIMIC-IV stage-specific cutpoints were also applied unchanged to
-eICU. A sensitivity analysis treated the stage as categorical, merging stage
-A with B, and refitted the stage-only and stage-plus-score models within each
-bootstrap resample.
+When neither lactate nor anion gap is observed, the component scores the
+anion-gap development-median category (2 points); an absent arrest record
+scores as no arrest. Availability in Table S5 is observed data; after these
+rules every patient is evaluable.
 
 ### Sensitivity and 48-hour analyses
 
@@ -90,14 +70,12 @@ pooling; this gave AUROC 0.725 and calibration slope 1.01, versus 0.734 and
 take the most recent
 value up to 48 hours and urine output is cumulative over the horizon. The 5
 arrest flags first entered after 24 hours are zeroed in the primary external
-analyses, with the unzeroed analysis retained as a sensitivity (Table S8);
-the 48-hour analyses apply the same rule at 2,880 minutes.
+analyses; the 48-hour analyses apply the same rule at 2,880 minutes.
 
 ## Table S1. TRIPOD+AI reporting checklist
 
 Items 10 and 12 reference the landmark eligibility rule and the
-influence-function confidence interval; other locations follow the current
-table numbering.
+influence-function confidence interval.
 
 ## Table S2. EHR-derived SCAI stage rules
 
@@ -164,10 +142,9 @@ landmark mortality at score 7 of 42.5% (panel C).
 
 Apply the intervals exactly as printed: a urine output of 0.5 mL/kg/h scores
 1 point and 1.0 mL/kg/h scores 0 points, because higher output is protective.
-The final column is the internal missing-component default; the external
-deployment rule is stated in the Supplementary Methods. The continuous
-anion-gap model (panel A) is a separately fitted model, not a substitution
-into the lactate equation.
+The final column is the internal missing-component default (edge cases in
+the Supplementary Methods). The continuous anion-gap model (panel A) is a
+separately fitted model, not a substitution into the lactate equation.
 
 (C) Score-to-risk mapping at the landmark (observed mortality drawn in Figure
 S4)
@@ -320,8 +297,9 @@ existing scores; repeat stays included)
 | BOS,MA2 imputed-all sensitivity (landmark, n=1,047) | - | 0.748 vs 0.735; diff +0.014 (-0.024 to +0.050) |
 | BOS,MA2 common-scorable landmark (n=654) | - | 0.755 vs 0.751; diff +0.004 (-0.039 to +0.046) |
 
-The integer card is scored under each cohort's missing-component rule
-(Supplementary Methods). BOS,MA2 rows give CS-MORT-6 anion gap first; the
+The integer card is scored under each cohort's missing-component rule; the
+AG-bands column scores every patient on anion-gap bands (harmonized
+sensitivity). BOS,MA2 rows give CS-MORT-6 anion gap first; the
 imputed-all row fills missing components by chained equations, not a
 replication of the development study's predictive-mean-matching. Of the eICU
 database's 208 hospitals, 132 contributed the 1,866-stay cohort and 117 the
@@ -340,9 +318,7 @@ primary landmark population.
 
 This historical comparison used a wider candidate pool than the final
 six-variable model, so its values differ from the final model's and from the
-nested landmark redevelopment below. Ridge regression was selected for
-calibration stability and the transparent integer card it supports (final
-specification in the Methods).
+nested landmark redevelopment below.
 
 (B) Nested redevelopment against the six-variable model's 0.733 on the same
 folds:
@@ -394,10 +370,10 @@ neither redevelopment analysis demonstrating improved validated performance.
 | eICU | E | Mid | 59 | 54.2 | 41.7-66.3 |
 | eICU | E | High | 73 | 64.4 | 52.9-74.4 |
 
-Stage A (n=8, no deaths) is not tabulated; these eight patients met the
-cohort hypoperfusion criterion through measurements outside the staging
-component set (seven had no lactate in the staging window), so absent
-components under-stage them.
+Tied integer values make tertile sizes unequal. Stage A (n=8, no deaths) is
+not tabulated; these eight patients met the cohort hypoperfusion criterion
+through measurements outside the staging component set (seven had no lactate
+in the staging window), so absent components under-stage them.
 
 (B) Incremental value
 

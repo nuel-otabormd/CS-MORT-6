@@ -333,10 +333,10 @@ appearance. All five added references were read in full before citation.
 
 ## Supplement map (build order)
 
-Supplementary Methods (six subsections, extending the main-text Methods):
+Supplementary Methods (five subsections, extending the main-text Methods):
 cohort definition and landmark eligibility; predictor measurement; sample
-size and predictor screen; integer scoring and missing data; comparator and
-within-stage analyses; sensitivity and 48-hour analyses. S1 TRIPOD+AI checklist. S2
+size and predictor screen; integer scoring and missing data; sensitivity and
+48-hour analyses. S1 TRIPOD+AI checklist. S2
 EHR-derived SCAI stage rules. S3 full model specification, both formulations,
 exact intercepts, card with missing-component defaults, score-to-risk
 mapping, worked example, point-schedule sensitivity. S4 landmark baseline
