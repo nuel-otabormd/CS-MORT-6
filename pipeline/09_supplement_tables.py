@@ -178,20 +178,21 @@ BUN 99.4%, RDW 93.8%, urine output 64.8%, lactate 56.9%; all
 anion-gap-model inputs 60.7% (source: locked_external_results.csv, LM48
 rows).
 
-(C) Availability by horizon, MIMIC in-ICU populations (temporal trend;
-source: availability_by_horizon_mimic.csv)
-
-""" + md(avail))
+Availability by horizon (source: availability_by_horizon_mimic.csv) is
+summarized in the Table S5 note: lactate 69.2% at 6 hours, 80.8% at 24
+hours, 85.9% at 48 hours, others at or above 94.2% by 24 hours (n=2,731 in
+the ICU at 24 hours); the full table stays in the outputs and is no longer
+reproduced in the supplement.""")
 
 D.append("## Table S6. Sensitivity analyses, imputation, and collinearity\n\n" + """
 (A) Sensitivity cohorts (landmark, frozen model out-of-fold): ICD-confirmed
 only 0.734 (n=2,452), Sepsis-3 excluded 0.747 (n=1,321), non-OHCA subgroup
 0.724 (n=2,438), OHCA-free integer card 0.711.
 
-(B) Imputation: median 0.734 (slope 0.99) versus stochastic
-chained-equations imputation 0.725 (slope 1.01).
+Imputation (reported in the Supplementary Methods): median 0.734 (slope
+0.99) versus stochastic chained-equations imputation 0.725 (slope 1.01).
 
-(C) Variance inflation factors (landmark): lactate model, all at or below
+(B) Variance inflation factors (landmark): lactate model, all at or below
 1.16; anion-gap model, all at or below 1.31 (largest: BUN). Key Pearson
 correlations (source: correlation_matrix_lm24.csv): lactate-BUN 0.00,
 lactate-RDW 0.06, BUN-RDW 0.28, anion gap-BUN 0.37. The full matrix stays in
@@ -215,14 +216,12 @@ model; paired difference -0.014 (95% CI -0.029 to +0.001). Symmetric pool
 CI -0.020 to +0.005). Neither met the pre-stated replacement criteria.
 
 Outer-fold selection frequencies (source: challenger_selection.csv,
-challenger_symmetric_selection.csv):
-
-""" + md(selS) + """
-
-The low landmark reselection of lactate (38%) and urine output (6%) is a
-limitation; their retention rests on their prior selection and inclusion in
-the developed model and on neither redevelopment analysis demonstrating
-improved validated performance.""")
+challenger_symmetric_selection.csv) are summarized in the Table S9 note:
+100% for age, cardiac arrest, and red cell distribution width in both pools;
+anion gap 88/50; blood urea nitrogen 76/98; minimum systolic 70/78; all
+others 26% or fewer; lactate 38 and urine output 6 in the symmetric pool.
+The full tables stay in the outputs and are no longer reproduced in the
+supplement.""")
 
 nb20 = dca.iloc[(dca['threshold'] - 0.20).abs().argmin()]
 nb40 = dca.iloc[(dca['threshold'] - 0.40).abs().argmin()]
@@ -236,7 +235,8 @@ _extra = []
 # Only files the supplement reproduces in full are listed. Files holding
 # full-precision intermediates (stage_coding_robustness, dca_lm24_common),
 # values quoted selectively (locked_external_results, card_rederivation,
-# reported_values), or values now shown only in a figure
+# reported_values, availability_by_horizon_mimic, challenger_selection,
+# challenger_symmetric_selection), or values now shown only in a figure
 # (figure1_variants_mimic, drawn as Figure S5) are deliberately excluded:
 # requiring every one of their values to appear would fail on numbers the
 # supplement never prints. Those are covered instead by verify_ledger's

@@ -108,13 +108,6 @@ regenerated from outputs/ so table values can be diffed against it.
 | intermediate 24-h score 4-7 | Unchanged (=0) | 523 | 34.0 | 30.1-38.2 |
 | intermediate 24-h score 4-7 | Worsened (>0) | 261 | 43.3 | 37.4-49.4 |
 
-| horizon | n | lactate | bun | rdw | uo |
-|---|---|---|---|---|---|
-| 6.0 | 3068.0 | 69.2 | 82.6 | 80.4 | 80.9 |
-| 12.0 | 2963.0 | 75.8 | 95.5 | 92.1 | 91.5 |
-| 24.0 | 2731.0 | 80.8 | 99.5 | 98.9 | 94.2 |
-| 48.0 | 2296.0 | 85.9 | 99.6 | 99.5 | 95.0 |
-
 | subgroup | n | deaths | auroc | ci | slope | citl |
 |---|---|---|---|---|---|---|
 | M | 1629 | 519 | 0.748 | 0.724-0.774 | 1.07 | -0.062 |
@@ -124,24 +117,6 @@ regenerated from outputs/ so table values can be diffed against it.
 | Hispanic | 80 | 24 | 0.805 | 0.692-0.903 | 1.21 | -0.107 |
 | Asian | 67 | 17 | 0.708 | 0.548-0.851 | 0.68 | -0.374 |
 | Other/Unknown | 593 | 234 | 0.754 | 0.715-0.792 | 1.07 | 0.362 |
-
-| variable | outer_fold_selection_pct |
-|---|---|
-| age | 100.0 |
-| ohca_arrest | 100.0 |
-| aniongap_h | 50.0 |
-| sodium | 0.0 |
-| chloride | 0.0 |
-| bicarbonate | 4.0 |
-| bun | 98.0 |
-| rdw | 100.0 |
-| creatinine | 0.0 |
-| hemoglobin | 4.0 |
-| sbp_min | 78.0 |
-| mech_vent | 22.0 |
-| pressor_count | 0.0 |
-| lactate | 38.0 |
-| uo | 6.0 |
 
 | section | item | value |
 |---|---|---|

@@ -88,17 +88,15 @@ after completion of the score's measurement window.
 We used MIMIC-IV (Beth Israel Deaconess Medical Center, 2008-2022) for
 development and the eICU Collaborative Research Database (208 hospitals,
 2014-2015) for external validation [10,11]. Reporting followed TRIPOD+AI [12]
-(Supplementary Table S1). Adults aged ≥18 years with cardiogenic
-shock were identified in MIMIC-IV by a documentation-anchored phenotype
-(diagnostic code or affirmed discharge-summary documentation) plus at least
-one physiological or support criterion within 24 hours (Supplementary
-Methods). MIMIC-IV case
-identification used the completed hospitalization. In eICU, we required a
-structured diagnosis entered by 24 hours and retained the first qualifying ICU
-stay per patient. Primary analyses used a 24-hour landmark after ICU admission
+(Supplementary Table S1). Adults aged ≥18 years with cardiogenic shock were
+identified in MIMIC-IV over the completed hospitalization by a
+documentation-anchored phenotype (diagnostic code or affirmed
+discharge-summary documentation) plus at least one physiological or support
+criterion within 24 hours, and in eICU by a structured diagnosis entered by
+24 hours, retaining the first qualifying ICU stay per patient (Supplementary
+Methods). Primary analyses used a 24-hour landmark after ICU admission
 among patients alive and still in the ICU [13], with subsequent in-hospital
-mortality as the primary outcome. The Supplementary Methods detail the
-phenotype, cohorts, and variable definitions.
+mortality as the primary outcome.
 
 Laboratory predictors used the most recent value up to 24 hours rather than
 the worst. We compared penalized logistic regression (ridge and LASSO), random
@@ -109,15 +107,12 @@ distribution width) were chosen by bootstrap stability selection with
 L1-penalized logistic regression and clinical review, then held fixed for
 coefficient and intercept re-estimation at 24 hours using L2 penalization
 (C=0.5, untuned). Sample-size calculations addressed the fixed model and
-predictor screen [14] (Supplementary Methods). The original 0-to-15 integer
-score based on the approach of Sullivan and colleagues [15] was retained, with
-re-estimation of its score-to-risk mapping (Supplementary Table S3).
-Because lactate was incompletely observed, a separate continuous model
-replaced lactate with harmonized anion gap, retaining the other five
+predictor screen [14] (Supplementary Methods). The 0-to-15 integer score [15]
+was retained, with re-estimation of its score-to-risk mapping (Supplementary
+Table S3). Because lactate was incompletely observed, a separate continuous
+model replaced lactate with harmonized anion gap, retaining the other five
 predictors. The integer score's missing-component rule differed between
-cohorts: externally it used lactate categories when available and anion-gap
-categories otherwise, whereas internally a missing component took its
-development-median category (Supplementary Table S3).
+cohorts and is specified in Supplementary Table S3.
 
 Discrimination was summarized by the area under the receiver operating
 characteristic curve (AUROC). Internal validation used five-fold
@@ -134,9 +129,9 @@ EHR-derived SCAI stages were operationalized from blood pressure, lactate,
 therapies, device support, and cardiac arrest using adapted consensus rules
 [2-4] (Supplementary Table S2). Within-stage stratification used score
 tertiles within each stage and cohort. Incremental discrimination was assessed
-by likelihood-ratio testing and paired bootstrap. Increments are apparent
-within-cohort estimates: the combined models were fitted and evaluated in the
-same cohort. Exploratory analyses reapplied the 24-hour model at 48 hours
+by likelihood-ratio testing and paired bootstrap; increments are apparent
+estimates, fitted and evaluated within the same cohort. Exploratory analyses
+reapplied the 24-hour model at 48 hours
 among patients alive and still in the ICU, without fitting a separate 48-hour
 model. Analyses used Python 3.9 and R with a fixed random seed.
 
@@ -345,8 +340,9 @@ within-stage analyses; sensitivity and 48-hour analyses. S1 TRIPOD+AI checklist.
 EHR-derived SCAI stage rules. S3 full model specification, both formulations,
 exact intercepts, card with missing-component defaults, score-to-risk
 mapping, worked example, point-schedule sensitivity. S4 landmark baseline
-characteristics. S5 availability and scorability. S6 sensitivity cohorts,
-imputation, VIF with correlation summary. S7 landmark risk bands and
+characteristics. S5 availability and scorability, with the horizon trend in
+its note. S6 sensitivity cohorts and collinearity (imputation result in the
+Supplementary Methods). S7 landmark risk bands and
 threshold accuracy. S8 external populations and day-1 all-admissions
 performance with the BOS,MA2 comparison. S9 model-class comparison and
 redevelopment sensitivity analyses. S10 within-stage cells, within-stage
