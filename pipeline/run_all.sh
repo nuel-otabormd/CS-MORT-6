@@ -36,6 +36,8 @@ LOG="$OUTDIR/RUN_LOG.txt"
   python3 11_stage_coding_robustness.py
   echo "== 12_external_calibration =="
   python3 12_external_calibration.py
+  echo "== 15_hospital_heterogeneity =="
+  python3 15_hospital_heterogeneity.py
   echo "== 13_render_figures =="
   Rscript 13_render_figures.R
   echo "== 14_reported_values =="

@@ -5,9 +5,10 @@
 --   external population (PROTOCOL_AMENDMENT.md): uniquepid and
 --   patienthealthsystemstayid for one-stay-per-patient selection
 --   (order: unitvisitnumber, patienthealthsystemstayid, patientunitstayid),
---   hospitalid for site counts, first cardiogenic-shock and first
---   cardiac-arrest diagnosis offsets for eligibility timing and the
---   late-arrest sensitivity. Output: eicu_patient_mapping.csv.
+--   hospitalid for site counts and hospital-level heterogeneity, first
+--   cardiogenic-shock and first cardiac-arrest diagnosis offsets for
+--   eligibility timing and the late-arrest sensitivity. Output:
+--   eicu_patient_mapping.csv.
 -- ============================================================================
 SELECT c.patientunitstayid, p.uniquepid, p.patienthealthsystemstayid AS phs,
        p.unitvisitnumber AS uvn, p.hospitalid,

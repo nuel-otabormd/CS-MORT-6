@@ -358,6 +358,17 @@ external deciles written; slope/CITL/Brier 1.17 -0.0 0.172
 internal_aniongap   0.99   0.0  0.189
 external_aniongap   1.17  -0.0  0.172
 DONE
+== 15_hospital_heterogeneity ==
+min_patients              25.000
+hospitals                 12.000
+patients                 479.000
+hospitals_in_population  117.000
+median_auroc               0.766
+iqr_low                    0.678
+iqr_high                   0.779
+min_auroc                  0.632
+max_auroc                  1.000
+pooled_auroc               0.748
 == 13_render_figures ==
 null device 
           1 
@@ -422,7 +433,14 @@ ALL FIGURES DONE
   deaths_after_48h_pct: 65.6
   deaths_within_24h: 249
   screening_extract_outcome_proportion: 0.356   [archived selection extract, 4,315 ICU stays]
+  subgroup_mortality_pct_M: 31.9
+  subgroup_mortality_pct_F: 35.0
+  subgroup_mortality_pct_White: 31.8
+  subgroup_mortality_pct_Black: 30.0
+  subgroup_mortality_pct_Hispanic: 30.0
+  subgroup_mortality_pct_Asian: 25.4
+  subgroup_mortality_pct_Other/Unknown: 39.5
 
-[done] reported_values.csv (30 values)
+[done] reported_values.csv (37 values)
 == verify_ledger ==
-verify_ledger: 64 canonical checks passed
+verify_ledger: 61 canonical checks passed

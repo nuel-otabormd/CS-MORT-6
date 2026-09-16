@@ -101,7 +101,7 @@ _bos = _LK[('allcomers', 'all-comers (native frame, v1.1 AG): model vs BOS,MA2')
 _bos = _bos.replace(', diff', '; diff').replace(', DeLong P=0.69', '; P = .69')
 _slope, _citl = _LK[('allcomers', 'v1.1 anion gap slope/CITL')].split(' / ')
 _citl = _citl[0] + str(Decimal(_citl[1:]).quantize(Decimal('0.01'), ROUND_HALF_UP))
-D.append("""## Table S8(C). Day-1 performance among all admissions (severity frame)
+D.append("""## Table S8(D). Day-1 performance among all admissions (severity frame)
 
 | Metric | MIMIC-IV (n=3,103) | eICU (1,866 stays; 132 hospitals) |
 |---|---|---|

@@ -16,9 +16,9 @@ Abbreviations: CI, confidence interval; PPI, patient and public involvement;
 TRIPOD+AI, Transparent Reporting of a multivariable prediction model for
 Individual Prognosis Or Diagnosis, artificial intelligence extension.
 
-## Table S2. Variable and SCAI stage definitions.
+## Table S2. Variable definitions and measurement windows.
 
-(A) Variable definitions and measurement windows
+(A) Cohort entry, landmark, and predictors
 
 | Variable | Definition | Units | Time window |
 |---|---|---|---|
@@ -297,7 +297,18 @@ Other/Unknown is heterogeneous (in the full cohort, 119 Other and 574 Unknown
 or declined). Estimates for the Hispanic and Asian groups were imprecise
 because of small sample sizes.
 
-(C) All-admissions performance, retained for comparability with existing scores
+(C) Cluster heterogeneity across eICU hospitals
+
+| Hospitals (≥25 CS patients) | Median AUROC | IQR | Range | Pooled eICU AUROC |
+|---|---|---|---|---|
+| 12 | 0.766 | 0.678-0.779 | 0.632-1.000 | 0.748 |
+
+Abbreviations: AUROC, area under the receiver operating characteristic curve;
+CS, cardiogenic shock; IQR, interquartile range. Primary external landmark
+population (1,047 patients, 117 hospitals), anion-gap model; the 12 hospitals
+contributed 479 patients.
+
+(D) All-admissions performance, retained for comparability with existing scores
 
 | Metric | MIMIC-IV (n=3,103) | eICU (1,866 stays; 132 hospitals) |
 |---|---|---|
@@ -308,9 +319,7 @@ because of small sample sizes.
 | BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.037) |
 
 Day-1 frame, repeat stays included. As in Table 1, the integer card is
-scored under each cohort's missing-component rule (Table S3). The
-hospital-level heterogeneity analysis of the submitted supplement was not
-repeated.
+scored under each cohort's missing-component rule (Table S3).
 
 ## Table S9. Within-stage score-tertile mortality with cell sizes and 95% confidence intervals.
 

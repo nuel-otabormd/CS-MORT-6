@@ -98,6 +98,14 @@ checked += 1
 assert len(pd.read_csv(OUT + 'external_calibration_curve_ag.csv')) == 10
 checked += 1
 
+# Hospital-level heterogeneity, primary eICU landmark (Supplementary Table S8, panel C)
+_h = pd.read_csv(OUT + 'hospital_heterogeneity_lm24.csv').iloc[0]
+assert (int(_h['hospitals']), int(_h['patients']), int(_h['hospitals_in_population'])) == (12, 479, 117)
+checked += 1
+assert [f"{_h[c]:.3f}" for c in ('median_auroc', 'iqr_low', 'iqr_high', 'min_auroc', 'max_auroc', 'pooled_auroc')] \
+    == ['0.766', '0.678', '0.779', '0.632', '1.000', '0.748'], _h
+checked += 1
+
 # Threshold operating characteristics derive from the deployed card (Table S7, panel A)
 contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
 # --- card re-derivation: every metric verified, by name ---------------------

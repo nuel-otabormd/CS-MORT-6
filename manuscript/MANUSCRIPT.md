@@ -336,7 +336,7 @@ rules. S4 model-class comparison, sample size and predictor screen, nested
 redevelopment. S5 submitted baseline comparisons of the full cohorts. S6
 missing-data analysis, imputation sensitivity, stage completeness, variance
 inflation factors, observed availability. S7 threshold accuracy and risk
-bands. S8 sensitivity cohorts, subgroups, all-admissions frame. S9
+bands. S8 sensitivity cohorts, subgroups, hospital-level heterogeneity, all-admissions frame. S9
 within-stage cells, incremental value, transported thresholds. S10
 head-to-head comparison and external populations. S11 48-hour reassessment
 and trajectory. Figures: S1 cohort flow with landmark and the death-timing

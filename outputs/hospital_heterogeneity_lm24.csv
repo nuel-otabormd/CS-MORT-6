@@ -1,0 +1,2 @@
+min_patients,hospitals,patients,hospitals_in_population,median_auroc,iqr_low,iqr_high,min_auroc,max_auroc,pooled_auroc
+25,12,479,117,0.766,0.678,0.779,0.632,1.0,0.748

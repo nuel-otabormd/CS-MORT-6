@@ -61,6 +61,9 @@ for byte.
   other step stores (exact-landmark availability, the internal deployment-rule
   rescoring, derived proportions), recomputed from the same
   frames the analysis uses.
+- `pipeline/15_hospital_heterogeneity.py`: hospital-level spread of external
+  discrimination (hospitals with at least 25 patients) in the primary eICU
+  landmark population, from the step 06 frame.
 - `pipeline/verify_ledger.py`: gate: canonical results match the published values.
 - `pipeline/verify_sources.py`: gate: every value in the manuscript and
   supplement sources traces to this pipeline.

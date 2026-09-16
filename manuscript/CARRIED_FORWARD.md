@@ -12,7 +12,7 @@ all are descriptive comparisons.
 
 ## Day-1 all-admissions analysis, submitted version
 
-Supplementary Table S8 panel C reports the day-1 (all-admissions) frame of
+Supplementary Table S8 panel D reports the day-1 (all-admissions) frame of
 the submitted analysis alongside the landmark results, so a reader can see
 what changed when the estimand changed. The continuous-model values in that
 panel come from the submitted analysis; the integer-card values in the same
@@ -23,8 +23,8 @@ and are not carried forward.
 
 | Value | Appears in | Source |
 |---|---|---|
-| 0.778 (0.760-0.794) | S8(C), internal continuous lactate | submitted analysis, day-1 frame |
-| 0.98 | S8(C), internal calibration slope, lactate formulation | submitted analysis, day-1 frame |
+| 0.778 (0.760-0.794) | S8(D), internal continuous lactate | submitted analysis, day-1 frame |
+| 0.98 | S8(D), internal calibration slope, lactate formulation | submitted analysis, day-1 frame |
 
 ## Development model-class comparison
 
