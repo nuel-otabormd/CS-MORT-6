@@ -3,22 +3,22 @@
 The document of record is manuscript/SUPPLEMENT.md. The blocks below are
 regenerated from outputs/ so table values can be diffed against it.
 
-| model | variable | winsor_lo | winsor_hi | impute_median | mean | sd | beta_standardized | beta_raw_scale |
-|---|---|---|---|---|---|---|---|---|
-| lactate | lactate | 0.7 | 12.723 | 1.9 | 2.418 | 1.8608 | 0.496888 | 0.267033 |
-| lactate | uo | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.427892 | -0.568569 |
-| lactate | ohca_arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.325232 | 1.109057 |
-| lactate | age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.263458 | 0.018773 |
-| lactate | bun | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.254663 | 0.010217 |
-| lactate | rdw | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.198363 | 0.079777 |
-| lactate | (intercept) |  |  |  |  |  | -0.806673 | -4.001369 |
-| anion-gap | aniongap | 5.0 | 29.0 | 13.0 | 13.3935 | 4.5533 | 0.427884 | 0.093973 |
-| anion-gap | uo | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.463905 | -0.616421 |
-| anion-gap | ohca_arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.361791 | 1.233727 |
-| anion-gap | age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.271008 | 0.019311 |
-| anion-gap | bun | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.082329 | 0.003303 |
-| anion-gap | rdw | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.186597 | 0.075044 |
-| anion-gap | (intercept) |  |  |  |  |  | -0.82333 | -4.290575 |
+| model | variable | winsor_lo | winsor_hi | impute_median | mean | sd | beta_standardized |
+|---|---|---|---|---|---|---|---|
+| lactate | lactate | 0.7 | 12.723 | 1.9 | 2.418 | 1.8608 | 0.496888 |
+| lactate | uo | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.427892 |
+| lactate | ohca_arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.325232 |
+| lactate | age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.263458 |
+| lactate | bun | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.254663 |
+| lactate | rdw | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.198363 |
+| lactate | (intercept) |  |  |  |  |  | -0.806673 |
+| anion-gap | aniongap | 5.0 | 29.0 | 13.0 | 13.3935 | 4.5533 | 0.427884 |
+| anion-gap | uo | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.463905 |
+| anion-gap | ohca_arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.361791 |
+| anion-gap | age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.271008 |
+| anion-gap | bun | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.082329 |
+| anion-gap | rdw | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.186597 |
+| anion-gap | (intercept) |  |  |  |  |  | -0.82333 |
 | variable | points_per_level | levels |
 |---|---|---|
 | lactate | 2 | <2 / 2 to <4 / >=4 |
@@ -28,24 +28,6 @@ regenerated from outputs/ so table values can be diffed against it.
 | age | 1 | <65 / 65 to <80 / >=80 |
 | bun | 1 | <25 / 25 to <45 / >=45 |
 | rdw | 1 | <14.5 / 14.5 to <16 / >=16 |
-| score | predicted_risk_pct | observed_lm24 |
-|---|---|---|
-| 0 | 7.2 | 5.6% (n=71) |
-| 1 | 9.8 | 6.9% (n=130) |
-| 2 | 13.2 | 11.2% (n=240) |
-| 3 | 17.5 | 17.8% (n=314) |
-| 4 | 22.9 | 24.2% (n=384) |
-| 5 | 29.4 | 31.5% (n=387) |
-| 6 | 36.8 | 38.2% (n=364) |
-| 7 | 44.9 | 42.5% (n=294) |
-| 8 | 53.3 | 54.1% (n=196) |
-| 9 | 61.5 | 58.2% (n=141) |
-| 10 | 69.1 | 69.2% (n=78) |
-| 11 | 75.8 | 75.5% (n=53) |
-| 12 | 81.4 | 81.5% (n=27) |
-| 13 | 86.0 | n<10 |
-| 14 | 89.6 | n<10 |
-| 15 | 92.3 | n<10 |
 
 | Metric | MIMIC-IV (n=3,103) | eICU (1,866 stays; 132 hospitals) |
 |---|---|---|
@@ -59,12 +41,12 @@ regenerated from outputs/ so table values can be diffed against it.
 |---|---|---|---|---|---|---|---|---|
 | 2 | 73 | 70 | 106 | 157 | 377 | 402 | 1 | 1188 |
 
-| band | n | deaths | mortality | ci |
-|---|---|---|---|---|
-| Low 0-3 | 755 | 96 | 12.7 | 10.5-15.3 |
-| Moderate 4-5 | 771 | 215 | 27.9 | 24.8-31.2 |
-| High 6-7 | 658 | 264 | 40.1 | 36.4-43.9 |
-| Very high 8-15 | 510 | 317 | 62.2 | 57.9-66.3 |
+| band | mortality |
+|---|---|
+| Low 0-3 | 12.7 |
+| Moderate 4-5 | 27.9 |
+| High 6-7 | 40.1 |
+| Very high 8-15 | 62.2 |
 | threshold | sensitivity | specificity | PPV | NPV | LRpos | LRneg |
 |---|---|---|---|---|---|---|
 | >= 4 | 0.89 | 0.37 | 0.41 | 0.87 | 1.41 | 0.29 |

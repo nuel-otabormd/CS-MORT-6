@@ -12,7 +12,7 @@ all are descriptive comparisons.
 
 ## Day-1 all-admissions analysis, submitted version
 
-Supplementary Table S10 panel B reports the day-1 (all-admissions) frame of
+Supplementary Table S8 panel C reports the day-1 (all-admissions) frame of
 the submitted analysis alongside the landmark results, so a reader can see
 what changed when the estimand changed. The continuous-model values in that
 panel come from the submitted analysis; the integer-card values in the same
@@ -23,12 +23,12 @@ and are not carried forward.
 
 | Value | Appears in | Source |
 |---|---|---|
-| 0.778 (0.760-0.794) | S10(B), internal continuous lactate | submitted analysis, day-1 frame |
-| 0.98 | S10(B), internal calibration slope, lactate formulation | submitted analysis, day-1 frame |
+| 0.778 (0.760-0.794) | S8(C), internal continuous lactate | submitted analysis, day-1 frame |
+| 0.98 | S8(C), internal calibration slope, lactate formulation | submitted analysis, day-1 frame |
 
 ## Development model-class comparison
 
-Supplementary Table S3 panel A reports the bake-off run during development
+Supplementary Table S4 panel A reports the bake-off run during development
 on the wider candidate pool, labelled with that provenance in the caption.
 It is a historical record of how the model class was chosen and is not
 re-run; the final model is ridge logistic regression as specified in
@@ -39,14 +39,34 @@ thresholds or mapping.
 
 | Value | Appears in | Source |
 |---|---|---|
-| 0.792 | S3(A), ridge AUROC | archived development bake-off |
-| 0.93 | S3(A), ridge calibration slope | archived development bake-off |
-| 0.792 | S3(A), LASSO AUROC | archived development bake-off |
-| 0.95 | S3(A), LASSO calibration slope | archived development bake-off |
-| 0.790 | S3(A), random-forest AUROC | archived development bake-off |
-| 1.61 | S3(A), random-forest calibration slope | archived development bake-off |
-| 0.796 | S3(A), gradient-boosting AUROC | archived development bake-off |
-| 0.75 | S3(A), gradient-boosting calibration slope | archived development bake-off |
+| 0.792 | S4(A), ridge AUROC | archived development bake-off |
+| 0.93 | S4(A), ridge calibration slope | archived development bake-off |
+| 0.792 | S4(A), LASSO AUROC | archived development bake-off |
+| 0.95 | S4(A), LASSO calibration slope | archived development bake-off |
+| 0.790 | S4(A), random-forest AUROC | archived development bake-off |
+| 1.61 | S4(A), random-forest calibration slope | archived development bake-off |
+| 0.796 | S4(A), gradient-boosting AUROC | archived development bake-off |
+| 0.75 | S4(A), gradient-boosting calibration slope | archived development bake-off |
+
+## Submitted descriptive tables
+
+Supplementary Table S5 reproduces the submitted baseline comparisons of the
+full cohorts (MIMIC-IV n=3,103; eICU n=1,866), including their descriptive P
+values, with the arrest row relabelled "Cardiac arrest". The build copies
+both panels from `data/submitted_tables.json`, which `verify_sources.py`
+reads as provenance. Supplementary Table S6 panels A and C reproduce the
+submitted missing-data analysis and SCAI stage completeness of the full
+development cohort; their values are listed here.
+
+| Value | Appears in | Source |
+|---|---|---|
+| 19.4 | S6(A), lactate missing, % | submitted analysis, full cohort |
+| 28.7 | S6(A), mortality if lactate missing, % | submitted analysis, full cohort |
+| 40.6 | S6(A), mortality if lactate measured, % | submitted analysis, full cohort |
+| 8.3 | S6(A), urine output missing, % | submitted analysis, full cohort |
+| 56.2 | S6(A), mortality if urine output missing, % | submitted analysis, full cohort |
+| 36.7 | S6(A), mortality if urine output measured, % | submitted analysis, full cohort |
+| 25.6 | S6(C), stage B mortality, % | submitted analysis, full cohort |
 
 ## Not carried forward
 

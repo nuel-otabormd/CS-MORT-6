@@ -78,7 +78,7 @@ if ns:
     assert {785, 978, 496} <= ns, ns
     checked += 1
 
-# Stage-coding and refitting robustness (Supplementary Table S11, panel B)
+# Stage-coding and refitting robustness (Supplementary Table S9, panel B)
 _r = pd.read_csv(OUT + 'stage_coding_robustness.csv').set_index('tag')
 assert round(_r.loc['eICU continuous AG (frozen)', 'd_cat'], 3) == 0.125
 checked += 1
@@ -98,7 +98,7 @@ checked += 1
 assert len(pd.read_csv(OUT + 'external_calibration_curve_ag.csv')) == 10
 checked += 1
 
-# Threshold operating characteristics derive from the deployed card (Table S8, panel B)
+# Threshold operating characteristics derive from the deployed card (Table S7, panel A)
 contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
 # --- card re-derivation: every metric verified, by name ---------------------
 # The output-to-expected check is metric-specific: each value is read from its

@@ -105,13 +105,11 @@ stability and the transparent integer score it enables. Six predictors
 (lactate, urine output, cardiac arrest, age, blood urea nitrogen, and red cell
 distribution width) were chosen by bootstrap stability selection with
 L1-penalized logistic regression and clinical review, then held fixed for
-coefficient and intercept re-estimation at 24 hours using L2 penalization
-(C=0.5, untuned). Sample-size calculations addressed the fixed model [14]
-(Supplementary Methods). The 0-to-15 integer score [15]
-was retained, with re-estimation of its score-to-risk mapping (Supplementary Table S4). Because lactate was incompletely observed, a separate continuous
+coefficient and intercept re-estimation at 24 hours using L2 penalization (C=0.5, untuned; Supplementary Table S3). Sample-size calculations addressed the fixed model [14] (Supplementary Table S4). The 0-to-15 integer score [15]
+was retained, with re-estimation of its score-to-risk mapping (Supplementary Table S3). Because lactate was incompletely observed, a separate continuous
 model replaced lactate with harmonized anion gap, retaining the other five
 predictors. The integer score's missing-component rule differed between
-cohorts and is specified in Supplementary Table S4.
+cohorts and is specified in Supplementary Table S3.
 
 Discrimination was summarized by the area under the receiver operating
 characteristic curve (AUROC). Internal validation used five-fold
@@ -144,20 +142,19 @@ included 2,694 patients with 892 subsequent deaths (33.1%), exceeding the
 305 deaths (29.1%) across 117 hospitals. In eICU, availability was 96.4% for
 anion gap, 60.6% for urine output, and 52.5% for lactate. All anion-gap-model
 inputs were observed in 53.3% (Supplementary Table S6). All variance
-inflation factors were ≤1.31 (Supplementary Table S7).
+inflation factors were ≤1.31 (Supplementary Table S6).
 
 Internal cross-validated AUROCs were 0.734 for the continuous lactate model,
 0.726 for the anion-gap model, and 0.727 for the integer score. Externally the
 anion-gap model reached 0.748 and the lactate model 0.759 (Table 1). Mortality by
-score band is reported in Supplementary Table S8. In MIMIC-IV, including
-patients who died or left the ICU before 24 hours yielded an AUROC of 0.778
-for the lactate model (Supplementary Table S9). In fully nested
+score band is reported in Supplementary Table S7. In MIMIC-IV, including
+patients who died or left the ICU before 24 hours yielded an AUROC of 0.778 for the lactate model (Supplementary Table S8). In fully nested
 cross-validation, redevelopment from broader candidate pools did not improve
-on the fixed six-variable model (Supplementary Table S10).
+on the fixed six-variable model (Supplementary Table S4).
 
 Within EHR-derived SCAI stages, mortality differed by 20 to 47 percentage
 points between the lowest and highest CS-MORT-6 tertiles in MIMIC-IV, with a
-similar pattern in eICU (Figure 1 and Supplementary Table S11). Applying the
+similar pattern in eICU (Figure 1 and Supplementary Table S9). Applying the
 MIMIC-IV cutpoints unchanged to eICU produced monotonically rising mortality
 across score groups in every stage.
 Adding the continuous anion-gap model to SCAI stage increased AUROC from 0.589
@@ -171,21 +168,21 @@ score was restricted to four predictors not used to assign SCAI stage. In both
 cohorts, the continuous anion-gap model still increased AUROC over SCAI stage
 alone when cardiac arrest was excluded from the rules used to assign stage.
 The gain also remained when stages were entered as separate categories,
-allowing each stage its own association with mortality (Supplementary Table S11).
+allowing each stage its own association with mortality (Supplementary Table S9).
 
 Among 654 eICU patients scorable with both models, the AUROC difference
 between the continuous anion-gap model and BOS,MA2 was 0.004 (95% CI, -0.039
 to 0.046). CardShock and IABP-SHOCK II could not be calculated in eICU [5,6].
 In broader eICU populations without the 24-hour documentation restriction,
-anion-gap-model AUROCs were 0.713 to 0.716 (Supplementary Table S9).
+anion-gap-model AUROCs were 0.713 to 0.716 (Supplementary Table S10).
 
 In MIMIC-IV, subgroup AUROCs for the lactate formulation ranged from 0.70 to
 0.81. CITL was -0.37 among Asian patients, -0.30 among Black patients, and
-0.36 in the Other or Unknown group (Supplementary Table S12).
+0.36 in the Other or Unknown group (Supplementary Table S8).
 
 Among patients eligible at 48 hours, exploratory reassessment changed AUROC by
 0.024 (95% CI, 0.012-0.036) in MIMIC-IV and 0.009 (-0.012 to 0.030) in eICU
-compared with the 24-hour assessment (Supplementary Table S13).
+compared with the 24-hour assessment (Supplementary Table S11).
 
 ## 4. Discussion
 
@@ -276,8 +273,7 @@ bootstrap otherwise (2,000 resamples, seed 42). The BOS,MA2 row is the AUROC dif
 (CS-MORT-6 minus BOS,MA2) with a DeLong P value. The integer score is scored
 differently in the two columns: externally, lactate categories when observed
 and anion-gap categories otherwise; internally, development-median categories
-for missing components; rescoring internally under the external rule gives
-0.720 (Supplementary Table S8). AUROC, area under the receiver operating
+for missing components; rescoring internally under the external rule gives 0.720 (Supplementary Table S7). AUROC, area under the receiver operating
 characteristic curve; CITL, calibration-in-the-large (negative values
 indicate overprediction); EHR, electronic health record. See Supplementary
 Figures S1 to S4.
@@ -287,8 +283,7 @@ Figures S1 to S4.
 Bars show subsequent in-hospital mortality among patients alive and still in
 the ICU 24 hours after ICU admission in MIMIC-IV (A) and eICU (B). Tertiles
 were defined within each SCAI stage and separately within each cohort. Error
-bars show Wilson 95% confidence intervals. Group sizes are reported in
-Supplementary Table S11. Stage A was omitted (eight MIMIC-IV patients, no eICU
+bars show Wilson 95% confidence intervals. Group sizes are reported in Supplementary Table S9. Stage A was omitted (eight MIMIC-IV patients, no eICU
 patients, and no deaths). Supplementary Figures S5 to S7 show sensitivity
 analyses, 48-hour score trajectories, and subgroup performance.
 
@@ -331,24 +326,19 @@ appearance. All five added references were read in full before citation.
 
 ## Supplement map (build order)
 
-Supplementary Methods (three subsections, extending the main-text Methods):
-predictor measurement; sample size and predictor screen; sensitivity and
-48-hour analyses. The phenotype criteria sit in the Table S2 note, the
-landmark eligibility rule in the Table S4 note, the missing-component edge
-cases in the Table S3 note, and the evaluability statement in the Table S5
-note. No abbreviations block; terms are spelled out where needed. S1 TRIPOD+AI checklist. S2
-EHR-derived SCAI stage rules. S3 full model specification, both formulations,
-exact intercepts, card with missing-component defaults, score-to-risk
-mapping, worked example, point-schedule sensitivity. S4 landmark baseline
-characteristics. S5 availability and scorability, with the horizon trend in
-its note. S6 sensitivity cohorts and collinearity (imputation result in the
-Supplementary Methods). S7 landmark risk bands and
-threshold accuracy. S8 external populations and day-1 all-admissions
-performance with the BOS,MA2 comparison. S9 model-class comparison and
-redevelopment sensitivity analyses. S10 within-stage cells, within-stage
-AUROCs, incremental value and transported thresholds. S11 subgroup
-discrimination and
-calibration. S12 48-hour reassessment and trajectory. Figures: S1 cohort
-flow with landmark and the death-timing panel beneath it; S2 calibration
-curves; S3 decision curves; S4 integer card, predicted versus observed; S5
+The supplement keeps the submitted tables' titles and layouts, numbered in
+order of first citation in this manuscript (submitted S6, S7, S8, S9, and
+S10 are now S7, S10, S9, S8, and S6); Table S11 is new. S1 TRIPOD+AI
+checklist. S2 variable definitions (with cohort-entry and landmark rows) and
+MIMIC-IV stage rules, eICU rules in the note. S3 continuous specification
+with intercepts, and the integer scoring system with the missing-value
+rules. S4 model-class comparison, sample size and predictor screen, nested
+redevelopment. S5 submitted baseline comparisons of the full cohorts. S6
+missing-data analysis, imputation sensitivity, stage completeness, variance
+inflation factors, observed availability. S7 threshold accuracy and risk
+bands. S8 sensitivity cohorts, subgroups, all-admissions frame. S9
+within-stage cells, incremental value, transported thresholds. S10
+head-to-head comparison and external populations. S11 48-hour reassessment
+and trajectory. Figures: S1 cohort flow with landmark and the death-timing
+panel; S2 calibration; S3 decision curves; S4 integer card drawn; S5
 within-stage variants; S6 trajectory; S7 subgroups.

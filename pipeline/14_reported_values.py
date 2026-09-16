@@ -39,7 +39,7 @@ print('=' * 70)
 print('14. REPORTED VALUES (exact landmark frames)')
 print('=' * 70)
 
-# ---- availability at the exact 24-hour landmark (Supplementary Table S6) ----
+# ---- availability at the exact 24-hour landmark (Supplementary Table S6(E)) ----
 obs = {v: lm[v].notna() for v in ('lactate', 'aniongap', 'uo', 'bun', 'rdw')}
 for v, mask in obs.items():
     rec(f'availability_{v}', f'{100 * mask.mean():.1f}')
@@ -48,7 +48,7 @@ lac_inputs = obs['lactate'] & obs['uo'] & obs['bun'] & obs['rdw']
 rec('availability_all_aniongap_model_inputs', f'{100 * ag_inputs.mean():.1f}')
 rec('availability_all_lactate_model_inputs', f'{100 * lac_inputs.mean():.1f}')
 
-# ---- internal deployment-rule rescoring (Supplementary Table S8(A)) ----
+# ---- internal deployment-rule rescoring (Supplementary Table S7(B) note) ----
 lac_missing = lm['lactate'].isna().values
 rec('internal_lactate_missing_pct', f'{100 * lac_missing.mean():.1f}')
 s_med = card_score(lm, MED)
@@ -66,7 +66,7 @@ rec('internal_card_deployment_rule_auroc', f'{roc_auc_score(y, s_deploy):.4f}',
     'anion-gap bands where lactate is unobserved')
 rec('internal_scores_changed_by_deployment_rule', int((s_deploy != s_med).sum()))
 
-# ---- worked example (Supplementary Table S3) ----
+# ---- worked example (computed for the record; not printed in the supplement) ----
 spec = pd.read_csv(OUT + 'v2_spec_continuous.csv')
 lac_spec = {r['variable']: r for _, r in spec[spec.model == 'lactate'].iterrows()}
 example = {'lactate': 3.1, 'uo': 0.4, 'ohca_arrest': 0, 'age': 72, 'bun': 41, 'rdw': 15.9}
@@ -89,9 +89,14 @@ ev = pd.read_csv(OUT + 'event_time_exact.csv').iloc[0]
 after48 = int(ev['d_48_168']) + int(ev['d_gt168'])
 rec('deaths_after_48h_pct', f'{100 * after48 / int(ev["total_deaths"]):.1f}')
 rec('deaths_within_24h', int(ev['d_0_6']) + int(ev['d_6_12']) + int(ev['d_12_24']))
-SCREEN_N, SCREEN_D = 4315, 1537      # screening extract, Supplementary Methods
+SCREEN_N, SCREEN_D = 4315, 1537      # screening extract, Supplementary Table S4(B)
 rec('screening_extract_outcome_proportion', f'{SCREEN_D / SCREEN_N:.3f}',
     'archived selection extract, 4,315 ICU stays')
+
+# ---- subgroup mortality (Supplementary Table S8(B) column) ----
+fs = pd.read_csv(OUT + 'fairness_subgroups_lm24.csv')
+for _, r in fs.iterrows():
+    rec(f'subgroup_mortality_pct_{r["subgroup"]}', f'{100 * r["deaths"] / r["n"]:.1f}')
 
 pd.DataFrame(rows).to_csv(OUT + 'reported_values.csv', index=False)
 print(f'\n[done] reported_values.csv ({len(rows)} values)')

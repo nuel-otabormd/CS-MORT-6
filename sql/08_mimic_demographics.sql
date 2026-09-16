@@ -7,7 +7,7 @@
 -- Author:  Emmanuel Otabor, MD
 -- ----------------------------------------------------------------------------
 -- PURPOSE
---   Sex and race grouping for the baseline table and the TRIPOD+AI subgroup (fairness) analysis (Tables S5 and S12).
+--   Sex and race grouping for the baseline table and the TRIPOD+AI subgroup (fairness) analysis (Tables S5 and S8).
 --   Previously read from an unsaved /tmp/mimic_demo.csv; this file is the canonical,
 --   committed source. Gender from hosp.patients; race from the index admission's
 --   hosp.admissions.race, grouped to White / Black / Hispanic / Asian / Other or

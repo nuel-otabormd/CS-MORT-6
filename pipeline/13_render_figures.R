@@ -6,7 +6,7 @@
 # hand-entered numbers are the S1 flow counts, each traceable: 4,315 / 3,103
 # re-verified from the screening extract (in_primary_cohort sums to 3,103);
 # the 226 / 986 exclusion split is the submitted Figure S1 chain (cohort
-# unchanged in revision); landmark decompositions from Table S2 (251/156/2)
+# unchanged in revision); landmark decompositions from the landmark accounting (251/156/2)
 # and the amendment (1,586 -> 1,047, difference 539).
 .B   <- dirname(sub("--file=", "", grep("--file=", commandArgs(FALSE), value = TRUE)[1]))
 OUT  <- paste0(Sys.getenv("CSMORT6_OUT", file.path(.B, "..", "outputs")), "/")
