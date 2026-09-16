@@ -106,8 +106,8 @@ stability and the transparent integer score it enables. Six predictors
 distribution width) were chosen by bootstrap stability selection with
 L1-penalized logistic regression and clinical review, then held fixed for
 coefficient and intercept re-estimation at 24 hours using L2 penalization
-(C=0.5, untuned). Sample-size calculations addressed the fixed model and
-predictor screen [14] (Supplementary Methods). The 0-to-15 integer score [15]
+(C=0.5, untuned). Sample-size calculations addressed the fixed model [14]
+(Supplementary Methods). The 0-to-15 integer score [15]
 was retained, with re-estimation of its score-to-risk mapping (Supplementary
 Table S3). Because lactate was incompletely observed, a separate continuous
 model replaced lactate with harmonized anion gap, retaining the other five

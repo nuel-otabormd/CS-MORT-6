@@ -30,10 +30,7 @@ resamples of L1-penalized logistic regression; 38 parameters were selected in
 at least 80% of resamples, five of the six retained predictors in 400 of 400,
 and blood urea nitrogen in 399 of 400. Parameters requiring imaging,
 neurological assessment, treatment-dependent measurement, or additional
-hemodynamic information were not carried into a bedside score. The screen
-treated repeated stays as independent and did not meet its own requirement of
-4,386 observations with 1,563 events; nested redevelopment (Table S9)
-assesses robustness to the selection step.
+hemodynamic information were not carried into a bedside score.
 
 ### Sensitivity and 48-hour analyses
 
