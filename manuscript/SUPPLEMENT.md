@@ -14,8 +14,6 @@ for Cardiovascular Angiography and Interventions.
 
 ## Supplementary Methods
 
-These methods extend, and do not restate, the Methods of the main text.
-
 ### Cohort definition and landmark eligibility
 
 The MIMIC-IV phenotype's physiological and support criteria are systolic
@@ -65,11 +63,11 @@ assesses robustness to this step.
 
 ### Integer scoring and missing data
 
-When neither lactate nor anion gap is observed, the card scores the anion-gap
-development-median category (2 points), and an absent arrest record scores as
-no arrest. Rescoring the internal cohort under the external deployment rule
-is reported with Table S7, and an anion-gap-bands-for-all evaluation is the
-harmonized external sensitivity. Availability in Table S5 is observed data;
+Externally the card substitutes the anion-gap bands when lactate is
+unavailable; when neither is observed, the component scores the anion-gap
+development-median category (2 points), and an absent arrest record scores
+as no arrest. An anion-gap-bands-for-all evaluation is the harmonized
+external sensitivity (Table S8). Availability in Table S5 is observed data;
 after these rules every patient is evaluable.
 
 ### Comparator and within-stage analyses
@@ -84,8 +82,7 @@ bootstrap resample.
 
 ### Sensitivity and 48-hour analyses
 
-Sensitivity cohorts re-evaluated the frozen model out of fold (Table S6). The
-imputation sensitivity replaced the median rule with a single stochastic
+The imputation sensitivity replaced the median rule with a single stochastic
 chained-equations imputation, fitted within each training fold and applied to
 its test fold, as were the winsorization limits, without multiple-imputation
 pooling; this gave AUROC 0.725 and calibration slope 1.01, versus 0.734 and
@@ -307,9 +304,8 @@ positive and negative likelihood ratios.
 
 The 1,586 landmark stays comprise 1,439 unique patients (147 repeat stays);
 late-documented eligibility and repeat stays each attenuated discrimination.
-Arrest flags first documented after 24 hours (5 in the primary population)
-are zeroed throughout these rows; retaining them gives anion gap 0.747 and
-deployment-rule card 0.758.
+Retaining the five arrest flags first documented after 24 hours gives anion
+gap 0.747 and deployment-rule card 0.758.
 
 (B) Day-1 performance among all admissions (retained for comparability with
 existing scores; repeat stays included)
