@@ -21,9 +21,9 @@ the landmark.
 
 ### Sample size and predictor screen
 
-Minimum sample size follows Riley et al (pmsampsize: anticipated C-statistic
-0.70, target shrinkage 0.9). Re-estimating the six fixed predictors at the
-landmark (outcome proportion 0.331) requires 469 patients with 156 events.
+Following Riley et al and assuming a C-statistic of 0.70, re-estimating the
+six fixed predictors at the landmark (outcome proportion 0.331) requires 469
+patients with 156 events.
 The development-time predictor screen evaluated 58 candidate parameters in
 4,315 ICU stays from 3,192 patients (1,537 deaths), using 400 bootstrap
 resamples of L1-penalized logistic regression; 38 parameters were selected in
@@ -34,21 +34,18 @@ hemodynamic information were not carried into a bedside score.
 
 ### Sensitivity and 48-hour analyses
 
-The imputation sensitivity replaced the median rule with a single stochastic
-chained-equations imputation, fitted within each training fold and applied to
-its test fold, as were the winsorization limits, without multiple-imputation
-pooling; this gave AUROC 0.725 and calibration slope 1.01, versus 0.734 and
-0.99 under the median rule. In the 48-hour analyses, laboratory predictors
-take the most recent value up to 48 hours and urine output is cumulative over
-the horizon. The 5 arrest flags first entered after 24 hours are zeroed in
-the primary external analyses; the 48-hour analyses apply the same rule at
-2,880 minutes.
+The imputation sensitivity analysis replaced median imputation with a single
+chained-equations imputation fitted within each cross-validation training
+fold; it gave AUROC 0.725 and calibration slope 1.01, versus 0.734 and 0.99
+with median imputation. The 48-hour reassessment applied the same predictor
+rules over the first 48 hours. In eICU, arrest diagnoses first recorded after
+the landmark were treated as absent, at 24 and at 48 hours.
 
 ## Table S1. TRIPOD+AI reporting checklist
 
-## Table S2. EHR-derived SCAI stage rules
+## Table S2. EHR-derived SCAI stage rules (MIMIC-IV, first 24 hours)
 
-| Stage | Rule (MIMIC-IV, first 24 hours) |
+| Stage | Rule |
 |---|---|
 | E | Cardiac arrest, ≥3 vasoactive agents (vasopressor count plus inotrope use), or ≥2 mechanical circulatory support devices |
 | D | 2 vasoactive agents, any device, or maximum lactate > 4 mmol/L on ≥1 vasoactive agent |
@@ -67,63 +64,70 @@ arrest point.
 
 ## Table S3. Continuous model specification (landmark estimation)
 
-| Variable | Winsor low | Winsor high | Impute median | Mean | SD | z-scale beta, lactate model | Raw-scale beta, lactate model | z-scale beta, anion-gap model | Raw-scale beta, anion-gap model |
+| | Winsor limits | < | | | | Lactate model | < | AG model | < |
 |---|---|---|---|---|---|---|---|---|---|
+| Variable | Low | High | Median | Mean | SD | β (z) | β (raw) | β (z) | β (raw) |
 | Lactate | 0.7 | 12.723 | 1.9 | 2.418 | 1.8608 | 0.496888 | 0.267033 | - | - |
 | Anion gap | 5.0 | 29.0 | 13.0 | 13.3935 | 4.5533 | - | - | 0.427884 | 0.093973 |
 | Urine output | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.427892 | -0.568569 | -0.463905 | -0.616421 |
 | Cardiac arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.325232 | 1.109057 | 0.361791 | 1.233727 |
 | Age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.263458 | 0.018773 | 0.271008 | 0.019311 |
-| Blood urea nitrogen | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.254663 | 0.010217 | 0.082329 | 0.003303 |
-| Red cell distribution width | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.198363 | 0.079777 | 0.186597 | 0.075044 |
+| BUN | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.254663 | 0.010217 | 0.082329 | 0.003303 |
+| RDW | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.198363 | 0.079777 | 0.186597 | 0.075044 |
 | (intercept) | | | | | | -0.806673 | -4.001369 | -0.82333 | -4.290575 |
 
-Predicted probability = 1 / (1 + exp(-(intercept + sum of beta x z))), with z
-= (winsorized, median-imputed value - mean) / SD; the raw-scale columns allow
-direct computation from winsorized, median-imputed values without
-standardization. A dash marks a variable outside that model.
+AG, anion gap; BUN, blood urea nitrogen; RDW, red cell distribution width; SD,
+standard deviation. Units: lactate and anion gap, mmol/L; urine output,
+mL/kg/h; age, years; BUN, mg/dL; RDW, %; cardiac arrest, 0 or 1. Each value
+is winsorized to the low and high limits and, if missing, takes the median.
+Predicted probability = 1 / (1 + exp(-(intercept + sum of β × x))), with x =
+(value - mean) / SD for β (z) and x = value for β (raw). A dash marks a
+variable outside that model; the AG model is fitted separately, with anion
+gap in place of lactate.
 
 ## Table S4. Integer card and score-to-risk mapping
 
-(A) Integer card (points per category; total range 0 to 15)
+(A) Integer card
 
-| Variable | Categories (points) | Development median (points if missing, internal) |
+| Variable | Category | Points |
 |---|---|---|
-| Lactate, mmol/L | < 2 (0); 2 to < 4 (2); ≥4 (4) | 1.9 (0) |
-| Anion gap, mmol/L, when lactate unavailable | < 12 (0); 12 to < 18 (2); ≥18 (4) | 13.0 (2) |
-| Urine output, mL/kg/h | ≥1 (0); 0.5 to < 1 (1); < 0.5 (2) | 0.73 (1) |
-| Cardiac arrest | no (0); yes (3) | no (0) |
-| Age, years | < 65 (0); 65 to < 80 (1); ≥80 (2) | 71.0 (1) |
-| Blood urea nitrogen, mg/dL | < 25 (0); 25 to < 45 (1); ≥45 (2) | 33.0 (1) |
-| Red cell distribution width, % | < 14.5 (0); 14.5 to < 16 (1); ≥16 (2) | 15.2 (1) |
+| Lactate (mmol/L) | <2 / 2 to <4 / ≥4 | 0 / 2 / 4 |
+| Anion gap if lactate unavailable (mmol/L) | <12 / 12 to <18 / ≥18 | 0 / 2 / 4 |
+| Urine output (mL/kg/h) | ≥1 / 0.5 to <1 / <0.5 | 0 / 1 / 2 |
+| Cardiac arrest | No / Yes | 0 / 3 |
+| Age (years) | <65 / 65 to <80 / ≥80 | 0 / 1 / 2 |
+| Blood urea nitrogen (mg/dL) | <25 / 25 to <45 / ≥45 | 0 / 1 / 2 |
+| Red cell distribution width (%) | <14.5 / 14.5 to <16 / ≥16 | 0 / 1 / 2 |
 
-Apply the intervals exactly as printed: a urine output of 0.5 mL/kg/h scores
-1 point and 1.0 mL/kg/h scores 0 points, because higher output is protective.
-The final column is the internal missing-component default; when neither
-lactate nor anion gap is observed, the component scores the anion-gap
-category (2 points), and an absent arrest record scores as no arrest. The
-continuous anion-gap model (Table S3) is separately fitted, not a
-substitution into the lactate equation.
+Total score 0 to 15. A missing component scores the category of its
+development median (Table S3): 1 point each for urine output, age, blood urea
+nitrogen, and red cell distribution width. A missing lactate scored 0
+internally; externally, anion gap replaced it and scored 2 when also missing.
+An absent arrest record scores 0.
 
-(B) Score-to-risk mapping at the landmark (observed mortality drawn in
-Figure S4)
+(B) Score-to-risk mapping at the landmark
 
-| Score | Predicted risk, % | Observed mortality at the landmark |
-|---|---|---|
-| 0 | 7.2 | 5.6% (n=71) |
-| 1 | 9.8 | 6.9% (n=130) |
-| 2 | 13.2 | 11.2% (n=240) |
-| 3 | 17.5 | 17.8% (n=314) |
-| 4 | 22.9 | 24.2% (n=384) |
-| 5 | 29.4 | 31.5% (n=387) |
-| 6 | 36.8 | 38.2% (n=364) |
-| 7 | 44.9 | 42.5% (n=294) |
-| 8 | 53.3 | 54.1% (n=196) |
-| 9 | 61.5 | 58.2% (n=141) |
-| 10 | 69.1 | 69.2% (n=78) |
-| 11 | 75.8 | 75.5% (n=53) |
-| 12 | 81.4 | 81.5% (n=27) |
-| 13-15 | 86.0, 89.6, 92.3 | n<10 |
+| Score | Patients, n | Predicted risk, % | Observed mortality, % |
+|---|---|---|---|
+| 0 | 71 | 7.2 | 5.6 |
+| 1 | 130 | 9.8 | 6.9 |
+| 2 | 240 | 13.2 | 11.2 |
+| 3 | 314 | 17.5 | 17.8 |
+| 4 | 384 | 22.9 | 24.2 |
+| 5 | 387 | 29.4 | 31.5 |
+| 6 | 364 | 36.8 | 38.2 |
+| 7 | 294 | 44.9 | 42.5 |
+| 8 | 196 | 53.3 | 54.1 |
+| 9 | 141 | 61.5 | 58.2 |
+| 10 | 78 | 69.1 | 69.2 |
+| 11 | 53 | 75.8 | 75.5 |
+| 12 | 27 | 81.4 | 81.5 |
+| 13 | <10 | 86.0 | - |
+| 14 | <10 | 89.6 | - |
+| 15 | <10 | 92.3 | - |
+
+Observed mortality is not shown for scores with fewer than 10 patients.
+Figure S4 plots predicted risk against observed mortality.
 
 ## Table S5. Baseline characteristics of the landmark analysis populations
 
