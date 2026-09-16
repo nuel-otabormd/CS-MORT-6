@@ -131,17 +131,13 @@ bedside score.
 | Deployable: harmonized definitions, ≥80% availability in both databases | 13 | 0.718 | -0.014 (-0.029 to +0.001) |
 | Symmetric: lactate and urine output restored | 15 | 0.725 | -0.007 (-0.020 to +0.005) |
 
-Selection was repeated inside 10-times-repeated 5-fold outer
-cross-validation and compared with the six-variable model's 0.733 on the same
-folds; neither pool met the replacement criteria of the archived analysis
-protocol. Across outer folds, age, cardiac arrest, and red cell distribution
-width were selected in 100% of resamples in both pools, the harmonized anion
-gap in 88% and 50%, blood urea nitrogen in 76% and 98%, and minimum systolic
-blood pressure in 70% and 78%; every other candidate was selected in 26% or
-fewer. The low reselection of lactate (38%) and urine output (6%), evaluable
-only in the symmetric pool, is a limitation; their retention rests on their
-prior selection and on neither redevelopment demonstrating improved validated
-performance.
+Selection was repeated within each fold of 10-times-repeated 5-fold
+cross-validation; differences are versus the six-variable model (AUROC 0.733)
+on the same folds. Age, cardiac arrest, and red cell distribution width were
+reselected in every fold of both pools, and blood urea nitrogen in 76%
+(deployable) and 98% (symmetric). Lactate (38%) and urine output (6%) were
+rarely reselected in the symmetric pool, a limitation; they were retained on
+their original selection, as neither redevelopment performed better.
 
 ## Table S5. Baseline characteristics of the derivation and validation cohorts.
 
