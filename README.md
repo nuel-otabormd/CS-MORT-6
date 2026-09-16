@@ -52,7 +52,7 @@ for byte.
 - `pipeline/10_sample_size.R`: minimum sample size (Riley criteria, pmsampsize).
 - `pipeline/11_stage_coding_robustness.py`: stage-coding and refitting
   robustness for the incremental-value analyses (categorical versus ordinal
-  stage, models refit within every bootstrap resample; Supplementary Table S12).
+  stage, models refit within every bootstrap resample; Supplementary Table S10).
 - `pipeline/12_external_calibration.py`: external calibration deciles and
   the calibration annotation values for Figure S2.
 - `pipeline/13_render_figures.R`: Figure 1 and Supplementary Figures S1-S7,

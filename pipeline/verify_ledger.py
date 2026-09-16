@@ -78,7 +78,7 @@ if ns:
     assert {785, 978, 496} <= ns, ns
     checked += 1
 
-# Stage-coding and refitting robustness (Supplementary Table S12, panel B)
+# Stage-coding and refitting robustness (Supplementary Table S10, panel B)
 _r = pd.read_csv(OUT + 'stage_coding_robustness.csv').set_index('tag')
 assert round(_r.loc['eICU continuous AG (frozen)', 'd_cat'], 3) == 0.125
 checked += 1
@@ -98,7 +98,7 @@ checked += 1
 assert len(pd.read_csv(OUT + 'external_calibration_curve_ag.csv')) == 10
 checked += 1
 
-# Threshold operating characteristics derive from the deployed card (Table S9, panel B)
+# Threshold operating characteristics derive from the deployed card (Table S7, panel B)
 contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
 # --- card re-derivation: every metric verified, by name ---------------------
 # The output-to-expected check is metric-specific: each value is read from its
@@ -151,9 +151,9 @@ assert abs((float(_m['transported_card_oof_auroc']) - float(_m['rederived_card_o
 checked += 2
 # anchored document check, scoped to the point-schedule paragraph
 _sup = open(os.path.join(_B, '..', 'manuscript', 'SUPPLEMENT.md')).read()
-assert '(C) Point-schedule sensitivity.' in _sup, \
+assert '(D) Point-schedule sensitivity.' in _sup, \
     'SUPPLEMENT.md: the point-schedule sensitivity paragraph is missing'
-_blk = ' '.join(_sup.split('(C) Point-schedule sensitivity.', 1)[1]
+_blk = ' '.join(_sup.split('(D) Point-schedule sensitivity.', 1)[1]
                     .split('\n\n', 1)[0].split())
 for _k, _tpl in _CARD_DOC.items():
     _need = _tpl.format(v=_CARD_FMT[_k][0])
