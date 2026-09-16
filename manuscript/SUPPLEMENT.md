@@ -46,9 +46,6 @@ analyses; the 48-hour analyses apply the same rule at 2,880 minutes.
 
 ## Table S1. TRIPOD+AI reporting checklist
 
-Items 10 and 12 reference the landmark eligibility rule and the
-influence-function confidence interval.
-
 ## Table S2. EHR-derived SCAI stage rules
 
 | Stage | MIMIC-IV, first 24 hours | eICU |
