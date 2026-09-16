@@ -338,10 +338,10 @@ appearance. All five added references were read in full before citation.
 
 ## Supplement map (build order)
 
-Supplementary Methods (six subsections): cohort definition and landmark
-eligibility; predictor measurement and staging; model development and
-validation; integer scoring and missing data; comparator and within-stage
-analyses; sensitivity and 48-hour analyses. S1 TRIPOD+AI checklist. S2
+Supplementary Methods (six subsections, extending the main-text Methods):
+cohort definition and landmark eligibility; predictor measurement; sample
+size and predictor screen; integer scoring and missing data; comparator and
+within-stage analyses; sensitivity and 48-hour analyses. S1 TRIPOD+AI checklist. S2
 EHR-derived SCAI stage rules. S3 full model specification, both formulations,
 exact intercepts, card with missing-component defaults, score-to-risk
 mapping, worked example, point-schedule sensitivity. S4 landmark baseline
@@ -350,7 +350,8 @@ imputation, VIF with correlation summary. S7 landmark risk bands and
 threshold accuracy. S8 external populations and day-1 all-admissions
 performance with the BOS,MA2 comparison. S9 model-class comparison and
 redevelopment sensitivity analyses. S10 within-stage cells, within-stage
-AUROCs, incremental value and variants. S11 subgroup discrimination and
+AUROCs, incremental value and transported thresholds. S11 subgroup
+discrimination and
 calibration. S12 48-hour reassessment and trajectory. Figures: S1 cohort
 flow with landmark and the death-timing panel beneath it; S2 calibration
 curves; S3 decision curves; S4 integer card, predicted versus observed; S5

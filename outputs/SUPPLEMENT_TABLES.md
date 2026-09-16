@@ -204,30 +204,3 @@ regenerated from outputs/ so table values can be diffed against it.
 | incremental_integer_hybrid | stage 0.613 / score 0.759 / both 0.767; +0.154 (+0.116 to +0.191); LRT p=7.1e-36 |
 | incremental_continuousAG_stage_no_arrest_rule | stage 0.524 / score 0.748 / both 0.750; +0.226 (+0.179 to +0.272); LRT p=1.6e-40 |
 | incremental_integer_hybrid_stage_no_arrest_rule | stage 0.524 / score 0.759 / both 0.761; +0.237 (+0.193 to +0.283); LRT p=8.4e-43 |
-
-| variant | stage | tertile | n | mortality | ci |
-|---|---|---|---|---|---|
-| ohca-free | B | Low | 168 | 16.1 | 11.3-22.4 |
-| ohca-free | B | Mid | 135 | 29.6 | 22.6-37.8 |
-| ohca-free | B | High | 104 | 36.5 | 27.9-46.1 |
-| ohca-free | C | Low | 419 | 16.0 | 12.8-19.8 |
-| ohca-free | C | Mid | 257 | 35.4 | 29.8-41.4 |
-| ohca-free | C | High | 233 | 45.9 | 39.6-52.3 |
-| ohca-free | D | Low | 310 | 13.2 | 9.9-17.5 |
-| ohca-free | D | Mid | 202 | 26.7 | 21.1-33.2 |
-| ohca-free | D | High | 187 | 57.8 | 50.6-64.6 |
-| ohca-free | E | Low | 255 | 29.8 | 24.5-35.7 |
-| ohca-free | E | Mid | 248 | 48.8 | 42.6-55.0 |
-| ohca-free | E | High | 168 | 72.6 | 65.4-78.8 |
-| non-staging | B | Low | 179 | 15.6 | 11.0-21.7 |
-| non-staging | B | Mid | 137 | 32.1 | 24.9-40.3 |
-| non-staging | B | High | 91 | 36.3 | 27.1-46.5 |
-| non-staging | C | Low | 337 | 14.8 | 11.4-19.0 |
-| non-staging | C | Mid | 342 | 31.9 | 27.2-37.0 |
-| non-staging | C | High | 230 | 46.1 | 39.8-52.5 |
-| non-staging | D | Low | 306 | 12.4 | 9.2-16.6 |
-| non-staging | D | Mid | 233 | 34.3 | 28.5-40.6 |
-| non-staging | D | High | 160 | 53.1 | 45.4-60.7 |
-| non-staging | E | Low | 295 | 34.9 | 29.7-40.5 |
-| non-staging | E | Mid | 238 | 51.3 | 44.9-57.5 |
-| non-staging | E | High | 138 | 68.1 | 59.9-75.3 |

@@ -151,10 +151,10 @@ P < .001); adding stage to score +0.001. Within-stage AUROC: B 0.636
 (0.579-0.692), C 0.689 (0.651-0.724), D 0.756 (0.717-0.793), E 0.728
 (0.689-0.765).
 
-(C) Robustness of the gradient: tertile mortality by stage using the
-OHCA-free card (MIMIC B 16/30/37, C 16/35/46, D 13/27/58, E 30/49/73) and a
-four-variable sub-score of variables taking no part in staging (B 16/32/36,
-C 15/32/46, D 12/34/53, E 35/51/68).""")
+Gradient robustness is drawn in Figure S5 from figure1_variants_mimic.csv
+(arrest-free card, MIMIC B 16/30/37, C 16/35/46, D 13/27/58, E 30/49/73; a
+four-variable sub-score of variables taking no part in staging, B 16/32/36,
+C 15/32/46, D 12/34/53, E 35/51/68) and is not tabulated in the supplement.""")
 
 D.append("## Table S12. 48-hour reassessment and score trajectory\n\n" + """
 (B) Symmetric trajectory (source: trajectory_symmetric.csv)
@@ -231,17 +231,17 @@ nb40 = dca.iloc[(dca['threshold'] - 0.40).abs().argmin()]
 # document of record; this step computes the landmark threshold table and
 # emits its table blocks for cross-checking, never a competing narrative.
 # Additional cross-check blocks: outputs whose values reach the supplement but
-# had no regenerated block, so verify_tables.py could not see them. These four
-# files together held 262 of the supplement's 487 decimal values.
+# had no regenerated block, so verify_tables.py could not see them.
 _extra = []
 # Only files the supplement reproduces in full are listed. Files holding
-# full-precision intermediates (stage_coding_robustness, dca_lm24_common) or
+# full-precision intermediates (stage_coding_robustness, dca_lm24_common),
 # values quoted selectively (locked_external_results, card_rederivation,
-# reported_values) are deliberately excluded: requiring every one of their
-# values to appear would fail on numbers the supplement never prints.
-# Those are covered instead by verify_ledger's metric-specific checks.
-for _f in ('internal_final_results.csv', 'external_incremental.csv',
-           'figure1_variants_mimic.csv'):
+# reported_values), or values now shown only in a figure
+# (figure1_variants_mimic, drawn as Figure S5) are deliberately excluded:
+# requiring every one of their values to appear would fail on numbers the
+# supplement never prints. Those are covered instead by verify_ledger's
+# metric-specific checks.
+for _f in ('internal_final_results.csv', 'external_incremental.csv'):
     _p = OUT + _f
     if not _os.path.exists(_p):
         continue
