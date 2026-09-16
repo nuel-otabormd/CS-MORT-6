@@ -49,8 +49,8 @@ Minimum sample size follows Riley et al (pmsampsize: binary outcome,
 anticipated C-statistic 0.70, observed outcome proportion, stated parameter
 count, target shrinkage 0.9, margin of error 0.05). Re-estimating the six
 fixed predictors at the landmark (outcome proportion 0.331) requires 469
-patients with 156 events, satisfied by the 2,694 landmark patients with 892
-events. The development-time predictor screen evaluated 58 candidate
+patients with 156 events, which the landmark population exceeds. The
+development-time predictor screen evaluated 58 candidate
 parameters in 4,315 ICU stays from 3,192 patients (1,537 deaths), using 400
 bootstrap resamples of L1-penalized logistic regression; 38 parameters were
 selected (absolute coefficient above 1e-6) in at least 80% of resamples, five
@@ -69,8 +69,8 @@ assesses robustness to this step.
 
 When neither lactate nor anion gap is observed, the card scores the anion-gap
 development-median category (2 points), and an absent arrest record scores as
-no arrest; lactate was observed in 52.5% of the primary external population.
-Component medians and default points are in Table S3, panel B. Rescoring the
+no arrest (component availability in Table S5). Component medians and default
+points are in Table S3, panel B. Rescoring the
 internal cohort under the external deployment rule is reported with Table S7,
 and an anion-gap-bands-for-all evaluation is the harmonized external
 sensitivity. Availability in Table S5 is observed data; after these rules
@@ -339,19 +339,18 @@ existing scores; repeat stays included)
 | Continuous, anion gap | 0.762 (0.744-0.779) | 0.749 (0.726-0.772) |
 | Integer card | 0.758 (0.740-0.774) | 0.732 (0.709-0.755) |
 | Calibration | out-of-fold slope 0.98 (lactate formulation) | anion gap slope 0.96, CITL +0.04 |
-| BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.037); P = .69 |
+| BOS,MA2 head-to-head, day 1 (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.037); P = .69 |
+| BOS,MA2 imputed-all sensitivity (landmark, n=1,047) | - | 0.748 vs 0.735; diff +0.014 (-0.024 to +0.050) |
+| BOS,MA2 common-scorable landmark (n=654) | - | 0.755 vs 0.751; diff +0.004 (-0.039 to +0.046); P = .87 |
 
 As in Table 1, the integer card is not scored identically in the two columns:
 internally a missing component took its development-median category,
-externally the deployment rule substituted anion-gap bands. Comparator
-sensitivity analyses: with missing checklist components imputed by chained
-equations (analogous to, not a replication of, the predictive-mean-matching
-imputation of its development study), BOS,MA2 reached 0.735 versus 0.748 for
-CS-MORT-6 anion gap (difference +0.014, 95% CI -0.024 to +0.050); in the
-common-scorable subset of 654 patients the landmark head-to-head is 0.755
-versus 0.751 (difference +0.004, -0.039 to +0.046, P = .87). The eICU
-Collaborative Research Database comprises 208 hospitals; 132 contributed the
-1,866-stay cohort and 117 the primary landmark population.
+externally the deployment rule substituted anion-gap bands. BOS,MA2 rows give
+CS-MORT-6 anion gap first; the imputed-all row fills missing checklist
+components by chained equations, analogous to, not a replication of, its
+development study's predictive-mean-matching. The eICU Collaborative Research
+Database comprises 208 hospitals; 132 contributed the 1,866-stay cohort and
+117 the primary landmark population.
 
 ## Table S9. Model-class comparison and redevelopment sensitivity analyses
 
@@ -365,12 +364,10 @@ Collaborative Research Database comprises 208 hospitals; 132 contributed the
 | Gradient boosting | 0.796 | 0.75 |
 
 This historical comparison used a wider candidate pool than the final
-six-variable model, evaluated by cross-validation in the development cohort,
-so its values differ from the final model's and from the nested landmark
-redevelopment below. Ridge regression was selected for calibration stability
-and the transparent integer card it supports; the final specification
-(C=0.5, untuned, five-fold cross-validation with preprocessing inside folds)
-is in the Methods.
+six-variable model, so its values differ from the final model's and from the
+nested landmark redevelopment below. Ridge regression was selected for
+calibration stability and the transparent integer card it supports (final
+specification in the Methods).
 
 (B) Nested redevelopment against the six-variable model's 0.733 on the same
 folds:
@@ -455,13 +452,11 @@ components under-stage them.
 | eICU | Integer card | 0.613 | 0.759 | 0.767 | +0.154 (+0.116 to +0.191) |
 
 Within-stage AUROC: B 0.636 (0.579-0.692), C 0.689 (0.651-0.724), D 0.756
-(0.717-0.793), E 0.728 (0.689-0.765). The likelihood-ratio test for the score
-over the stage was P < .001 throughout (chi-square 348.2 in MIMIC-IV); adding
-the stage to the score moved AUROC from 0.727 to 0.728 in MIMIC-IV, and from
-0.748 to 0.754 (continuous) and 0.759 to 0.767 (card) in eICU. With the
-arrest rule removed from staging the increments are +0.165 (continuous) and
-+0.164 (integer) over stage 0.564 in MIMIC-IV, and +0.226 and +0.237 over
-0.524 in eICU.
+(0.717-0.793), E 0.728 (0.689-0.765); likelihood-ratio chi-square for the
+score over the stage 348.2 in MIMIC-IV, P < .001 throughout. With the arrest
+rule removed from staging the increments are +0.165 (continuous) and +0.164
+(integer) over stage 0.564 in MIMIC-IV, and +0.226 and +0.237 over 0.524 in
+eICU.
 
 Stage-coding robustness (unordered stage categories, models refit within
 resamples):
@@ -473,12 +468,9 @@ resamples):
 | Increment, integer card | +0.142 (+0.117 to +0.162) | +0.135 (+0.102 to +0.174) |
 
 The unordered coding was examined because eICU stage-specific mortality is
-not monotone (B 19.7%, C 27.4%, D 21.2%, E 47.9%; in MIMIC-IV stages C and D
-are close at 29.2% and 29.0%), so it discriminates better alone than the
-ordinal term (0.630 versus 0.613); likelihood-ratio P < .001 throughout.
-Refitting within resamples leaves the primary ordinal-term intervals
-essentially unchanged (eICU continuous anion gap +0.104 to +0.178 versus the
-reported +0.101 to +0.178).
+not monotone (B 19.7%, C 27.4%, D 21.2%, E 47.9%); refitting within resamples
+leaves the primary ordinal-term intervals essentially unchanged (eICU
+continuous anion gap +0.104 to +0.178 versus the reported +0.101 to +0.178).
 
 (C) Transportability of within-stage thresholds: MIMIC-frozen per-stage
 tertile cutpoints applied unchanged to the eICU primary landmark
