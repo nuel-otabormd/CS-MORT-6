@@ -11,13 +11,13 @@ table states otherwise.
 ### Predictor measurement
 
 The harmonized anion gap is sodium minus chloride minus bicarbonate, each
-component its own most recent value. Urine output
-is cumulative volume divided by weight and observed hours, with a fixed
-denominator in eICU. Cardiac arrest is a diagnosis-record indicator without
-an event timestamp: in MIMIC-IV a hospital-admission discharge diagnosis
-(ICD-10 I46.x or ICD-9 427.5) with emergency or urgent admission; in eICU a
-structured cardiac-arrest diagnosis with an emergency admission source,
-documented by the landmark.
+component its own most recent value. Urine output is cumulative volume
+divided by weight and observed hours, with a fixed denominator in eICU.
+Cardiac arrest is a diagnosis-record indicator without an event timestamp: in
+MIMIC-IV a hospital-admission discharge diagnosis (ICD-10 I46.x or ICD-9
+427.5) with emergency or urgent admission; in eICU a structured
+cardiac-arrest diagnosis with an emergency admission source, documented by
+the landmark.
 
 ### Sample size and predictor screen
 
@@ -39,68 +39,53 @@ chained-equations imputation, fitted within each training fold and applied to
 its test fold, as were the winsorization limits, without multiple-imputation
 pooling; this gave AUROC 0.725 and calibration slope 1.01, versus 0.734 and
 0.99 under the median rule. In the 48-hour analyses, laboratory predictors
-take the most recent
-value up to 48 hours and urine output is cumulative over the horizon. The 5
-arrest flags first entered after 24 hours are zeroed in the primary external
-analyses; the 48-hour analyses apply the same rule at 2,880 minutes.
+take the most recent value up to 48 hours and urine output is cumulative over
+the horizon. The 5 arrest flags first entered after 24 hours are zeroed in
+the primary external analyses; the 48-hour analyses apply the same rule at
+2,880 minutes.
 
 ## Table S1. TRIPOD+AI reporting checklist
 
 ## Table S2. EHR-derived SCAI stage rules
 
-| Stage | MIMIC-IV, first 24 hours | eICU |
-|---|---|---|
-| E | Cardiac arrest, ≥3 vasoactive agents (vasopressor count plus inotrope use), or ≥2 mechanical circulatory support devices | Any recorded cardiac-arrest diagnosis |
-| D | 2 vasoactive agents, any device, or maximum lactate > 4 mmol/L on ≥1 vasoactive agent | Any recorded mechanical support interface |
-| C | ≥1 vasoactive agent, or maximum lactate ≥2 mmol/L with hypotension (minimum systolic < 90 or minimum mean < 65 mmHg) | Any vasopressor or inotrope |
-| B | Hypotension or maximum lactate ≥2 mmol/L | Otherwise |
-| A | Otherwise | Not assignable |
+| Stage | Rule (MIMIC-IV, first 24 hours) |
+|---|---|
+| E | Cardiac arrest, ≥3 vasoactive agents (vasopressor count plus inotrope use), or ≥2 mechanical circulatory support devices |
+| D | 2 vasoactive agents, any device, or maximum lactate > 4 mmol/L on ≥1 vasoactive agent |
+| C | ≥1 vasoactive agent, or maximum lactate ≥2 mmol/L with hypotension (minimum systolic < 90 or minimum mean < 65 mmHg) |
+| B | Hypotension or maximum lactate ≥2 mmol/L |
+| A | Otherwise |
 
 Rules apply in the order E, D, C, B; the first matching rule assigns the
-stage. MIMIC-IV stage A is assigned when no rule matches; eICU stage A is not
-assignable because all cohort members meet the shock definition. The eICU
-stage-E rule accepts any recorded cardiac-arrest diagnosis without the
-emergency-admission restriction of the score's arrest predictor, so 238 of
-1,047 primary-landmark patients are staged E while 147 carry the arrest
-point. These pragmatic rules follow the 2022 update's therapy-intensity
-guidance for stages C through E and are not the operationalization of
-Jentzer et al. The cohort phenotype's physiological and support criteria are
-systolic blood pressure < 90 mmHg, mean arterial pressure < 65 mmHg, lactate
-≥2 mmol/L, or vasoactive, inotropic, or mechanical circulatory support,
-within 24 hours.
+stage. In eICU, stage E is any recorded cardiac-arrest diagnosis, D any
+recorded mechanical support interface, C any vasopressor or inotrope, and B
+otherwise; stage A is not assignable because all cohort members meet the
+shock definition. The eICU stage-E rule accepts any recorded arrest diagnosis
+without the emergency-admission restriction of the score's arrest predictor,
+so 238 of 1,047 primary-landmark patients are staged E while 147 carry the
+arrest point.
 
-## Table S3. Full model specification (landmark estimation)
+## Table S3. Continuous model specification (landmark estimation)
 
-(A) Continuous models, exact values
-
-| Model | Variable | Winsor low | Winsor high | Impute median | Mean | SD | z-scale beta | Raw-scale beta |
-|---|---|---|---|---|---|---|---|---|
-| Lactate | Lactate | 0.7 | 12.723 | 1.9 | 2.418 | 1.8608 | 0.496888 | 0.267033 |
-| Lactate | Urine output | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.427892 | -0.568569 |
-| Lactate | Cardiac arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.325232 | 1.109057 |
-| Lactate | Age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.263458 | 0.018773 |
-| Lactate | Blood urea nitrogen | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.254663 | 0.010217 |
-| Lactate | Red cell distribution width | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.198363 | 0.079777 |
-| Lactate | (intercept) | | | | | | -0.806673 | -4.001369 |
-| Anion gap | Anion gap | 5.0 | 29.0 | 13.0 | 13.3935 | 4.5533 | 0.427884 | 0.093973 |
-| Anion gap | Urine output | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.463905 | -0.616421 |
-| Anion gap | Cardiac arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.361791 | 1.233727 |
-| Anion gap | Age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.271008 | 0.019311 |
-| Anion gap | Blood urea nitrogen | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.082329 | 0.003303 |
-| Anion gap | Red cell distribution width | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.186597 | 0.075044 |
-| Anion gap | (intercept) | | | | | | -0.82333 | -4.290575 |
+| Variable | Winsor low | Winsor high | Impute median | Mean | SD | z-scale beta, lactate model | Raw-scale beta, lactate model | z-scale beta, anion-gap model | Raw-scale beta, anion-gap model |
+|---|---|---|---|---|---|---|---|---|---|
+| Lactate | 0.7 | 12.723 | 1.9 | 2.418 | 1.8608 | 0.496888 | 0.267033 | - | - |
+| Anion gap | 5.0 | 29.0 | 13.0 | 13.3935 | 4.5533 | - | - | 0.427884 | 0.093973 |
+| Urine output | 0.0013 | 3.8352 | 0.728 | 0.9197 | 0.7526 | -0.427892 | -0.568569 | -0.463905 | -0.616421 |
+| Cardiac arrest | 0.0 | 1.0 | 0.0 | 0.095 | 0.2933 | 0.325232 | 1.109057 | 0.361791 | 1.233727 |
+| Age | 27.93 | 93.0 | 71.0 | 69.6641 | 14.0336 | 0.263458 | 0.018773 | 0.271008 | 0.019311 |
+| Blood urea nitrogen | 8.0 | 122.16 | 33.0 | 39.2072 | 24.9254 | 0.254663 | 0.010217 | 0.082329 | 0.003303 |
+| Red cell distribution width | 12.2 | 24.496 | 15.2 | 15.7704 | 2.4865 | 0.198363 | 0.079777 | 0.186597 | 0.075044 |
+| (intercept) | | | | | | -0.806673 | -4.001369 | -0.82333 | -4.290575 |
 
 Predicted probability = 1 / (1 + exp(-(intercept + sum of beta x z))), with z
-= (winsorized, median-imputed value - mean) / SD; the raw-scale column allows
+= (winsorized, median-imputed value - mean) / SD; the raw-scale columns allow
 direct computation from winsorized, median-imputed values without
-standardization. The arrest indicator is not restricted to out-of-hospital
-arrest. Worked example (lactate formulation): a 72-year-old with lactate 3.1
-mmol/L, urine output 0.4 mL/kg/h, no arrest, BUN 41 mg/dL, RDW 15.9%: linear
-predictor -0.362, predicted probability 0.41; the integer card gives 2 + 2 +
-0 + 1 + 1 + 1 = 7 points, mapped predicted risk 44.9%, against observed
-landmark mortality at score 7 of 42.5% (panel C).
+standardization. A dash marks a variable outside that model.
 
-(B) Integer card (points per category; total range 0 to 15)
+## Table S4. Integer card and score-to-risk mapping
+
+(A) Integer card (points per category; total range 0 to 15)
 
 | Variable | Categories (points) | Development median (points if missing, internal) |
 |---|---|---|
@@ -116,11 +101,12 @@ Apply the intervals exactly as printed: a urine output of 0.5 mL/kg/h scores
 1 point and 1.0 mL/kg/h scores 0 points, because higher output is protective.
 The final column is the internal missing-component default; when neither
 lactate nor anion gap is observed, the component scores the anion-gap
-category (2 points), and an absent arrest record scores as no arrest. The continuous anion-gap model (panel A) is a
-separately fitted model, not a substitution into the lactate equation.
+category (2 points), and an absent arrest record scores as no arrest. The
+continuous anion-gap model (Table S3) is separately fitted, not a
+substitution into the lactate equation.
 
-(C) Score-to-risk mapping at the landmark (observed mortality drawn in Figure
-S4)
+(B) Score-to-risk mapping at the landmark (observed mortality drawn in
+Figure S4)
 
 | Score | Predicted risk, % | Observed mortality at the landmark |
 |---|---|---|
@@ -137,23 +123,15 @@ S4)
 | 10 | 69.1 | 69.2% (n=78) |
 | 11 | 75.8 | 75.5% (n=53) |
 | 12 | 81.4 | 81.5% (n=27) |
-| 13 | 86.0 | n<10 |
-| 14 | 89.6 | n<10 |
-| 15 | 92.3 | n<10 |
+| 13-15 | 86.0, 89.6, 92.3 | n<10 |
 
-(D) Point-schedule sensitivity. Using the existing cross-validation folds, the
-original point schedule had an out-of-fold AUROC of 0.7267, compared with
-0.7190 when point weights were re-derived within each training fold
-(difference 0.0076, 95% CI 0.0034-0.0121). The original point schedule
-remained the primary specification.
-
-## Table S4. Baseline characteristics of the landmark analysis populations
+## Table S5. Baseline characteristics of the landmark analysis populations
 
 Continuous variables are median (interquartile range) and categorical
 variables n (%). Landmark eligibility is ICU discharge at or after, and no
 recorded death at or before, 24 hours; no record falls at exactly 24 hours.
 
-## Table S5. Observed-data availability and scorability
+## Table S6. Observed-data availability and scorability
 
 Component availability, % of patients:
 
@@ -176,7 +154,7 @@ patients in the ICU at each whole-hour boundary, n=2,731 at 24 hours, a
 coarser flag than the exact-timestamp landmark). Availability is observed
 data; after the scoring rules every patient is evaluable.
 
-## Table S6. Sensitivity analyses and collinearity
+## Table S7. Sensitivity analyses and collinearity
 
 (A) Sensitivity cohorts (landmark, frozen model out-of-fold)
 
@@ -205,7 +183,7 @@ cell distribution width; the largest in either formulation is anion gap with
 blood urea nitrogen at 0.37. The full correlation matrix is in the repository
 outputs (correlation_matrix_lm24.csv).
 
-## Table S7. Landmark risk bands and threshold operating characteristics
+## Table S8. Landmark risk bands and threshold operating characteristics
 
 (A) Risk bands. MIMIC-IV landmark, out-of-fold:
 
@@ -232,7 +210,7 @@ observed lactate) gives AUROC 0.720, versus 0.727 under the
 missing-component rule.
 
 (B) Diagnostic accuracy at integer thresholds, landmark population (internal
-missing-component rule, Table S3 panel B)
+missing-component rule, Table S4 panel A)
 
 | Threshold | Sensitivity | Specificity | PPV | NPV | LR+ | LR- |
 |---|---|---|---|---|---|---|
@@ -244,7 +222,7 @@ missing-component rule, Table S3 panel B)
 PPV, positive predictive value; NPV, negative predictive value; LR+ and LR-,
 positive and negative likelihood ratios.
 
-## Table S8. External populations and day-1 performance
+## Table S9. External populations and day-1 performance
 
 (A) External landmark populations (frozen model unchanged)
 
@@ -272,15 +250,13 @@ existing scores; repeat stays included)
 | BOS,MA2 imputed-all sensitivity (landmark, n=1,047) | - | 0.748 vs 0.735; diff +0.014 (-0.024 to +0.050) |
 | BOS,MA2 common-scorable landmark (n=654) | - | 0.755 vs 0.751; diff +0.004 (-0.039 to +0.046) |
 
-The integer card is scored under each cohort's missing-component rule; the
-AG-bands column scores every patient on anion-gap bands (harmonized
-sensitivity). BOS,MA2 rows give CS-MORT-6 anion gap first; the
-imputed-all row fills missing components by chained equations, not a
-replication of the development study's predictive-mean-matching. Of the eICU
-database's 208 hospitals, 132 contributed the 1,866-stay cohort and 117 the
-primary landmark population.
+The integer card is scored under each cohort's missing-component rule (Table
+S4). BOS,MA2 rows give CS-MORT-6 anion gap first; the imputed-all row fills
+missing components by chained equations, not a replication of the development
+study's predictive-mean-matching. Of the eICU database's 208 hospitals, 132
+contributed the 1,866-stay cohort and 117 the primary landmark population.
 
-## Table S9. Model-class comparison and redevelopment sensitivity analyses
+## Table S10. Model-class comparison and redevelopment sensitivity analyses
 
 (A) Model-class comparison (development, day-1 cohort)
 
@@ -314,7 +290,7 @@ of resamples. The low landmark reselection of lactate (38%) and urine output
 rests on their prior selection and inclusion in the developed model and on
 neither redevelopment analysis demonstrating improved validated performance.
 
-## Table S10. Within-stage resolution and incremental value
+## Table S11. Within-stage resolution and incremental value
 
 (A) Within-stage tertile mortality, exact landmark
 
@@ -367,12 +343,12 @@ rule removed from staging the increments are +0.165 (continuous) and +0.164
 eICU. Treating the stage as unordered categories (examined because eICU
 stage-specific mortality is not monotone; stage-only AUROC 0.630 versus
 0.613 for the ordinal term in eICU, and 0.589 in MIMIC-IV) left the
-increments essentially unchanged: +0.140 (95% CI +0.115 to +0.161) for the
-continuous anion-gap model and +0.142 (+0.117 to +0.162) for the integer
-card in MIMIC-IV, and +0.125 (+0.090 to +0.160) and +0.135 (+0.102 to
-+0.174) in eICU; refitting the stage-only and stage-plus-score models within
-each resample left that interval at +0.104 to +0.178 versus the reported
-+0.101 to +0.178 for the eICU continuous anion-gap model.
+increments essentially unchanged: +0.140 (95% CI +0.115 to +0.161) and
++0.142 (+0.117 to +0.162) in MIMIC-IV, +0.125 (+0.090 to +0.160) and +0.135
+(+0.102 to +0.174) in eICU, for the continuous and integer formulations;
+refitting the stage-only and stage-plus-score models within each resample
+left that interval at +0.104 to +0.178 versus the reported +0.101 to +0.178
+for the eICU continuous anion-gap model.
 
 (C) Transportability of within-stage thresholds: MIMIC-frozen per-stage
 tertile cutpoints applied unchanged to the eICU primary landmark
@@ -387,13 +363,10 @@ tertile cutpoints applied unchanged to the eICU primary landmark
 Mortality is monotonic in every stage. The sample-tertile cells in panel A
 are descriptive; panel C evaluates fixed, transported thresholds.
 
-## Table S11. Subgroup discrimination and calibration
+## Table S12. Subgroup discrimination and calibration
 
 Landmark population; predictions are the lactate-formulation out-of-fold
-estimates. Source race strings are grouped as White, Black, Hispanic, Asian,
-and Other/Unknown (the last combines 119 Other and 574 Unknown or declined in
-the full cohort); the sex rows and the race rows each total the 2,694 landmark
-patients. Figure S7 plots discrimination and calibration-in-the-large by
+estimates. Figure S7 plots discrimination and calibration-in-the-large by
 subgroup.
 
 | Subgroup | n | Deaths | AUROC | CI | Slope | CITL |
@@ -406,11 +379,11 @@ subgroup.
 | Asian | 67 | 17 | 0.708 | 0.548-0.851 | 0.68 | -0.374 |
 | Other/Unknown | 593 | 234 | 0.754 | 0.715-0.792 | 1.07 | 0.362 |
 
-Recorded race is a social classification, and the Other/Unknown category is
-heterogeneous. Estimates for the Hispanic and Asian groups were imprecise
-because of small sample sizes.
+Recorded race is a social classification; Other/Unknown is heterogeneous (in
+the full cohort, 119 Other and 574 Unknown or declined). Estimates for the
+Hispanic and Asian groups were imprecise because of small sample sizes.
 
-## Table S12. 48-hour reassessment and score trajectory
+## Table S13. 48-hour reassessment and score trajectory
 
 (A) Reapplication of the frozen landmark model at 48 hours
 
@@ -448,18 +421,18 @@ BOS,MA2 inputs other than mechanical ventilation observed; mechanical
 ventilation is treated as absent when unrecorded. The frozen-versus-frozen
 comparison is primary; the in-sample recalibrated comparator is shown as a
 sensitivity because recalibration favors BOS,MA2 at lower thresholds and not
-at higher ones. Figure S4. The integer card drawn:
-predicted risk from the score-to-risk mapping (line) and observed landmark
-mortality with Wilson 95% confidence intervals (points), from Table S3 panel
-C. Figure S5. Within-stage tertile mortality using the arrest-free card (A) and
-the four-variable non-staging sub-score (B), MIMIC-IV. For the arrest-free
-card, stages B through D equal the primary analysis because the assignment
-rules place all recorded arrests in stage E; the sub-score (urine output,
-age, blood urea nitrogen, red cell distribution width) uses variables taking
-no part in the stage operationalization. Figure S6. Score
-trajectory at the 48-hour landmark, symmetric definition: all 48-hour
-landmark patients (A) and the intermediate-score subgroup (B). Figure S7.
-Subgroup discrimination and calibration at the landmark.
+at higher ones. Figure S4. The integer card drawn: predicted risk from the
+score-to-risk mapping (line) and observed landmark mortality with Wilson 95%
+confidence intervals (points), from Table S4 panel B. Figure S5.
+Within-stage tertile mortality using the arrest-free card (A) and the
+four-variable non-staging sub-score (B), MIMIC-IV. For the arrest-free card,
+stages B through D equal the primary analysis because the assignment rules
+place all recorded arrests in stage E; the sub-score (urine output, age,
+blood urea nitrogen, red cell distribution width) uses variables taking no
+part in the stage operationalization. Figure S6. Score trajectory at the
+48-hour landmark, symmetric definition: all 48-hour landmark patients (A)
+and the intermediate-score subgroup (B). Figure S7. Subgroup discrimination
+and calibration at the landmark.
 
 ## Figure S1 panel: death timing
 

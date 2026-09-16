@@ -48,7 +48,7 @@ the source databases; the defining rule is given so the file can be rebuilt.
 | `eicu_cmp.csv` | 1,867 | BOS,MA2 comparator inputs in eICU: `bun_max`, `spo2_min`, `sbp_min`, `mech_vent`, `aniongap_max`. Built by `05_eicu_comparators.sql`; the extra row is the header-duplicate artefact of the export and is dropped on merge. |
 | `eicu_mcs_published.csv` | 1,130 | Mechanical circulatory support flag used for eICU stage D, restricted to the device interfaces named in the published stage rules (Supplementary Table S2). |
 | `mimic_extra_candidates.csv` | 3,103 | Additional candidate predictors offered to the redevelopment sensitivity analyses only: `hemoglobin`, `platelet`, `wbc`, `spo2_min`, `mech_vent`. Never used by the final model. |
-| `horizon_mr.csv` | 12,412 | Long-format predictor values by horizon (`horizon_h` in 6, 12, 24, 48 hours) for the availability-by-horizon summary in the Supplementary Table S5 note; the full table remains in the pipeline outputs. One row per stay per horizon. |
+| `horizon_mr.csv` | 12,412 | Long-format predictor values by horizon (`horizon_h` in 6, 12, 24, 48 hours) for the availability-by-horizon summary in the Supplementary Table S6 note; the full table remains in the pipeline outputs. One row per stay per horizon. |
 
 ## Intermediate written by the pipeline
 

@@ -78,7 +78,7 @@ if ns:
     assert {785, 978, 496} <= ns, ns
     checked += 1
 
-# Stage-coding and refitting robustness (Supplementary Table S10, panel B)
+# Stage-coding and refitting robustness (Supplementary Table S11, panel B)
 _r = pd.read_csv(OUT + 'stage_coding_robustness.csv').set_index('tag')
 assert round(_r.loc['eICU continuous AG (frozen)', 'd_cat'], 3) == 0.125
 checked += 1
@@ -98,7 +98,7 @@ checked += 1
 assert len(pd.read_csv(OUT + 'external_calibration_curve_ag.csv')) == 10
 checked += 1
 
-# Threshold operating characteristics derive from the deployed card (Table S7, panel B)
+# Threshold operating characteristics derive from the deployed card (Table S8, panel B)
 contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
 # --- card re-derivation: every metric verified, by name ---------------------
 # The output-to-expected check is metric-specific: each value is read from its
@@ -124,7 +124,7 @@ _CARD_FMT = {
     'points_bun_1pt_pct':          ('100.0',  1),
     'points_rdw_1pt_pct':          ('100.0',  1),
 }
-# only these five are printed in the supplement; each must sit beside its label
+# these five were formerly printed beside their labels in the supplement
 _CARD_DOC = {
     'transported_card_oof_auroc':  'AUROC of {v},',
     'rederived_card_oof_auroc':    'with {v} when',
@@ -149,15 +149,9 @@ assert abs((float(_m['transported_card_oof_auroc']) - float(_m['rederived_card_o
            - float(_m['transported_minus_rederived'])) < 2e-6, \
     'card_rederivation.csv: difference does not equal the two AUROCs'  # 6-dp rounding
 checked += 2
-# anchored document check, scoped to the point-schedule paragraph
-_sup = open(os.path.join(_B, '..', 'manuscript', 'SUPPLEMENT.md')).read()
-assert '(D) Point-schedule sensitivity.' in _sup, \
-    'SUPPLEMENT.md: the point-schedule sensitivity paragraph is missing'
-_blk = ' '.join(_sup.split('(D) Point-schedule sensitivity.', 1)[1]
-                    .split('\n\n', 1)[0].split())
-for _k, _tpl in _CARD_DOC.items():
-    _need = _tpl.format(v=_CARD_FMT[_k][0])
-    assert _need in _blk, f"SUPPLEMENT.md point-schedule paragraph: expected {_need!r}"
-    checked += 1
+# The point-schedule sensitivity paragraph was removed from the supplement
+# (author's instruction, 16 Sep 2026); the card-rederivation metrics above
+# remain fully checked against card_rederivation.csv, and the document no
+# longer prints them.
 
 print(f"verify_ledger: {checked} canonical checks passed")
