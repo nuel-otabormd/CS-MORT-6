@@ -333,10 +333,12 @@ appearance. All five added references were read in full before citation.
 
 ## Supplement map (build order)
 
-Supplementary Methods (four subsections, extending the main-text Methods):
-predictor measurement; sample size and predictor screen; integer scoring and
-missing data; sensitivity and 48-hour analyses. The phenotype criteria sit
-in the Table S2 note and the landmark eligibility rule in the Table S4 note. S1 TRIPOD+AI checklist. S2
+Supplementary Methods (three subsections, extending the main-text Methods):
+predictor measurement; sample size and predictor screen; sensitivity and
+48-hour analyses. The phenotype criteria sit in the Table S2 note, the
+landmark eligibility rule in the Table S4 note, the missing-component edge
+cases in the Table S3 note, and the evaluability statement in the Table S5
+note. No abbreviations block; terms are spelled out where needed. S1 TRIPOD+AI checklist. S2
 EHR-derived SCAI stage rules. S3 full model specification, both formulations,
 exact intercepts, card with missing-component defaults, score-to-risk
 mapping, worked example, point-schedule sensitivity. S4 landmark baseline

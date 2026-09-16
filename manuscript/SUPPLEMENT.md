@@ -6,18 +6,12 @@ revision of IJCJOURNAL-D-26-03573. Draft for author review; Word formatting
 Numerical results derive from the analyses described in the Methods unless the
 table states otherwise.
 
-Abbreviations used throughout: AUROC, area under the receiver operating
-characteristic curve; CI, confidence interval; CITL, calibration-in-the-large;
-SD, standard deviation; BUN, blood urea nitrogen; RDW, red cell distribution
-width; UO, urine output; MCS, mechanical circulatory support; SCAI, Society
-for Cardiovascular Angiography and Interventions.
-
 ## Supplementary Methods
 
 ### Predictor measurement
 
 The harmonized anion gap is sodium minus chloride minus bicarbonate, each
-component its own most recent value rather than a single draw. Urine output
+component its own most recent value. Urine output
 is cumulative volume divided by weight and observed hours, with a fixed
 denominator in eICU. Cardiac arrest is a diagnosis-record indicator without
 an event timestamp: in MIMIC-IV a hospital-admission discharge diagnosis
@@ -27,29 +21,19 @@ documented by the landmark.
 
 ### Sample size and predictor screen
 
-Minimum sample size follows Riley et al (pmsampsize: binary outcome,
-anticipated C-statistic 0.70, observed outcome proportion, stated parameter
-count, target shrinkage 0.9, margin of error 0.05). Re-estimating the six
-fixed predictors at the landmark (outcome proportion 0.331) requires 469
-patients with 156 events. The development-time predictor screen evaluated 58
-candidate
-parameters in 4,315 ICU stays from 3,192 patients (1,537 deaths), using 400
-bootstrap resamples of L1-penalized logistic regression; 38 parameters were
-selected (absolute coefficient above 1e-6) in at least 80% of resamples, five
-of the six retained predictors in 400 of 400, and blood urea nitrogen in 399
-of 400. Parameters requiring imaging, neurological assessment,
-treatment-dependent measurement, or additional hemodynamic information were
-not carried into a bedside score. The screen treated repeated stays as
-independent and did not meet its own requirement of 4,386 observations with
-1,563 events; nested redevelopment placing selection inside 10-times-repeated
-5-fold cross-validation (Table S9) assesses robustness to the selection step.
-
-### Integer scoring and missing data
-
-When neither lactate nor anion gap is observed, the component scores the
-anion-gap development-median category (2 points); an absent arrest record
-scores as no arrest. Availability in Table S5 is observed data; after these
-rules every patient is evaluable.
+Minimum sample size follows Riley et al (pmsampsize: anticipated C-statistic
+0.70, target shrinkage 0.9). Re-estimating the six fixed predictors at the
+landmark (outcome proportion 0.331) requires 469 patients with 156 events.
+The development-time predictor screen evaluated 58 candidate parameters in
+4,315 ICU stays from 3,192 patients (1,537 deaths), using 400 bootstrap
+resamples of L1-penalized logistic regression; 38 parameters were selected in
+at least 80% of resamples, five of the six retained predictors in 400 of 400,
+and blood urea nitrogen in 399 of 400. Parameters requiring imaging,
+neurological assessment, treatment-dependent measurement, or additional
+hemodynamic information were not carried into a bedside score. The screen
+treated repeated stays as independent and did not meet its own requirement of
+4,386 observations with 1,563 events; nested redevelopment (Table S9)
+assesses robustness to the selection step.
 
 ### Sensitivity and 48-hour analyses
 
@@ -72,7 +56,7 @@ influence-function confidence interval.
 
 | Stage | MIMIC-IV, first 24 hours | eICU |
 |---|---|---|
-| E | Cardiac arrest, ≥3 vasoactive agents (vasopressor count plus inotrope use), or ≥2 MCS devices | Any recorded cardiac-arrest diagnosis |
+| E | Cardiac arrest, ≥3 vasoactive agents (vasopressor count plus inotrope use), or ≥2 mechanical circulatory support devices | Any recorded cardiac-arrest diagnosis |
 | D | 2 vasoactive agents, any device, or maximum lactate > 4 mmol/L on ≥1 vasoactive agent | Any recorded mechanical support interface |
 | C | ≥1 vasoactive agent, or maximum lactate ≥2 mmol/L with hypotension (minimum systolic < 90 or minimum mean < 65 mmHg) | Any vasopressor or inotrope |
 | B | Hypotension or maximum lactate ≥2 mmol/L | Otherwise |
@@ -136,8 +120,9 @@ landmark mortality at score 7 of 42.5% (panel C).
 
 Apply the intervals exactly as printed: a urine output of 0.5 mL/kg/h scores
 1 point and 1.0 mL/kg/h scores 0 points, because higher output is protective.
-The final column is the internal missing-component default (edge cases in
-the Supplementary Methods). The continuous anion-gap model (panel A) is a
+The final column is the internal missing-component default; when neither
+lactate nor anion gap is observed, the component scores the anion-gap
+category (2 points), and an absent arrest record scores as no arrest. The continuous anion-gap model (panel A) is a
 separately fitted model, not a substitution into the lactate equation.
 
 (C) Score-to-risk mapping at the landmark (observed mortality drawn in Figure
@@ -194,7 +179,8 @@ was observed in 69.2% of patients in the ICU at 6 hours, 80.8% at 24 hours,
 and 85.9% at 48 hours, with blood urea nitrogen, red cell distribution
 width, and urine output at or above 94.2% by 24 hours (denominators count
 patients in the ICU at each whole-hour boundary, n=2,731 at 24 hours, a
-coarser flag than the exact-timestamp landmark).
+coarser flag than the exact-timestamp landmark). Availability is observed
+data; after the scoring rules every patient is evaluable.
 
 ## Table S6. Sensitivity analyses and collinearity
 
@@ -315,8 +301,8 @@ This historical comparison used a wider candidate pool than the final
 six-variable model, so its values differ from the final model's and from the
 nested landmark redevelopment below.
 
-(B) Nested redevelopment against the six-variable model's 0.733 on the same
-folds:
+(B) Nested redevelopment (selection inside 10-times-repeated 5-fold outer
+cross-validation) against the six-variable model's 0.733 on the same folds:
 
 | Pool | Candidates | Redeveloped AUROC | Paired difference (95% CI) |
 |---|---|---|---|
