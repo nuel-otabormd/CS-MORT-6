@@ -178,7 +178,7 @@ cohorts, the continuous anion-gap model still increased AUROC over SCAI stage
 alone when cardiac arrest was excluded from the rules used to assign stage.
 The gain also remained when stages were entered as separate categories,
 allowing each stage its own association with mortality (Supplementary Table
-S12).
+S10).
 
 Among 654 eICU patients scorable with both models, the AUROC difference
 between the continuous anion-gap model and BOS,MA2 was 0.004 (95% CI, -0.039
@@ -338,16 +338,20 @@ appearance. All five added references were read in full before citation.
 
 ## Supplement map (build order)
 
-S1 TRIPOD+AI checklist. S2 definitions, cohorts, staging rules and
-missing-component handling. S3 model development and card-stability
-sensitivity. S4 full model specification, both formulations, exact intercepts,
-card, score-to-risk mapping, worked example. S5 baseline characteristics. S6
-death-timing distribution. S7 availability and scorability. S8 sensitivity
-cohorts, imputation, correlations and VIF. S9 landmark risk bands and
-threshold accuracy. S10 external populations and day-1 all-admissions
-performance with the BOS,MA2 comparison. S11 redevelopment sensitivity
-analyses. S12 within-stage cells, within-stage AUROCs, incremental value and
-variants. S13 subgroup discrimination and calibration. S14 48-hour
-reassessment and trajectory. Figures: S1 cohort flow with landmark;
-S2 calibration curves; S3 decision curves; S4 integer card, predicted versus
-observed; S5 within-stage variants; S6 trajectory; S7 subgroups.
+Supplementary Methods (six subsections): cohort definition and landmark
+eligibility; predictor measurement and staging; model development and
+validation; integer scoring and missing data; comparator and within-stage
+analyses; sensitivity and 48-hour analyses. S1 TRIPOD+AI checklist. S2
+EHR-derived SCAI stage rules. S3 full model specification, both formulations,
+exact intercepts, card with missing-component defaults, score-to-risk
+mapping, worked example, point-schedule sensitivity. S4 landmark baseline
+characteristics. S5 availability and scorability. S6 sensitivity cohorts,
+imputation, VIF with correlation summary. S7 landmark risk bands and
+threshold accuracy. S8 external populations and day-1 all-admissions
+performance with the BOS,MA2 comparison. S9 model-class comparison and
+redevelopment sensitivity analyses. S10 within-stage cells, within-stage
+AUROCs, incremental value and variants. S11 subgroup discrimination and
+calibration. S12 48-hour reassessment and trajectory. Figures: S1 cohort
+flow with landmark and the death-timing panel beneath it; S2 calibration
+curves; S3 decision curves; S4 integer card, predicted versus observed; S5
+within-stage variants; S6 trajectory; S7 subgroups.
