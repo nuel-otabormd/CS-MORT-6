@@ -140,10 +140,6 @@ e4 <- fbox2(XE + 0.015, e3 - 0.05, WE, c("Primary external population",
       "(first qualifying stay per patient,",
       "shock documented by 24 h)",
       "n = 1,047 (mortality 29.1%, 117 hospitals)"), fill = "#DCE9F5", font = 2)
-text(0.5, 0.085, "Day-1 all-admissions analyses use the 1,866-stay cohort; the 1,586-stay and",
-     cex = 0.78, col = "#444444")
-text(0.5, 0.055, "1,439-patient populations are reported as sensitivity analyses.",
-     cex = 0.78, col = "#444444")
 dev.off()
 
 # ================= FIGURE S2 (calibration) =================

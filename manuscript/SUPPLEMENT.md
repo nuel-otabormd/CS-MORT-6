@@ -321,16 +321,16 @@ scored under each cohort's missing-component rule (Table S3).
 
 | SCAI stage | Cohort | Low tertile | Middle tertile | High tertile |
 |---|---|---|---|---|
-| B | MIMIC-IV | 16.1 (11.3-22.4)<br>n = 168 | 29.6 (22.6-37.8)<br>n = 135 | 36.5 (27.9-46.1)<br>n = 104 |
-|   | eICU | 7.0 (3.7-12.7)<br>n = 129 | 27.5 (18.4-39.0)<br>n = 69 | 36.4 (25.8-48.4)<br>n = 66 |
-| C | MIMIC-IV | 16.0 (12.8-19.8)<br>n = 419 | 35.4 (29.8-41.4)<br>n = 257 | 45.9 (39.6-52.3)<br>n = 233 |
-|   | eICU | 11.6 (7.6-17.2)<br>n = 173 | 28.7 (21.0-37.9)<br>n = 108 | 53.5 (43.8-63.0)<br>n = 99 |
-| D | MIMIC-IV | 13.2 (9.9-17.5)<br>n = 310 | 26.7 (21.1-33.2)<br>n = 202 | 57.8 (50.6-64.6)<br>n = 187 |
-|   | eICU | 8.2 (3.8-16.8)<br>n = 73 | 15.9 (7.9-29.4)<br>n = 44 | 45.8 (32.6-59.7)<br>n = 48 |
-| E | MIMIC-IV | 26.7 (21.5-32.7)<br>n = 236 | 49.2 (43.2-55.3)<br>n = 262 | 73.4 (66.4-79.4)<br>n = 173 |
-|   | eICU | 33.0 (24.8-42.4)<br>n = 106 | 54.2 (41.7-66.3)<br>n = 59 | 64.4 (52.9-74.4)<br>n = 73 |
+| B | MIMIC-IV | 16.1% (11.3-22.4)<br>n = 168 | 29.6% (22.6-37.8)<br>n = 135 | 36.5% (27.9-46.1)<br>n = 104 |
+|   | eICU | 7.0% (3.7-12.7)<br>n = 129 | 27.5% (18.4-39.0)<br>n = 69 | 36.4% (25.8-48.4)<br>n = 66 |
+| C | MIMIC-IV | 16.0% (12.8-19.8)<br>n = 419 | 35.4% (29.8-41.4)<br>n = 257 | 45.9% (39.6-52.3)<br>n = 233 |
+|   | eICU | 11.6% (7.6-17.2)<br>n = 173 | 28.7% (21.0-37.9)<br>n = 108 | 53.5% (43.8-63.0)<br>n = 99 |
+| D | MIMIC-IV | 13.2% (9.9-17.5)<br>n = 310 | 26.7% (21.1-33.2)<br>n = 202 | 57.8% (50.6-64.6)<br>n = 187 |
+|   | eICU | 8.2% (3.8-16.8)<br>n = 73 | 15.9% (7.9-29.4)<br>n = 44 | 45.8% (32.6-59.7)<br>n = 48 |
+| E | MIMIC-IV | 26.7% (21.5-32.7)<br>n = 236 | 49.2% (43.2-55.3)<br>n = 262 | 73.4% (66.4-79.4)<br>n = 173 |
+|   | eICU | 33.0% (24.8-42.4)<br>n = 106 | 54.2% (41.7-66.3)<br>n = 59 | 64.4% (52.9-74.4)<br>n = 73 |
 
-Abbreviations: CI, confidence interval; eICU, eICU Collaborative Research Database; MIMIC-IV, Medical Information Mart for Intensive Care IV; SCAI, Society for Cardiovascular Angiography and Interventions. Each cell gives mortality, % (95% CI), and the number of patients. Tied integer values make tertile sizes unequal. Stage A (n=8, no deaths) is not
+Abbreviations: CI, confidence interval; eICU, eICU Collaborative Research Database; MIMIC-IV, Medical Information Mart for Intensive Care IV; SCAI, Society for Cardiovascular Angiography and Interventions. Each cell gives in-hospital mortality (95% CI) and the number of patients. Tied integer values make tertile sizes unequal. Stage A (n=8, no deaths) is not
 tabulated; these eight patients met the cohort hypoperfusion criterion
 through measurements outside the staging component set (seven had no
 lactate in the staging window), so absent components under-stage them.
@@ -379,10 +379,7 @@ CI, confidence interval; CITL, calibration-in-the-large. In the 654 patients
 a difference of +0.004 (95% CI -0.039 to +0.046). With missing BOS,MA2
 components imputed by chained equations, not a replication of its
 development study's predictive-mean-matching, BOS,MA2 reached 0.735 in all
-1,047 patients (difference +0.014, -0.024 to +0.050). CardShock and
-IABP-SHOCK II could not be calculated. eICU contributed to BOS,MA2
-development. Of the eICU database's 208 hospitals, 132 contributed the
-1,866-stay cohort and 117 the primary landmark population.
+1,047 patients (difference +0.014, -0.024 to +0.050).
 
 (B) External landmark populations (frozen model unchanged)
 
@@ -429,28 +426,54 @@ per 1-point increase from 24 to 48 hours, adjusted for the 24-hour score:
 
 ## Supplementary figures
 
-Figure S1. Cohort derivation flow, including the 24-hour landmark and its
-exclusion decomposition, both cohorts; the panel below reports the
-death-timing distribution from exact timestamps. Figure S2. Calibration of
-CS-MORT-6 at the landmark: internal out-of-fold deciles (both formulations)
+### Figure S1. Cohort derivation flow diagram.
+
+Derivation of the MIMIC-IV development cohort and the eICU external validation
+cohort, including the 24-hour landmark and its exclusions; the panel below
+reports the death-timing distribution from exact timestamps. Day-1
+all-admissions analyses use the 1,866-stay cohort; the 1,586-stay and
+1,439-patient populations are reported as sensitivity analyses.
+
+### Figure S2. Calibration of CS-MORT-6.
+
+Calibration at the landmark: internal out-of-fold deciles (both formulations)
 and eICU external anion gap, with Wilson 95% confidence intervals per decile.
-Figure S3. Decision curves in the landmark common-scorable set: 654
-primary-landmark patients (196 deaths, 30.0% mortality) with the five
-BOS,MA2 inputs other than mechanical ventilation observed; mechanical
-ventilation is treated as absent when unrecorded. The frozen-versus-frozen
-comparison is primary; the in-sample recalibrated comparator is shown as a
-sensitivity because recalibration favors BOS,MA2 at lower thresholds and not
-at higher ones. Figure S4. The integer card drawn: predicted risk by score
-(line) and observed landmark mortality with Wilson 95% confidence intervals
-(points). Figure S5. Within-stage tertile mortality using the arrest-free
-card (A) and the four-variable non-staging sub-score (B), MIMIC-IV. For the
-arrest-free card, stages B through D equal the primary analysis because the
-assignment rules place all recorded arrests in stage E; the sub-score (urine
-output, age, blood urea nitrogen, red cell distribution width) uses
-variables taking no part in the stage operationalization. Figure S6. Score
-trajectory at the 48-hour landmark, symmetric definition: all 48-hour
-landmark patients (A) and the intermediate-score subgroup (B). Figure S7.
-Subgroup discrimination and calibration at the landmark.
+
+### Figure S3. Decision-curve analysis.
+
+Decision curves in the landmark common-scorable set: 654 primary-landmark
+patients (196 deaths, 30.0% mortality) with the five BOS,MA2 inputs other
+than mechanical ventilation observed; mechanical ventilation is treated as
+absent when unrecorded. The frozen-versus-frozen comparison is primary; the
+in-sample recalibrated comparator is shown as a sensitivity because
+recalibration favors BOS,MA2 at lower thresholds and not at higher ones.
+
+### Figure S4. Predicted and observed mortality by integer score.
+
+Predicted risk by score (line) and observed landmark mortality with Wilson
+95% confidence intervals (points).
+
+### Figure S5. Within-stage risk resolution using the arrest-free score and variables absent from the staging.
+
+Within-stage tertile mortality using the arrest-free card (A) and the
+four-variable non-staging sub-score (B), MIMIC-IV. For the arrest-free card,
+stages B through D equal the primary analysis because the assignment rules
+place all recorded arrests in stage E; the sub-score (urine output, age,
+blood urea nitrogen, red cell distribution width) uses variables taking no
+part in the stage operationalization.
+
+### Figure S6. Score trajectory and mortality.
+
+In-hospital mortality by score change from 24 to 48 hours, with any decrease
+counted as improved and any increase as worsened: all patients at the
+48-hour landmark (A) and those with a 24-hour score of 4 to 7 (B).
+
+### Figure S7. Subgroup discrimination and calibration.
+
+(A) Subgroup area under the receiver operating characteristic curve with 95%
+confidence intervals; point size reflects the number of deaths. (B)
+Calibration-in-the-large by subgroup. Landmark population, lactate
+formulation.
 
 ## Figure S1 panel: death timing
 
