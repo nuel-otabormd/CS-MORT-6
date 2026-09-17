@@ -64,6 +64,9 @@ for byte.
 - `pipeline/15_hospital_heterogeneity.py`: hospital-level spread of external
   discrimination (hospitals with at least 25 patients) in the primary eICU
   landmark population, from the step 06 frame.
+- `pipeline/16_external_risk_bands.py`: external risk-category mortality under
+  the deployment rule and with anion-gap categories for every patient, from the
+  step 04 frame; the deployment-rule rows must match the locked external run.
 - `pipeline/verify_ledger.py`: gate: canonical results match the published values.
 - `pipeline/verify_sources.py`: gate: every value in the manuscript and
   supplement sources traces to this pipeline.

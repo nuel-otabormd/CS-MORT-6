@@ -241,17 +241,19 @@ landmark population, out-of-fold.
 
 (B) Risk stratification by score category
 
-| Risk category | Score | MIMIC-IV mortality | eICU mortality |
-|---|---|---|---|
-| Low | 0-3 | 12.7% | 8.8% |
-| Moderate | 4-5 | 27.9% | 18.8% |
-| High | 6-7 | 40.1% | 39.6% |
-| Very High | 8-15 | 62.2% | 59.3% |
+| Risk category | Score | MIMIC-IV mortality | eICU (lactate) | eICU (anion gap) |
+|---|---|---|---|---|
+| Low | 0-3 | 12.7% | 8.8% | 10.3% |
+| Moderate | 4-5 | 27.9% | 18.8% | 20.6% |
+| High | 6-7 | 40.1% | 39.6% | 43.0% |
+| Very High | 8-15 | 62.2% | 59.3% | 58.3% |
 
 Abbreviations: eICU, eICU Collaborative Research Database; MIMIC-IV, Medical
-Information Mart for Intensive Care IV. Landmark populations; eICU scored
-under the external rule (mapped-risk calibration slope 1.15,
-calibration-in-the-large -0.22). Rescoring the development cohort under the
+Information Mart for Intensive Care IV. Landmark populations. The eICU lactate column follows the external rule,
+lactate categories when measured and anion-gap categories otherwise
+(mapped-risk calibration slope 1.15, calibration-in-the-large -0.22); the
+anion-gap column uses anion-gap categories for every patient (AUROC 0.738,
+versus 0.759 under the external rule). Rescoring the development cohort under the
 external rule (anion-gap bands for the 19.2% without an observed lactate)
 gives AUROC 0.720, versus 0.727 under the development rule.
 
@@ -268,10 +270,7 @@ gives AUROC 0.720, versus 0.727 under the development rule.
 | Subgroup: patients without cardiac arrest | 2,438 | 30.8% | 0.724 | 0.712 |
 
 Abbreviations: AUROC, area under the receiver operating characteristic curve.
-Out-of-fold point estimates for the lactate formulation and the integer
-score. The
-culture-based and comfort-measures cohorts of the submitted analysis were not
-repeated at the landmark.
+Out-of-fold point estimates for the lactate formulation and the integer score.
 
 (B) Subgroup discrimination and calibration
 

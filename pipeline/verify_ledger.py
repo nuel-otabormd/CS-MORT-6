@@ -106,6 +106,13 @@ assert [f"{_h[c]:.3f}" for c in ('median_auroc', 'iqr_low', 'iqr_high', 'min_aur
     == ['0.766', '0.678', '0.779', '0.632', '1.000', '0.748'], _h
 checked += 1
 
+# External risk categories under both integer-score rules (Supplementary Table S7, panel B)
+_rb = pd.read_csv(OUT + 'external_risk_bands_lm24.csv')
+for _rule, _want in (('deployment rule', [8.8, 18.8, 39.6, 59.3]), ('anion gap for all', [10.3, 20.6, 43.0, 58.3])):
+    _sub = _rb[_rb['rule'] == _rule]
+    assert _sub['mortality_pct'].tolist() == _want and _sub['n'].sum() == 1047 and _sub['deaths'].sum() == 305, _sub
+    checked += 1
+
 # Threshold operating characteristics derive from the deployed card (Table S7, panel A)
 contains('landmark_thresholds.csv', '0.89', '0.36', '3.32')
 # --- card re-derivation: every metric verified, by name ---------------------
