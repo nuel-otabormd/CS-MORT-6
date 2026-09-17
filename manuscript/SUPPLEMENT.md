@@ -201,8 +201,7 @@ MIMIC-IV landmark population, on the winsorized, imputed, standardized
 design. Correlations were 0.00 for lactate and blood urea nitrogen, 0.06 for
 lactate and red cell distribution width, and 0.28 for blood urea nitrogen
 and red cell distribution width; the largest in either formulation is anion
-gap with blood urea nitrogen at 0.37. The full correlation matrix is in the
-repository outputs (correlation_matrix_lm24.csv).
+gap with blood urea nitrogen at 0.37.
 
 (E) Observed-data availability, % of patients
 
@@ -321,37 +320,18 @@ scored under each cohort's missing-component rule (Table S3).
 
 (A) Within-stage tertile mortality, 24-hour landmark
 
-| Cohort | SCAI stage | Tertile | n | Mortality, % (95% CI) |
+| SCAI stage | Cohort | Low tertile | Middle tertile | High tertile |
 |---|---|---|---|---|
-| MIMIC-IV | B | Low | 168 | 16.1 (11.3-22.4) |
-| MIMIC-IV | B | Mid | 135 | 29.6 (22.6-37.8) |
-| MIMIC-IV | B | High | 104 | 36.5 (27.9-46.1) |
-| MIMIC-IV | C | Low | 419 | 16.0 (12.8-19.8) |
-| MIMIC-IV | C | Mid | 257 | 35.4 (29.8-41.4) |
-| MIMIC-IV | C | High | 233 | 45.9 (39.6-52.3) |
-| MIMIC-IV | D | Low | 310 | 13.2 (9.9-17.5) |
-| MIMIC-IV | D | Mid | 202 | 26.7 (21.1-33.2) |
-| MIMIC-IV | D | High | 187 | 57.8 (50.6-64.6) |
-| MIMIC-IV | E | Low | 236 | 26.7 (21.5-32.7) |
-| MIMIC-IV | E | Mid | 262 | 49.2 (43.2-55.3) |
-| MIMIC-IV | E | High | 173 | 73.4 (66.4-79.4) |
-| eICU | B | Low | 129 | 7.0 (3.7-12.7) |
-| eICU | B | Mid | 69 | 27.5 (18.4-39.0) |
-| eICU | B | High | 66 | 36.4 (25.8-48.4) |
-| eICU | C | Low | 173 | 11.6 (7.6-17.2) |
-| eICU | C | Mid | 108 | 28.7 (21.0-37.9) |
-| eICU | C | High | 99 | 53.5 (43.8-63.0) |
-| eICU | D | Low | 73 | 8.2 (3.8-16.8) |
-| eICU | D | Mid | 44 | 15.9 (7.9-29.4) |
-| eICU | D | High | 48 | 45.8 (32.6-59.7) |
-| eICU | E | Low | 106 | 33.0 (24.8-42.4) |
-| eICU | E | Mid | 59 | 54.2 (41.7-66.3) |
-| eICU | E | High | 73 | 64.4 (52.9-74.4) |
+| B | MIMIC-IV | 16.1 (11.3-22.4)<br>n = 168 | 29.6 (22.6-37.8)<br>n = 135 | 36.5 (27.9-46.1)<br>n = 104 |
+|   | eICU | 7.0 (3.7-12.7)<br>n = 129 | 27.5 (18.4-39.0)<br>n = 69 | 36.4 (25.8-48.4)<br>n = 66 |
+| C | MIMIC-IV | 16.0 (12.8-19.8)<br>n = 419 | 35.4 (29.8-41.4)<br>n = 257 | 45.9 (39.6-52.3)<br>n = 233 |
+|   | eICU | 11.6 (7.6-17.2)<br>n = 173 | 28.7 (21.0-37.9)<br>n = 108 | 53.5 (43.8-63.0)<br>n = 99 |
+| D | MIMIC-IV | 13.2 (9.9-17.5)<br>n = 310 | 26.7 (21.1-33.2)<br>n = 202 | 57.8 (50.6-64.6)<br>n = 187 |
+|   | eICU | 8.2 (3.8-16.8)<br>n = 73 | 15.9 (7.9-29.4)<br>n = 44 | 45.8 (32.6-59.7)<br>n = 48 |
+| E | MIMIC-IV | 26.7 (21.5-32.7)<br>n = 236 | 49.2 (43.2-55.3)<br>n = 262 | 73.4 (66.4-79.4)<br>n = 173 |
+|   | eICU | 33.0 (24.8-42.4)<br>n = 106 | 54.2 (41.7-66.3)<br>n = 59 | 64.4 (52.9-74.4)<br>n = 73 |
 
-Abbreviations: CI, confidence interval; eICU, eICU Collaborative Research
-Database; MIMIC-IV, Medical Information Mart for Intensive Care IV; SCAI,
-Society for Cardiovascular Angiography and Interventions. Tied integer
-values make tertile sizes unequal. Stage A (n=8, no deaths) is not
+Abbreviations: CI, confidence interval; eICU, eICU Collaborative Research Database; MIMIC-IV, Medical Information Mart for Intensive Care IV; SCAI, Society for Cardiovascular Angiography and Interventions. Each cell gives mortality, % (95% CI), and the number of patients. Tied integer values make tertile sizes unequal. Stage A (n=8, no deaths) is not
 tabulated; these eight patients met the cohort hypoperfusion criterion
 through measurements outside the staging component set (seven had no
 lactate in the staging window), so absent components under-stage them.
@@ -365,21 +345,11 @@ lactate in the staging window), so absent components under-stage them.
 | eICU | Continuous anion gap | 0.613 | 0.748 | 0.754 | +0.141 (+0.101 to +0.178) |
 | eICU | Integer card | 0.613 | 0.759 | 0.767 | +0.154 (+0.116 to +0.191) |
 
-Within-stage AUROC: B 0.636 (0.579-0.692), C 0.689 (0.651-0.724), D 0.756
-(0.717-0.793), E 0.728 (0.689-0.765); likelihood-ratio chi-square for the
-score over the stage 348.2 in MIMIC-IV, P < .001 throughout. With the arrest
-rule removed from staging the increments are +0.165 (continuous) and +0.164
-(integer) over stage 0.564 in MIMIC-IV, and +0.226 and +0.237 over 0.524 in
-eICU. Treating the stage as unordered categories (examined because eICU
-stage-specific mortality is not monotone; stage-only AUROC 0.630 versus
-0.613 for the ordinal term in eICU, and 0.589 in MIMIC-IV) left the
-increments essentially unchanged: +0.140 (95% CI +0.115 to +0.161) and
-+0.142 (+0.117 to +0.162) in MIMIC-IV, +0.125 (+0.090 to +0.160) and +0.135
-(+0.102 to +0.174) in eICU, for the continuous and integer formulations;
-refitting the stage-only and stage-plus-score models within each resample
-left that interval at +0.104 to +0.178 versus the reported +0.101 to +0.178
-for the eICU continuous anion-gap model. Increments are apparent
-within-cohort estimates with paired bootstrap percentile intervals.
+Intervals are paired bootstrap percentiles; likelihood-ratio tests for the
+score over the stage gave P < .001 in every row. With the stage entered as
+separate categories rather than one ordered term, the increments were +0.140
+and +0.142 in MIMIC-IV and +0.125 and +0.135 in eICU (continuous and integer
+formulations).
 
 (C) Transportability of within-stage thresholds: MIMIC-frozen per-stage
 tertile cutpoints applied unchanged to the eICU primary landmark
@@ -430,29 +400,33 @@ gap 0.747 and deployment-rule card 0.758.
 
 ## Table S11. 48-hour reassessment and score trajectory.
 
-(A) Reapplication of the frozen landmark model at 48 hours
+(A) The 24-hour model applied again at 48 hours
 
-| Cohort (formulation) | n | Deaths | Updated 48-h AUROC (95% CI) | Slope | CITL | Carried-forward 24-h AUROC | Paired difference (95% CI) |
+| Cohort (formulation) | n | Deaths | AUROC, reassessed at 48 h (95% CI) | Slope | CITL | AUROC, 24-h prediction | Difference (95% CI) |
 |---|---|---|---|---|---|---|---|
-| MIMIC-IV (continuous lactate) | 2,259 | 703 | 0.739 (0.717-0.760) | 1.10 | +0.03 | 0.714 | +0.024 (+0.012 to +0.036) |
-| eICU primary (anion gap) | 806 | 202 | 0.725 (0.685-0.765) | 1.07 | -0.14 | 0.716 | +0.009 (-0.012 to +0.030) |
+| MIMIC-IV (lactate) | 2,259 | 703 | 0.739 (0.717-0.760) | 1.10 | +0.03 | 0.714 | +0.024 (+0.012 to +0.036) |
+| eICU (anion gap) | 806 | 202 | 0.725 (0.685-0.765) | 1.07 | -0.14 | 0.716 | +0.009 (-0.012 to +0.030) |
 
-Abbreviations: CITL, calibration-in-the-large. The carried-forward eICU
-prediction has slope 0.99, CITL -0.20.
+Abbreviations: AUROC, area under the receiver operating characteristic
+curve; CITL, calibration-in-the-large. Patients alive and in the ICU at 48
+hours; eICU primary external population. Slope and CITL describe the
+reassessed predictions; for the 24-hour prediction in eICU they were 0.99 and
+-0.20.
 
-(B) Symmetric trajectory (plotted in Figure S6)
+(B) Score change from 24 to 48 hours (Figure S6)
 
-| Scope (MIMIC-IV) | Group | n | Mortality, % | CI |
+| Patients (MIMIC-IV) | Score change | n | Mortality, % | 95% CI |
 |---|---|---|---|---|
-| all 48-h landmark | Improved (<0) | 785 | 28.9 | 25.9-32.2 |
-| all 48-h landmark | Unchanged (=0) | 978 | 29.7 | 26.9-32.6 |
-| all 48-h landmark | Worsened (>0) | 496 | 37.5 | 33.4-41.8 |
-| intermediate 24-h score 4-7 | Improved (<0) | 429 | 24.0 | 20.2-28.3 |
-| intermediate 24-h score 4-7 | Unchanged (=0) | 523 | 34.0 | 30.1-38.2 |
-| intermediate 24-h score 4-7 | Worsened (>0) | 261 | 43.3 | 37.4-49.4 |
+| All at 48 h | Improved | 785 | 28.9 | 25.9-32.2 |
+|   | Unchanged | 978 | 29.7 | 26.9-32.6 |
+|   | Worsened | 496 | 37.5 | 33.4-41.8 |
+| 24-h score 4 to 7 | Improved | 429 | 24.0 | 20.2-28.3 |
+|   | Unchanged | 523 | 34.0 | 30.1-38.2 |
+|   | Worsened | 261 | 43.3 | 37.4-49.4 |
 
-Adjusted odds ratio per one-point 24-to-48-hour increase, adjusted for the
-24-hour score: 1.37 (95% CI 1.27-1.47), P < .001.
+Improved, score decreased; worsened, score increased. Odds ratio for death
+per 1-point increase from 24 to 48 hours, adjusted for the 24-hour score:
+1.37 (95% CI 1.27-1.47), P < .001.
 
 ## Supplementary figures
 
