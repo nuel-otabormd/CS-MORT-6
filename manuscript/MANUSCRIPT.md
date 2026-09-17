@@ -105,8 +105,7 @@ stability and the transparent integer score it enables. Six predictors
 (lactate, urine output, cardiac arrest, age, blood urea nitrogen, and red cell
 distribution width) were chosen by bootstrap stability selection with
 L1-penalized logistic regression and clinical review, then held fixed for
-coefficient and intercept re-estimation at 24 hours using L2 penalization (C=0.5, untuned; Supplementary Table S3). Sample-size calculations addressed the fixed model [14] (Supplementary Table S4). The 0-to-15 integer score [15]
-was retained, with re-estimation of its score-to-risk mapping (Supplementary Table S3). Because lactate was incompletely observed, a separate continuous
+coefficient and intercept re-estimation at 24 hours using L2 penalization (C=0.5, untuned; Supplementary Table S3). Sample-size calculations addressed the fixed model [14] (Supplementary Table S4). The 0-to-15 integer score [15] (Supplementary Table S3) was retained, with re-estimation of its score-to-risk mapping. Because lactate was incompletely observed, a separate continuous
 model replaced lactate with harmonized anion gap, retaining the other five
 predictors. The integer score's missing-component rule differed between
 cohorts and is specified in Supplementary Table S3.
