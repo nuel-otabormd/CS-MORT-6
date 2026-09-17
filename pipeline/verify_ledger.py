@@ -30,7 +30,14 @@ contains('locked_external_results.csv', '0.748', '0.759', '0.738', '1047 / 305',
 # Redevelopment, deployable pool: paired difference
 contains('challenger_result.csv', '-0.014')
 # Event timing (exact timestamps): late-death counts and total
-contains('event_time_exact.csv', '377', '402', '1188')
+# Event timing (exact timestamps), drawn as panel B of Figure S1
+_ev = pd.read_csv(OUT + 'event_time_exact.csv').iloc[0]
+assert [int(_ev[c]) for c in ('death_before_icu', 'd_0_6', 'd_6_12', 'd_12_24', 'd_24_48',
+                              'd_48_168', 'd_gt168', 'death_no_timestamp', 'total_deaths')] \
+    == [2, 73, 70, 106, 157, 377, 402, 1, 1188], _ev.to_dict()
+assert int(_ev['d_0_6'] + _ev['d_6_12'] + _ev['d_12_24']) == 249      # landmark exclusions for death
+assert int(_ev['d_48_168'] + _ev['d_gt168']) == 779                   # 65.6% of 1,188
+checked += 3
 # Risk bands, out-of-fold: lowest and highest band mortality
 contains('v2_risk_bands_oof.csv', '12.7', '62.2')
 # Severity frame (all admissions), both cohorts

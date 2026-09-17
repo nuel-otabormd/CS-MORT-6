@@ -7,7 +7,8 @@
 # re-verified from the screening extract (in_primary_cohort sums to 3,103);
 # the 226 / 986 exclusion split is the submitted Figure S1 chain (cohort
 # unchanged in revision); landmark decompositions from the landmark accounting (251/156/2)
-# and the amendment (1,586 -> 1,047, difference 539).
+# and the amendment (1,586 -> 1,047, difference 539). Panel B of Figure S1 is
+# read from outputs/event_time_exact.csv.
 .B   <- dirname(sub("--file=", "", grep("--file=", commandArgs(FALSE), value = TRUE)[1]))
 OUT  <- paste0(Sys.getenv("CSMORT6_OUT", file.path(.B, "..", "outputs")), "/")
 FIG  <- paste0(Sys.getenv("CSMORT6_FIG", file.path(.B, "..", "figures")), "/")
@@ -89,9 +90,13 @@ fbox2 <- function(cx, ytop, w, lines, fill = "white", cex = 0.8, font = 1) {
   ytop - h
 }
 arrow_v <- function(x, y0, y1) arrows(x, y0, x, y1, length = 0.09, lwd = 1.8, col = "#555555")
-open_png("FigS1.png", 10.5, 7.4)
+# Two panels: the flow diagram keeps its 10.5 x 7.4 proportions and the
+# death-timing panel adds 2.3 in, so the figure fills a 6.71 x 6.20 in box.
+open_png("FigS1.png", 10.5, 9.7)
+layout(matrix(1:2, ncol = 1), heights = c(7.4, 2.3))
 par(mar = c(0, 0, 0, 0), family = "sans")
-plot(NA, xlim = c(0, 1), ylim = c(0.04, 1), axes = FALSE, xlab = "", ylab = "")
+plot(NA, xlim = c(0, 1), ylim = c(0.145, 1), axes = FALSE, xlab = "", ylab = "")
+text(0.004, 0.995, "A", font = 2, cex = 1.35, adj = c(0, 1))
 text(0.235, 0.985, "MIMIC-IV (development)", font = 2, cex = 1.1)
 text(0.79, 0.985, "eICU-CRD (external validation)", font = 2, cex = 1.1)
 XM <- 0.235; WM <- 0.43          # MIMIC column
@@ -140,6 +145,21 @@ e4 <- fbox2(XE + 0.015, e3 - 0.05, WE, c("Primary external population",
       "(first qualifying stay per patient,",
       "shock documented by 24 h)",
       "n = 1,047 (mortality 29.1%, 117 hospitals)"), fill = "#DCE9F5", font = 2)
+
+# ---- panel B: when the development-cohort deaths occurred ----
+ev  <- read.csv(paste0(OUT, "event_time_exact.csv"))
+cnt <- c(ev$d_0_6, ev$d_6_12, ev$d_12_24, ev$d_24_48, ev$d_48_168, ev$d_gt168)
+lab <- c("0 to 6 h", ">6 to 12 h", ">12 to 24 h", ">24 to 48 h", ">48 h to 7 d", ">7 d")
+par(mar = c(2.8, 4.6, 2.2, 1.2), family = "sans")
+bp <- barplot(cnt, names.arg = lab, col = BLU[2], border = "white",
+              ylim = c(0, max(cnt) * 1.22), las = 1, cex.names = 1.0,
+              cex.axis = 0.95, col.axis = AXCOL)
+mtext("Deaths", side = 2, line = 3.0, cex = 0.95)
+text(bp, cnt, labels = format(cnt, big.mark = ","), pos = 3, cex = 0.95, xpd = NA)
+cut24 <- (bp[3] + bp[4]) / 2
+segments(cut24, 0, cut24, max(cnt) * 1.12, lty = 2, lwd = 1.6, col = "#555555")
+text(cut24, max(cnt) * 1.17, "24-hour landmark", cex = 0.9, col = "#555555")
+mtext("B", side = 3, line = 0.5, at = par("usr")[1], adj = 0, font = 2, cex = 1.35)
 dev.off()
 
 # ================= FIGURE S2 (calibration) =================

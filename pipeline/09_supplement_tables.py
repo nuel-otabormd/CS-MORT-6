@@ -117,12 +117,8 @@ D.append("""## Table S8(D). Day-1 performance among all admissions (severity fra
     _r3(_sev['severity external integer AG corrected']),
     _slope, _citl, _bos))
 
-D.append("## Figure S1 panel. Death-timing distribution, exact timestamps (source: event_time_exact.csv)\n\n" + md(evt) +
-"""
-
-Two records carry death timestamps preceding ICU admission and one death has
-no timestamp; all three are retained in mortality counts and disclosed here.
-65.6% of deaths occur after 48 hours.""")
+# The death-timing counts are drawn as panel B of Figure S1 from
+# event_time_exact.csv; the supplement prints no table of them.
 
 D.append("## Table S7(B). Landmark risk bands (source: v2_risk_bands_oof.csv; the supplement prints mortality only); eICU external bands in the locked-run results\n\n"
          + md(bands[['band', 'mortality']]) + """
