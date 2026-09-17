@@ -76,7 +76,7 @@ stay in the outputs and are not printed.
 
 Anion-gap substitution when lactate is unavailable: < 12 / 12-18 / >= 18
 scored 0 / 2 / 4. Thresholds are left-inclusive. The score-to-risk mapping
-(v2_score_risk_mapping.csv) is drawn in Figure S4 and not tabulated.""")
+(v2_score_risk_mapping.csv) is drawn in Figure S5 and not tabulated.""")
 
 # Day-1 (all-admissions) block: built from the locked outputs rather than
 # maintained by hand. An earlier hand-typed version of this table carried
@@ -117,7 +117,7 @@ D.append("""## Table S8(D). Day-1 performance among all admissions (severity fra
     _r3(_sev['severity external integer AG corrected']),
     _slope, _citl, _bos))
 
-# The death-timing counts are drawn as panel B of Figure S1 from
+# The death-timing counts are drawn as Figure S2 from
 # event_time_exact.csv; the supplement prints no table of them.
 
 D.append("## Table S7(B). Landmark risk bands (source: v2_risk_bands_oof.csv; the supplement prints mortality only); eICU external bands in the locked-run results\n\n"
@@ -142,7 +142,7 @@ P < .001); adding stage to score +0.001. Within-stage AUROC: B 0.636
 (0.579-0.692), C 0.689 (0.651-0.724), D 0.756 (0.717-0.793), E 0.728
 (0.689-0.765).
 
-Gradient robustness is drawn in Figure S5 from figure1_variants_mimic.csv
+Gradient robustness is drawn in Figure S6 from figure1_variants_mimic.csv
 (arrest-free card, MIMIC B 16/30/37, C 16/35/46, D 13/27/58, E 30/49/73; a
 four-variable sub-score of variables taking no part in staging, B 16/32/36,
 C 15/32/46, D 12/34/53, E 35/51/68) and is not tabulated in the supplement.""")
@@ -228,7 +228,7 @@ _extra = []
 # values quoted selectively (locked_external_results, card_rederivation,
 # reported_values, availability_by_horizon_mimic, challenger_selection,
 # challenger_symmetric_selection), or values now shown only in a figure
-# (figure1_variants_mimic, drawn as Figure S5) are deliberately excluded:
+# (figure1_variants_mimic, drawn as Figure S6) are deliberately excluded:
 # requiring every one of their values to appear would fail on numbers the
 # supplement never prints. Those are covered instead by verify_ledger's
 # metric-specific checks.

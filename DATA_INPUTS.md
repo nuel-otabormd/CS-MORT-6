@@ -42,7 +42,7 @@ the source databases; the defining rule is given so the file can be rebuilt.
 | CSV | Rows | Contents and rule |
 |---|---|---|
 | `mimic_exact_lm_flags.csv` | 3,103 | `stay_id, exact_lm24, exact_lm48`. Landmark eligibility from exact timestamps: alive and in the ICU at 24 (48) hours, defined as ICU discharge at or after, and no recorded death at or before, that time. Replaces the whole-hour flags used in the submitted analysis. |
-| `mimic_event_time.csv` | 1 | Death-timing distribution over the development cohort, counted from exact timestamps into the bins named by the column headers. Death-timing panel accompanying Supplementary Figure S1. |
+| `mimic_event_time.csv` | 1 | Death-timing distribution (Figure S2) over the development cohort, counted from exact timestamps into the bins named by the column headers. Death-timing panel accompanying Supplementary Figure S1. |
 | `eicu_24h_flags.csv` | 1,866 | `patientunitstayid, died_icu_lt24h, in_icu_at_24h`. The eICU landmark equivalent, from unit admission and discharge offsets. |
 | `eicu_48h_clean.csv` | 1,866 | 48-hour predictor values for the exploratory reassessment (`lactate48`, `bun48`, `rdw48`, `ag48`, `uo48`) plus `in_icu_48h`, on the same offset convention. |
 | `eicu_cmp.csv` | 1,867 | BOS,MA2 comparator inputs in eICU: `bun_max`, `spo2_min`, `sbp_min`, `mech_vent`, `aniongap_max`. Built by `05_eicu_comparators.sql`; the extra row is the header-duplicate artefact of the export and is dropped on merge. |

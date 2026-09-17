@@ -1,4 +1,4 @@
-# Figure renderer: Figure 1 and Supplementary Figures S1-S7, 300 dpi.
+# Figure renderer: Figure 1 and Supplementary Figures S1-S8, 300 dpi.
 # Supplementary figure numbering follows the revised supplement: S4 integer
 # card, S5 within-stage variants, S6 trajectory, S7 subgroups. The nomogram
 # is rendered for the repository only and is not submitted.
@@ -7,8 +7,8 @@
 # re-verified from the screening extract (in_primary_cohort sums to 3,103);
 # the 226 / 986 exclusion split is the submitted Figure S1 chain (cohort
 # unchanged in revision); landmark decompositions from the landmark accounting (251/156/2)
-# and the amendment (1,586 -> 1,047, difference 539). Panel B of Figure S1 is
-# read from outputs/event_time_exact.csv.
+# and the amendment (1,586 -> 1,047, difference 539). Figure S2 is read from
+# outputs/event_time_exact.csv.
 .B   <- dirname(sub("--file=", "", grep("--file=", commandArgs(FALSE), value = TRUE)[1]))
 OUT  <- paste0(Sys.getenv("CSMORT6_OUT", file.path(.B, "..", "outputs")), "/")
 FIG  <- paste0(Sys.getenv("CSMORT6_FIG", file.path(.B, "..", "figures")), "/")
@@ -90,13 +90,9 @@ fbox2 <- function(cx, ytop, w, lines, fill = "white", cex = 0.8, font = 1) {
   ytop - h
 }
 arrow_v <- function(x, y0, y1) arrows(x, y0, x, y1, length = 0.09, lwd = 1.8, col = "#555555")
-# Two panels: the flow diagram keeps its 10.5 x 7.4 proportions and the
-# death-timing panel adds 2.3 in, so the figure fills a 6.71 x 6.20 in box.
-open_png("FigS1.png", 10.5, 9.7)
-layout(matrix(1:2, ncol = 1), heights = c(7.1, 2.6))
+open_png("FigS1.png", 10.5, 7.4)
 par(mar = c(0, 0, 0, 0), family = "sans")
 plot(NA, xlim = c(0, 1), ylim = c(0.145, 1), axes = FALSE, xlab = "", ylab = "")
-text(0.004, 0.995, "A", font = 2, cex = 1.35, adj = c(0, 1))
 text(0.235, 0.985, "MIMIC-IV (development)", font = 2, cex = 1.1)
 text(0.79, 0.985, "eICU-CRD (external validation)", font = 2, cex = 1.1)
 XM <- 0.235; WM <- 0.43          # MIMIC column
@@ -146,34 +142,39 @@ e4 <- fbox2(XE + 0.015, e3 - 0.05, WE, c("Primary external population",
       "shock documented by 24 h)",
       "n = 1,047 (mortality 29.1%, 117 hospitals)"), fill = "#DCE9F5", font = 2)
 
-# ---- panel B: when the development-cohort deaths occurred ----
-# Bars are deaths per interval (intervals differ in length) and the line is the
-# cumulative share; the two are kept in separate bands so no label is crossed.
+dev.off()
+
+
+
+# ================= FIGURE S2 (timing of deaths) =================
+# Bars are deaths per interval (the intervals differ in length) and the line is
+# the cumulative share, drawn in a band above the bars so no label is crossed.
 ev   <- read.csv(paste0(OUT, "event_time_exact.csv"))
 cnt  <- c(ev$d_0_6, ev$d_6_12, ev$d_12_24, ev$d_24_48, ev$d_48_168, ev$d_gt168)
 blab <- c("0 to 6 h", ">6 to 12 h", ">12 to 24 h", ">24 to 48 h", ">48 h to 7 d", ">7 d")
 cum  <- cumsum(c(ev$death_before_icu, cnt))[-1] / ev$total_deaths * 100
-par(mar = c(2.9, 4.8, 1.2, 4.8), family = "sans")
-TOP <- max(cnt) * 1.78                      # bars keep the lower 56% of the panel
+open_png("FigS2.png", 10.5, 5.0)
+par(mar = c(4.2, 5.4, 1.6, 5.4), family = "sans")
+TOP <- max(cnt) * 1.78                       # bars keep the lower 56% of the panel
 bp <- barplot(cnt, names.arg = blab, col = BLU[1], border = "white", ylim = c(0, TOP),
-              las = 1, cex.names = 1.0, col.axis = AXCOL, yaxt = "n")
-axis(2, at = seq(0, 400, 200), las = 1, cex.axis = 0.95, col.axis = AXCOL, lwd = 1.2)
-mtext("Deaths", side = 2, line = 3.0, cex = 0.95, at = 200)
-text(bp, cnt, labels = format(cnt, big.mark = ","), pos = 3, offset = 0.3, cex = 0.95, col = AXCOL)
-mtext("B", side = 3, line = -0.2, at = par("usr")[1], adj = 0, font = 2, cex = 1.35)
+              las = 1, cex.names = 1.05, col.axis = AXCOL, yaxt = "n")
+axis(2, at = seq(0, 400, 100), las = 1, cex.axis = 1.0, col.axis = AXCOL, lwd = 1.2)
+mtext("Deaths", side = 2, line = 3.4, cex = 1.0, at = 200)
+mtext("Time since ICU admission", side = 1, line = 2.8, cex = 1.0)
+text(bp, cnt, labels = format(cnt, big.mark = ","), pos = 3, offset = 0.35, cex = 1.0, col = AXCOL)
 cut24 <- (bp[3] + bp[4]) / 2                 # drawn in the bar scale, clear of every label
-segments(cut24, 0, cut24, TOP * 0.90, lty = 2, lwd = 1.5, col = "#777777")
-text(cut24, TOP * 0.45, "24-hour landmark", cex = 0.9, col = "#555555", pos = 2, offset = 0.45)
+segments(cut24, 0, cut24, TOP * 0.90, lty = 2, lwd = 1.6, col = "#777777")
+text(cut24, TOP * 0.46, "24-hour landmark", cex = 1.0, col = "#555555", pos = 2, offset = 0.5)
 par(new = TRUE)                              # cumulative share, 0% at 63% of the panel height
-plot(bp, cum, type = "b", lwd = 2.4, col = BLU[3], pch = 21, bg = "white", cex = 1.05,
+plot(bp, cum, type = "b", lwd = 2.6, col = BLU[3], pch = 21, bg = "white", cex = 1.2,
      axes = FALSE, xlab = "", ylab = "", ylim = c(-233, 137), xlim = range(bp) + c(-0.6, 0.6))
-axis(4, at = c(0, 50, 100), labels = c("0%", "50%", "100%"), las = 1, cex.axis = 0.95,
+axis(4, at = c(0, 50, 100), labels = c("0%", "50%", "100%"), las = 1, cex.axis = 1.0,
      col.axis = AXCOL, lwd = 1.2)
-mtext("Cumulative", side = 4, line = 3.0, cex = 0.95, at = 50)
-text(bp, cum, labels = sprintf("%.0f%%", cum), pos = 3, offset = 0.55, cex = 0.9, col = BLU[3])
+mtext("Cumulative deaths", side = 4, line = 3.6, cex = 1.0, at = 50)
+text(bp, cum, labels = sprintf("%.0f%%", cum), pos = 3, offset = 0.6, cex = 0.95, col = BLU[3])
 dev.off()
 
-# ================= FIGURE S2 (calibration) =================
+# ================= FIGURE S3 (calibration) =================
 ann <- read.csv(paste0(OUT, "calibration_annotations.csv"))
 cal_panel <- function(d, col, letter, lab, an) {
   plot(NA, xlim = c(0, 1), ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "",
@@ -199,7 +200,7 @@ cal_panel <- function(d, col, letter, lab, an) {
 cl <- read.csv(paste0(OUT, "v2_calibration_curve_oof_lac.csv"))
 ca <- read.csv(paste0(OUT, "v2_calibration_curve_oof_ag.csv"))
 ce <- read.csv(paste0(OUT, "external_calibration_curve_ag.csv"))
-open_png("FigS2.png", 12.6, 4.4)
+open_png("FigS3.png", 12.6, 4.4)
 par(mfrow = c(1, 3), mar = c(3.4, 3.8, 1.0, 0.8), family = "sans")
 cal_panel(cl, "#2C6FA8", "A", "MIMIC-IV out-of-fold, lactate formulation",
           ann[ann$panel == "internal_lactate", ])
@@ -209,9 +210,9 @@ cal_panel(ce, ORG, "C", "eICU external, anion-gap formulation",
           ann[ann$panel == "external_aniongap", ])
 dev.off()
 
-# ================= FIGURE S3 (decision curves) =================
+# ================= FIGURE S4 (decision curves) =================
 dca <- read.csv(paste0(OUT, "dca_lm24_common.csv"))
-open_png("FigS3.png", 9.5, 6.8)
+open_png("FigS4.png", 9.5, 6.8)
 par(mar = c(4.0, 4.4, 1.0, 0.8), family = "sans")
 yl <- c(-0.05, 1.02 * max(c(dca$cs_mort6_ag, dca$bosma2_published,
                             dca$bosma2_recal, dca$treat_all)))
@@ -235,21 +236,21 @@ text(69, yl[1] + 0.72 * diff(yl), "Common-scorable landmark set\n(n = 654, 30.0%
      adj = 1, cex = 0.9, col = "#333333")
 dev.off()
 
-# ================= FIGURE S5 (within-stage variants) =================
+# ================= FIGURE S6 (within-stage variants) =================
 v <- read.csv(paste0(OUT, "figure1_variants_mimic.csv"))
 vn <- unique(v$variant)
 lab4 <- ifelse(grepl("ohca", vn), "Arrest-free card",
                "Four-variable non-staging sub-score")
-open_png("FigS5.png", 12, 5.6)
+open_png("FigS6.png", 12, 5.6)
 par(mfrow = c(1, 2), mar = c(2.6, 4.2, 2.2, 0.8), family = "sans")
 bar_panel(v[v$variant == vn[1], ], paste0("MIMIC-IV, ", tolower(substr(lab4[1],1,1)), substr(lab4[1],2,99)), c(0, 90),
           c("B", "C", "D", "E"), legend = TRUE, legend_title = "Score tertile", letter = "A")
 bar_panel(v[v$variant == vn[2], ], paste0("MIMIC-IV, ", tolower(substr(lab4[2],1,1)), substr(lab4[2],2,99)), c(0, 90),
           c("B", "C", "D", "E"), letter = "B")
 dev.off()
-cat("FigS5 variants:", vn, "\n")
+cat("FigS6 variants:", vn, "\n")
 
-# ================= FIGURE S6 (trajectory) =================
+# ================= FIGURE S7 (trajectory) =================
 tr <- read.csv(paste0(OUT, "trajectory_symmetric.csv"))
 tr$stage <- sub(" .*", "", tr$group)          # Improved / Unchanged / Worsened
 sc <- unique(tr$scope)
@@ -276,19 +277,19 @@ tr_panel <- function(d, title, legend = FALSE, letter = NULL) {
         adj = 0, font = 1, cex = 1.0)
   box(bty = "l", col = AXCOL)
 }
-open_png("FigS6.png", 11, 5.2)
+open_png("FigS7.png", 11, 5.2)
 par(mfrow = c(1, 2), mar = c(4.4, 4.2, 2.2, 0.8), family = "sans")
 tr_panel(tr[tr$scope == sc[1], ], "All 48-hour landmark patients", letter = "A")
 tr_panel(tr[tr$scope == sc[2], ], "Intermediate 24-hour score subgroup", letter = "B")
 dev.off()
-cat("FigS6 scopes:", sc, "\n")
+cat("FigS7 scopes:", sc, "\n")
 
-# ================= FIGURE S7 (subgroups) =================
+# ================= FIGURE S8 (subgroups) =================
 fs <- read.csv(paste0(OUT, "fairness_subgroups_lm24.csv"))
 fs$label <- fs$subgroup
 fs$label[fs$label == "M"] <- "Male"; fs$label[fs$label == "F"] <- "Female"
 fs <- fs[nrow(fs):1, ]                       # top-down display order
-open_png("FigS7.png", 12, 5.0)
+open_png("FigS8.png", 12, 5.0)
 par(mfrow = c(1, 2), mar = c(4.2, 8.2, 2.4, 1.0), family = "sans")
 yy <- seq_len(nrow(fs))
 plot(NA, xlim = c(0.48, 0.95), ylim = c(0.5, nrow(fs) + 0.5), axes = FALSE,
@@ -322,7 +323,7 @@ box(bty = "l", col = AXCOL)
 mtext("Calibration-in-the-large", side = 1, line = 2.4, cex = 0.95)
 mtext("B   Calibration", side = 3, line = 0.6, adj = 0, font = 2, cex = 1.1)
 dev.off()
-cat("FigS7 rows:", paste(fs$label, collapse = ", "), "\n")
+cat("FigS8 rows:", paste(fs$label, collapse = ", "), "\n")
 
 # ===== nomogram (anion-gap model): retained in the repository, NOT a
 # ===== supplementary figure in the submitted package =====
@@ -409,12 +410,12 @@ dev.off()
 cat("Nomogram base_lp", round(base_lp, 4), "max range", round(mx, 4),
     "total-points max", tp_max, "\n")
 
-# ================= FIGURE S4 (integer card: predicted vs observed) =================
+# ================= FIGURE S5 (integer card: predicted vs observed) =================
 mp8 <- read.csv(paste0(OUT, "v2_score_risk_mapping.csv"))
 ob <- regmatches(mp8$observed_lm24, regexec("([0-9.]+)% \\(n=([0-9]+)\\)", mp8$observed_lm24))
 mp8$obs <- sapply(ob, function(x) as.numeric(x[2]))
 mp8$n <- sapply(ob, function(x) as.numeric(x[3]))
-open_png("FigS4.png", 9.6, 6.3)
+open_png("FigS5.png", 9.6, 6.3)
 par(mar = c(3.6, 4.2, 1.0, 0.8), family = "sans")
 plot(NA, xlim = c(-0.4, 15.4), ylim = c(0, 100), axes = FALSE, xlab = "", ylab = "",
      xaxs = "i", yaxs = "i")
@@ -439,5 +440,5 @@ legend("topleft", inset = c(0.01, 0.02), bty = "n", cex = 0.95,
        legend = c("Predicted risk (score-to-risk mapping)",
                   "Observed landmark mortality (Wilson 95% CI)"))
 dev.off()
-cat("FigS4 points:", sum(!is.na(mp8$obs)), "\n")
+cat("FigS5 points:", sum(!is.na(mp8$obs)), "\n")
 cat("ALL FIGURES DONE\n")

@@ -30,7 +30,7 @@ contains('locked_external_results.csv', '0.748', '0.759', '0.738', '1047 / 305',
 # Redevelopment, deployable pool: paired difference
 contains('challenger_result.csv', '-0.014')
 # Event timing (exact timestamps): late-death counts and total
-# Event timing (exact timestamps), drawn as panel B of Figure S1
+# Event timing (exact timestamps), drawn as Figure S2
 _ev = pd.read_csv(OUT + 'event_time_exact.csv').iloc[0]
 assert [int(_ev[c]) for c in ('death_before_icu', 'd_0_6', 'd_6_12', 'd_12_24', 'd_24_48',
                               'd_48_168', 'd_gt168', 'death_no_timestamp', 'total_deaths')] \
@@ -96,7 +96,7 @@ checked += 1
 assert round(_r.loc['MIMIC continuous AG (OOF), stage A merged into B', 'd_cat'], 3) == 0.140
 checked += 1
 
-# Figure S2 calibration data (external deciles + annotation values)
+# Figure S3 calibration data (external deciles + annotation values)
 _ca = pd.read_csv(OUT + 'calibration_annotations.csv').set_index('panel')
 assert round(_ca.loc['external_aniongap', 'slope'], 2) == 1.17
 checked += 1

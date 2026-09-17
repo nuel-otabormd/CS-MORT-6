@@ -1,4 +1,4 @@
-"""Figure S2 data: external anion-gap calibration deciles (primary eICU
+"""Figure S3 data: external anion-gap calibration deciles (primary eICU
 landmark population, late arrests zeroed) and calibration annotation values
 for all three panels. Frames and predictions are taken verbatim from step 06
 (exec slice), so the population and frozen model are identical to the locked

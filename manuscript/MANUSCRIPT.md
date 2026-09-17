@@ -135,7 +135,7 @@ model. Analyses used Python 3.9 and R with a fixed random seed.
 
 Of 3,103 MIMIC-IV patients with cardiogenic shock, 1,188 died in hospital
 (38.3%). Of these deaths, 249 occurred within 24 hours and 779 (65.6%) after
-48 hours (Supplementary Table S5 and Figure S1). The primary 24-hour population
+48 hours (Supplementary Table S5 and Figures S1 and S2). The primary 24-hour population
 included 2,694 patients with 892 subsequent deaths (33.1%), exceeding the
 156-event minimum. The primary eICU population included 1,047 patients with
 305 deaths (29.1%) across 117 hospitals. In eICU, availability was 96.4% for
@@ -275,7 +275,7 @@ and anion-gap categories otherwise; internally, development-median categories
 for missing components; rescoring internally under the external rule gives 0.720 (Supplementary Table S7). AUROC, area under the receiver operating
 characteristic curve; CITL, calibration-in-the-large (negative values
 indicate overprediction); EHR, electronic health record. See Supplementary
-Figures S1 to S4.
+Figures S1 to S5.
 
 ## Figure 1. In-hospital mortality by CS-MORT-6 tertile within EHR-derived SCAI stages
 
@@ -283,7 +283,7 @@ Bars show subsequent in-hospital mortality among patients alive and still in
 the ICU 24 hours after ICU admission in MIMIC-IV (A) and eICU (B). Tertiles
 were defined within each SCAI stage and separately within each cohort. Error
 bars show Wilson 95% confidence intervals. Group sizes are reported in Supplementary Table S9. Stage A was omitted (eight MIMIC-IV patients, no eICU
-patients, and no deaths). Supplementary Figures S5 to S7 show sensitivity
+patients, and no deaths). Supplementary Figures S6 to S8 show sensitivity
 analyses, 48-hour score trajectories, and subgroup performance.
 
 ---

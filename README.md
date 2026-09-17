@@ -54,9 +54,9 @@ for byte.
   robustness for the incremental-value analyses (categorical versus ordinal
   stage, models refit within every bootstrap resample; Supplementary Table S9).
 - `pipeline/12_external_calibration.py`: external calibration deciles and
-  the calibration annotation values for Figure S2.
-- `pipeline/13_render_figures.R`: Figure 1 and Supplementary Figures S1-S7,
-  rendered from the outputs tables alone.
+  the calibration annotation values for Figure S3.
+- `pipeline/13_render_figures.R`: Figure 1 and Supplementary Figures S1-S8,
+  rendered from the outputs tables alone; Figure S2 is the death-timing figure.
 - `pipeline/14_reported_values.py`: quantities quoted in the paper that no
   other step stores (exact-landmark availability, the internal deployment-rule
   rescoring, derived proportions), recomputed from the same
@@ -80,7 +80,7 @@ for byte.
   source. Everything not listed there is regenerated.
 - `outputs/`: aggregate result tables, plus `RUN_LOG.txt`, the console record
   of the run. No patient-level data.
-- `figures/`: Figure 1 (PNG and 600-dpi TIFF) and Supplementary Figures S1-S7.
+- `figures/`: Figure 1 (PNG and 600-dpi TIFF) and Supplementary Figures S1-S8.
   A nomogram render is retained in the repository but was not submitted.
 - `PROTOCOL.md`: the analysis protocol, frozen 7 September 2026 before the
   redevelopment analyses were run, including their pre-specified decision rule.

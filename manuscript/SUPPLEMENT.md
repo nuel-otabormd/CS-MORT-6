@@ -409,7 +409,7 @@ hours; eICU primary external population. Slope and CITL describe the
 reassessed predictions; for the 24-hour prediction in eICU they were 0.99 and
 -0.20.
 
-(B) Score change from 24 to 48 hours (Figure S6)
+(B) Score change from 24 to 48 hours (Figure S7)
 
 | Patients (MIMIC-IV) | Score change | n | Mortality, % | 95% CI |
 |---|---|---|---|---|
@@ -429,25 +429,30 @@ per 1-point increase from 24 to 48 hours, adjusted for the 24-hour score:
 ### Figure S1. Cohort derivation flow diagram.
 
 Derivation of the MIMIC-IV development cohort and the eICU external
-validation cohort, including the 24-hour landmark and its exclusions (A), and
-the timing of the 1,188 in-hospital deaths of the development cohort from
-exact timestamps (B), where the bars count deaths within intervals of unequal
-length and the line gives the cumulative share. Two deaths
-carry timestamps preceding ICU admission and one has no timestamp; all three
-are retained in mortality counts and are not plotted. The 251 landmark
-exclusions for death comprise the 249 deaths within 24 hours plus the two
-pre-ICU records, and 65.6% of deaths occur after 48 hours. Of the 539
-excluded eICU stays, 431 had shock first documented after the landmark and
-108 were not the patient's first qualifying stay. Day-1 all-admissions
+validation cohort, including the 24-hour landmark and its exclusions. Of the
+539 excluded eICU stays, 431 had shock first documented after the landmark
+and 108 were not the patient's first qualifying stay. Day-1 all-admissions
 analyses use the 1,866-stay cohort; the 1,586-stay and 1,439-patient
 populations are reported as sensitivity analyses.
 
-### Figure S2. Calibration of CS-MORT-6.
+### Figure S2. Timing of in-hospital deaths in the development cohort.
 
-Calibration at the landmark: internal out-of-fold deciles (both formulations)
-and eICU external anion gap, with Wilson 95% confidence intervals per decile.
+The 1,188 in-hospital deaths by time since ICU admission, from exact
+timestamps: bars count deaths within intervals of unequal length and the line
+gives the cumulative share. Two deaths carry timestamps preceding ICU
+admission and one has no timestamp; all three are retained in mortality
+counts and are not plotted. The 251 landmark exclusions for death comprise
+the 249 deaths within 24 hours plus the two pre-ICU records, and 65.6% of
+deaths occur after 48 hours.
 
-### Figure S3. Decision-curve analysis.
+### Figure S3. Calibration of CS-MORT-6.
+
+Calibration at the landmark by decile of predicted risk, with Wilson 95%
+confidence intervals: (A) MIMIC-IV out-of-fold, lactate formulation; (B)
+MIMIC-IV out-of-fold, anion-gap formulation; (C) eICU external, anion-gap
+formulation.
+
+### Figure S4. Decision-curve analysis.
 
 Decision curves in the landmark common-scorable set: 654 primary-landmark
 patients (196 deaths, 30.0% mortality) with the five BOS,MA2 inputs other
@@ -456,12 +461,12 @@ absent when unrecorded. The frozen-versus-frozen comparison is primary; the
 in-sample recalibrated comparator is shown as a sensitivity because
 recalibration favors BOS,MA2 at lower thresholds and not at higher ones.
 
-### Figure S4. Predicted and observed mortality by integer score.
+### Figure S5. Predicted and observed mortality by integer score.
 
 Predicted risk by score (line) and observed landmark mortality with Wilson
 95% confidence intervals (points).
 
-### Figure S5. Within-stage risk resolution using the arrest-free score and variables absent from the staging.
+### Figure S6. Within-stage risk resolution using the arrest-free score and variables absent from the staging.
 
 Within-stage tertile mortality using the arrest-free card (A) and the
 four-variable non-staging sub-score (B), MIMIC-IV. For the arrest-free card,
@@ -470,13 +475,13 @@ place all recorded arrests in stage E; the sub-score (urine output, age,
 blood urea nitrogen, red cell distribution width) uses variables taking no
 part in the stage operationalization.
 
-### Figure S6. Score trajectory and mortality.
+### Figure S7. Score trajectory and mortality.
 
 In-hospital mortality by score change from 24 to 48 hours, with any decrease
 counted as improved and any increase as worsened: all patients at the
 48-hour landmark (A) and those with a 24-hour score of 4 to 7 (B).
 
-### Figure S7. Subgroup discrimination and calibration.
+### Figure S8. Subgroup discrimination and calibration.
 
 (A) Subgroup area under the receiver operating characteristic curve with 95%
 confidence intervals; point size reflects the number of deaths. (B)
