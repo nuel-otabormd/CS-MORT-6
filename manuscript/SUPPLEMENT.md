@@ -428,11 +428,19 @@ per 1-point increase from 24 to 48 hours, adjusted for the 24-hour score:
 
 ### Figure S1. Cohort derivation flow diagram.
 
-Derivation of the MIMIC-IV development cohort and the eICU external validation
-cohort, including the 24-hour landmark and its exclusions; the panel below
-reports the death-timing distribution from exact timestamps. Day-1
-all-admissions analyses use the 1,866-stay cohort; the 1,586-stay and
-1,439-patient populations are reported as sensitivity analyses.
+Derivation of the MIMIC-IV development cohort and the eICU external
+validation cohort, including the 24-hour landmark and its exclusions (A), and
+the timing of the 1,188 in-hospital deaths of the development cohort from
+exact timestamps (B), where the bars count deaths within intervals of unequal
+length and the line gives the cumulative share. Two deaths
+carry timestamps preceding ICU admission and one has no timestamp; all three
+are retained in mortality counts and are not plotted. The 251 landmark
+exclusions for death comprise the 249 deaths within 24 hours plus the two
+pre-ICU records, and 65.6% of deaths occur after 48 hours. Of the 539
+excluded eICU stays, 431 had shock first documented after the landmark and
+108 were not the patient's first qualifying stay. Day-1 all-admissions
+analyses use the 1,866-stay cohort; the 1,586-stay and 1,439-patient
+populations are reported as sensitivity analyses.
 
 ### Figure S2. Calibration of CS-MORT-6.
 
@@ -474,17 +482,3 @@ counted as improved and any increase as worsened: all patients at the
 confidence intervals; point size reflects the number of deaths. (B)
 Calibration-in-the-large by subgroup. Landmark population, lactate
 formulation.
-
-## Figure S1 panel: death timing
-
-| Before ICU | 0 to 6 h | >6 to 12 h | >12 to 24 h | >24 to 48 h | >48 to 168 h | >168 h | No timestamp | Total deaths |
-|---|---|---|---|---|---|---|---|---|
-| 2 | 73 | 70 | 106 | 157 | 377 | 402 | 1 | 1,188 |
-
-Two records carry death timestamps preceding ICU admission and one death has
-no timestamp; all three are retained in mortality counts and identified here
-as data anomalies. The 251 landmark exclusions for death comprise the 249
-deaths within 24 hours plus the two pre-ICU records; 65.6% of deaths occur
-after 48 hours. Of the 539 excluded eICU stays, 431 had shock first
-documented after the landmark and 108 were not the patient's first
-qualifying stay.
