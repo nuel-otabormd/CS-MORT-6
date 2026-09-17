@@ -37,10 +37,6 @@ regenerated from outputs/ so table values can be diffed against it.
 | Calibration | out-of-fold slope 0.98 (lactate formulation) | anion gap slope 0.96, CITL +0.04 |
 | BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.037); P = .69 |
 
-| death_before_icu | d_0_6 | d_6_12 | d_12_24 | d_24_48 | d_48_168 | d_gt168 | death_no_timestamp | total_deaths |
-|---|---|---|---|---|---|---|---|---|
-| 2 | 73 | 70 | 106 | 157 | 377 | 402 | 1 | 1188 |
-
 | band | mortality |
 |---|---|
 | Low 0-3 | 12.7 |
