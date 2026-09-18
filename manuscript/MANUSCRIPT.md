@@ -28,33 +28,33 @@ Repeated scoring and real-time use require prospective evaluation.
 ## Abstract
 
 Background: Cardiogenic shock carries high in-hospital mortality, and the
-ordinal SCAI classification does not quantify differences in risk among
-patients assigned to the same stage. Existing scores generally require
-imaging, procedural, or support-dependent data.
+ordinal SCAI classification does not quantify risk differences within a stage.
+Existing scores generally require imaging, procedural, or support-dependent
+data.
 
 Methods: We identified 3,103 adults with documented cardiogenic shock in
 MIMIC-IV. The primary outcome was in-hospital death after 24 hours among
 patients alive and still in the ICU at that time (n=2,694; 892 deaths).
-CS-MORT-6 is a 0-to-15-point score using lactate or anion gap, urine output,
-cardiac arrest, age, blood urea nitrogen, and red cell distribution width. The
-frozen model was applied to an external-validation cohort of 1,047 patients
-across 117 eICU hospitals.
+CS-MORT-6 combines lactate or anion gap, urine output, cardiac arrest, age,
+blood urea nitrogen, and red cell distribution width in continuous models and
+a 0-to-15-point integer score. The frozen models were applied to an external
+cohort of 1,047 patients across 117 eICU hospitals.
 
-Results: For predicting in-hospital death after 24 hours, internal
-cross-validated AUROC was 0.734 (95% CI, 0.714-0.754) for the lactate model
-and 0.726 (0.707-0.746) for the anion-gap model. External AUROC was 0.748
-(0.715-0.780) for the anion-gap model, with calibration-in-the-large 0.00, and
-0.759 (0.729-0.790) for the integer score. Mortality differed by 20 to 47
-percentage points between the lowest and highest score tertiles within
-EHR-derived SCAI stages. In within-cohort analyses, adding the continuous
-anion-gap score to SCAI stage increased AUROC by 0.139 (0.116-0.162) in
-MIMIC-IV and 0.141 (0.101-0.178) in eICU, whereas adding stage to the score moved MIMIC-IV AUROC from 0.726 to 0.728. The AUROC difference from BOS,MA2 was
-0.004 (-0.039 to 0.046).
+Results: Internal cross-validated AUROC was 0.734 (95% CI, 0.714-0.754) for
+the lactate model and 0.726 (0.707-0.746) for the anion-gap model. External
+AUROC was 0.748 (0.715-0.780) for the anion-gap model, with
+calibration-in-the-large 0.00 and slope 1.17, and 0.759 (0.729-0.790) for the
+integer score. Mortality differed by 20 to 47 percentage points between the
+lowest and highest score tertiles within EHR-derived SCAI stages. In
+within-cohort analyses, adding the continuous anion-gap model to SCAI stage
+increased AUROC by 0.139 (0.116-0.162) in MIMIC-IV and 0.141 (0.101-0.178) in
+eICU, whereas adding stage to the model moved MIMIC-IV AUROC from 0.726 to
+0.728. Among 654 eICU patients scorable by both models, the AUROC difference
+from BOS,MA2 was 0.004 (-0.039 to 0.046).
 
-Conclusions: At 24 hours, CS-MORT-6 distinguished mortality risk among
-patients assigned to the same EHR-derived SCAI stage and retained moderate
-discrimination during external validation. Repeated scoring
-and real-time performance require prospective evaluation.
+Conclusions: At 24 hours, CS-MORT-6 distinguished mortality risk within
+EHR-derived SCAI stages and retained moderate discrimination externally.
+Repeated scoring and real-time performance require prospective evaluation.
 
 Keywords: cardiogenic shock; risk score; SCAI stage; landmark analysis; external validation; mortality
 
