@@ -102,7 +102,7 @@ and red cell distribution width. An absent arrest record scores 0.
 | Gradient boosting | 0.796 | 0.75 |
 
 Abbreviations: AUROC, area under the receiver operating characteristic curve;
-LASSO, least absolute shrinkage and selection operator. The comparison was run once during the original development, before the 24-hour landmark was adopted, on a wider candidate pool than the final six-variable model, and is not re-run; its values therefore differ from the final model's.
+LASSO, least absolute shrinkage and selection operator. The comparison used all admissions rather than the 24-hour landmark population, and a wider candidate pool than the final six-variable model, so its values differ from the final model's.
 
 (B) Sample size and predictor screen
 
@@ -114,7 +114,7 @@ LASSO, least absolute shrinkage and selection operator. The comparison was run o
 | Retained predictors selected in all 400 resamples | 5 of 6 (blood urea nitrogen, 399 of 400) |
 
 Parameters requiring imaging, neurological assessment, treatment-dependent
-measurement, or additional hemodynamic information were not carried into the score. The predictor screen was run once during development on all 4,315 ICU stays with documented cardiogenic shock, before the exclusions in Figure S1.
+measurement, or additional hemodynamic information were not carried into the score. The predictor screen used all 4,315 ICU stays with documented cardiogenic shock, before cohort exclusions.
 
 (C) Nested redevelopment
 
@@ -141,8 +141,7 @@ patients) not tabulated.
 (B) eICU external validation cohort
 
 Abbreviations: eICU, eICU Collaborative Research Database; IQR, interquartile
-range. Both panels describe the full cohorts from which the 24-hour landmark
-populations are drawn (Figure S1).
+range. Both panels describe the full cohorts from which the 24-hour landmark populations are drawn.
 
 ## Table S6. Missing data, imputation, and collinearity.
 
@@ -153,8 +152,7 @@ populations are drawn (Figure S1).
 | Lactate | 19.4% | 28.7% | 40.6% | Consistent with MNAR: lower mortality when missing |
 | Urine output | 8.3% | 56.2% | 36.7% | Consistent with MNAR: higher mortality when missing |
 
-Abbreviations: MNAR, missing not at random. Full development cohort
-(n=3,103), submitted analysis.
+Abbreviations: MNAR, missing not at random. Full development cohort (n=3,103), before the 24-hour landmark.
 
 (B) Imputation sensitivity
 
@@ -175,8 +173,7 @@ each training fold without multiple-imputation pooling.
 | B | 464 | 25.6% |
 
 Panel C reports SCAI stage completeness in the MIMIC-IV derivation cohort;
-stages A and B (472 patients) complete the stage distribution alongside
-stages C, D, and E reported in Supplementary Table S5.
+stages A and B (472 patients) complete the stage distribution alongside stages C, D, and E.
 
 (D) Collinearity: variance inflation factors for every predictor
 
@@ -213,8 +210,7 @@ was observed in 69.2% of patients in the ICU at 6 hours, 80.8% at 24 hours,
 and 85.9% at 48 hours, with blood urea nitrogen, red cell distribution
 width, and urine output at or above 94.2% by 24 hours (denominators count
 patients in the ICU at each whole-hour boundary, n=2,731 at 24 hours).
-Availability is observed data; after the missing-value rules (Table S3)
-every patient is evaluable.
+Availability is observed data; after the missing-value rules every patient is evaluable.
 
 ## Table S7. Score behavior across thresholds and risk categories.
 
@@ -304,7 +300,7 @@ contributed 479 patients.
 | Calibration | out-of-fold slope 0.98 (lactate formulation) | anion gap slope 0.96, CITL +0.04 |
 | BOS,MA2 head-to-head (n=1,127) | - | 0.749 vs 0.743; diff +0.006 (-0.026 to +0.037) |
 
-Day-1 frame, repeat stays included. As in Table 1, the integer card is scored under each cohort's missing-component rule (Table S3). Internal intervals are percentile bootstraps of pooled out-of-fold predictions, the method of the original submission, rather than the influence-function intervals of Table 1; the internal lactate AUROC with its interval and the internal slope are the submitted values.
+Day-1 frame, repeat stays included. As in Table 1, the integer card is scored under each cohort's missing-component rule. Internal intervals are percentile bootstraps of pooled out-of-fold predictions rather than the influence-function intervals of Table 1.
 
 ## Table S9. Within-stage score-tertile mortality with cell sizes and 95% confidence intervals.
 
@@ -399,7 +395,7 @@ hours; eICU primary external population. Slope and CITL describe the
 reassessed predictions; for the 24-hour prediction in eICU they were 0.99 and
 -0.20.
 
-(B) Score change from 24 to 48 hours (Figure S7)
+(B) Score change from 24 to 48 hours
 
 | Patients (MIMIC-IV) | Score change | n | Mortality, % | 95% CI |
 |---|---|---|---|---|
