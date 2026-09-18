@@ -98,5 +98,20 @@ fs = pd.read_csv(OUT + 'fairness_subgroups_lm24.csv')
 for _, r in fs.iterrows():
     rec(f'subgroup_mortality_pct_{r["subgroup"]}', f'{100 * r["deaths"] / r["n"]:.1f}')
 
+# ---- eICU staging versus the score's arrest point (Supplementary Table S2(B) note) ----
+# Frames from step 06 verbatim (exec slice, as in step 15). Arrest flags first
+# documented after 24 hours are set to zero there, as in the primary analyses;
+# counting before that zeroing gives 147, which the note once printed in error.
+import contextlib, io
+_src6 = open(os.path.join(_B, '06_external_descriptive.py')).read()
+_g6 = {'__file__': os.path.join(_B, '06_external_descriptive.py')}
+with contextlib.redirect_stdout(io.StringIO()):
+    exec(compile(_src6.split('# ---- Within-stage cells')[0], '06_part', 'exec'), _g6)
+_el = _g6['el']
+assert len(_el) == 1047
+rec('eicu_landmark_staged_E', int((_el['stage'] == 'E').sum()), 'any recorded arrest diagnosis by 24 h')
+rec('eicu_landmark_arrest_point', int(_el['ohca_arrest'].sum()),
+    "score's arrest predictor, flags first documented after 24 h set to zero")
+
 pd.DataFrame(rows).to_csv(OUT + 'reported_values.csv', index=False)
 print(f'\n[done] reported_values.csv ({len(rows)} values)')

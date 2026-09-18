@@ -48,8 +48,7 @@ and 0.726 (0.707-0.746) for the anion-gap model. External AUROC was 0.748
 percentage points between the lowest and highest score tertiles within
 EHR-derived SCAI stages. In within-cohort analyses, adding the continuous
 anion-gap score to SCAI stage increased AUROC by 0.139 (0.116-0.162) in
-MIMIC-IV and 0.141 (0.101-0.178) in eICU, whereas adding stage to the score
-moved AUROC only from 0.726 to 0.728. The AUROC difference from BOS,MA2 was
+MIMIC-IV and 0.141 (0.101-0.178) in eICU, whereas adding stage to the score moved MIMIC-IV AUROC from 0.726 to 0.728. The AUROC difference from BOS,MA2 was
 0.004 (-0.039 to 0.046).
 
 Conclusions: At 24 hours, CS-MORT-6 distinguished mortality risk among
