@@ -88,8 +88,7 @@ We used MIMIC-IV (Beth Israel Deaconess Medical Center, 2008-2022) for
 development and the eICU Collaborative Research Database (208 hospitals,
 2014-2015) for external validation [10,11]. Reporting followed TRIPOD+AI [12]
 (Supplementary Table S1). Adults aged ≥18 years with cardiogenic shock were
-identified in MIMIC-IV over the completed hospitalization by a
-documentation-anchored phenotype (diagnostic code or affirmed
+identified in MIMIC-IV by a documentation-anchored phenotype (diagnostic code or affirmed
 discharge-summary documentation) plus at least one physiological or support
 criterion within 24 hours, and in eICU by a structured diagnosis entered by
 24 hours, retaining the first qualifying ICU stay per patient (Supplementary
@@ -143,7 +142,7 @@ inflation factors were ≤1.31 (Supplementary Table S6).
 Internal cross-validated AUROCs were 0.734 for the continuous lactate model,
 0.726 for the anion-gap model, and 0.727 for the integer score. Externally the
 anion-gap model reached 0.748 and the lactate model 0.759 (Table 1). Mortality by
-score band is reported in Supplementary Table S7. In MIMIC-IV, the all-admissions analysis retained from the original submission gave an AUROC of 0.778 for the day-1 lactate model (Supplementary Table S8). In fully nested
+score band is reported in Supplementary Table S7. In MIMIC-IV, a lactate model fitted among all admissions, including those who died or left the ICU before 24 hours, reached an AUROC of 0.778 (Supplementary Table S8). In fully nested
 cross-validation, redevelopment from broader candidate pools did not improve
 on the fixed six-variable model (Supplementary Table S4).
 
@@ -267,7 +266,7 @@ bootstrap otherwise (2,000 resamples, seed 42). The BOS,MA2 row is the AUROC dif
 (CS-MORT-6 minus BOS,MA2) with a DeLong P value. The integer score is scored
 differently in the two columns: externally, lactate categories when observed
 and anion-gap categories otherwise; internally, development-median categories
-for missing components; rescoring internally under the external rule gives 0.720 (Supplementary Table S7). AUROC, area under the receiver operating
+for missing components; rescoring internally under the external rule gives 0.720. AUROC, area under the receiver operating
 characteristic curve; CITL, calibration-in-the-large (negative values
 indicate overprediction); EHR, electronic health record. Supplementary Figures S3 to S5 show calibration, decision curves, and predicted versus observed mortality by integer score.
 
@@ -275,8 +274,7 @@ indicate overprediction); EHR, electronic health record. Supplementary Figures S
 
 Bars show subsequent in-hospital mortality among patients alive and still in
 the ICU 24 hours after ICU admission in MIMIC-IV (A) and eICU (B). Tertiles
-were defined within each SCAI stage and separately within each cohort. Error
-bars show Wilson 95% confidence intervals. Group sizes are reported in Supplementary Table S9. Stage A was omitted (eight MIMIC-IV patients, no eICU
+were defined within each SCAI stage and separately within each cohort. Error bars show Wilson 95% confidence intervals. Stage A was omitted (eight MIMIC-IV patients, no eICU
 patients, and no deaths). Supplementary Figure S6 repeats this analysis in MIMIC-IV with cardiac arrest removed from the score and with the score restricted to the
 four predictors not used to assign stage; Supplementary Figures S7 and S8
 show 48-hour score trajectories and subgroup performance.
