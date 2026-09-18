@@ -325,8 +325,8 @@ appearance. All five added references were read in full before citation.
 
 ## Supplement map (build order)
 
-The supplement keeps the submitted tables' titles and layouts, numbered in
-order of first citation in this manuscript (submitted S6, S7, S8, S9, and
+The supplement keeps the submitted tables' titles, numbered in order of
+first citation in this manuscript (submitted S6, S7, S8, S9, and
 S10 are now S7, S10, S9, S8, and S6); Table S11 is new. S1 TRIPOD+AI
 checklist. S2 variable definitions (with cohort-entry and landmark rows) and
 MIMIC-IV stage rules, eICU rules in the note. S3 continuous specification
@@ -338,6 +338,9 @@ inflation factors, observed availability. S7 threshold accuracy and risk
 bands. S8 sensitivity cohorts, subgroups, hospital-level heterogeneity, all-admissions frame. S9
 within-stage cells, incremental value, transported thresholds. S10
 head-to-head comparison and external populations. S11 48-hour reassessment
-and trajectory. Figures: S1 cohort flow with landmark and the death-timing
-panel; S2 calibration; S3 decision curves; S4 integer card drawn; S5
-within-stage variants; S6 trajectory; S7 subgroups.
+and trajectory. Figures: S1 cohort flow with the landmark; S2 timing of
+in-hospital deaths (new); S3 calibration of the anion-gap formulation,
+internal and external (submitted S2); S4 decision curves (submitted S3); S5
+integer card drawn against observed mortality (new); S6 within-stage
+variants (submitted S4 and S5, now panels A and B); S7 trajectory
+(submitted S6); S8 subgroups (submitted S7).

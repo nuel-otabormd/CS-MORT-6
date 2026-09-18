@@ -447,10 +447,10 @@ deaths occur after 48 hours.
 
 ### Figure S3. Calibration of CS-MORT-6.
 
-Calibration at the landmark by decile of predicted risk, with Wilson 95%
-confidence intervals: (A) MIMIC-IV out-of-fold, lactate formulation; (B)
-MIMIC-IV out-of-fold, anion-gap formulation; (C) eICU external, anion-gap
-formulation.
+Calibration of the anion-gap formulation at the landmark by decile of
+predicted risk, with Wilson 95% confidence intervals: (A) MIMIC-IV
+out-of-fold; (B) eICU external. Calibration of the lactate formulation is
+reported in Table 1 of the main text.
 
 ### Figure S4. Decision-curve analysis.
 

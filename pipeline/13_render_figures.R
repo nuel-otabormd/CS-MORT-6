@@ -192,21 +192,21 @@ cal_panel <- function(d, col, letter, lab, an) {
   mtext("Predicted probability", side = 1, line = 2.2, cex = 0.75)
   mtext("Observed mortality", side = 2, line = 2.6, cex = 0.75)
   text(0.02, 0.965, letter, font = 2, cex = 1.3, adj = 0)
-  text(0.98, 0.10, lab, adj = 1, cex = 0.85, col = "#333333")
-  text(0.98, 0.045, sprintf("slope %.2f   CITL %.2f   Brier %.3f",
+  # caption and statistics in the empty upper-left corner, clear of the points
+  text(0.10, 0.955, lab, adj = 0, cex = 0.85, col = "#333333")
+  text(0.10, 0.895, sprintf("slope %.2f    CITL %.2f    Brier %.3f",
        an$slope, abs(an$citl) * ifelse(an$citl < 0, -1, 1), an$brier),
-       adj = 1, cex = 0.85, col = "#333333")
+       adj = 0, cex = 0.85, col = "#333333")
 }
-cl <- read.csv(paste0(OUT, "v2_calibration_curve_oof_lac.csv"))
+# The same frozen anion-gap model internally and externally, so the two panels
+# differ by setting only; the lactate formulation's calibration is in Table 1.
 ca <- read.csv(paste0(OUT, "v2_calibration_curve_oof_ag.csv"))
 ce <- read.csv(paste0(OUT, "external_calibration_curve_ag.csv"))
-open_png("FigS3.png", 12.6, 4.4)
-par(mfrow = c(1, 3), mar = c(3.4, 3.8, 1.0, 0.8), family = "sans")
-cal_panel(cl, "#2C6FA8", "A", "MIMIC-IV out-of-fold, lactate formulation",
-          ann[ann$panel == "internal_lactate", ])
-cal_panel(ca, "#2C6FA8", "B", "MIMIC-IV out-of-fold, anion-gap formulation",
+open_png("FigS3.png", 8.4, 4.4)
+par(mfrow = c(1, 2), mar = c(3.4, 3.8, 1.0, 0.8), family = "sans")
+cal_panel(ca, "#2C6FA8", "A", "MIMIC-IV, out-of-fold",
           ann[ann$panel == "internal_aniongap", ])
-cal_panel(ce, ORG, "C", "eICU external, anion-gap formulation",
+cal_panel(ce, ORG, "B", "eICU, external",
           ann[ann$panel == "external_aniongap", ])
 dev.off()
 
