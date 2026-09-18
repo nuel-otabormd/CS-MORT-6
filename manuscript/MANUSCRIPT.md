@@ -111,9 +111,7 @@ cohorts and is specified in Supplementary Table S3.
 
 Discrimination was summarized by the area under the receiver operating
 characteristic curve (AUROC). Internal validation used five-fold
-cross-validation with preprocessing within folds. CIs used influence-function
-estimation for continuous models [16] and patient-level bootstrap of
-out-of-fold integer scores (Table 1). Calibration used the calibration slope,
+cross-validation with preprocessing within folds. CIs used influence-function estimation for internal continuous models [16] and patient-level bootstrap otherwise (Table 1). Calibration used the calibration slope,
 calibration-in-the-large (CITL), and the Brier score. Clinical utility was
 assessed by decision-curve analysis. Correlations and variance inflation
 factors assessed collinearity. For external validation, continuous models and
@@ -145,8 +143,7 @@ inflation factors were ≤1.31 (Supplementary Table S6).
 Internal cross-validated AUROCs were 0.734 for the continuous lactate model,
 0.726 for the anion-gap model, and 0.727 for the integer score. Externally the
 anion-gap model reached 0.748 and the lactate model 0.759 (Table 1). Mortality by
-score band is reported in Supplementary Table S7. In MIMIC-IV, including
-patients who died or left the ICU before 24 hours yielded an AUROC of 0.778 for the lactate model (Supplementary Table S8). In fully nested
+score band is reported in Supplementary Table S7. In MIMIC-IV, the all-admissions analysis retained from the original submission gave an AUROC of 0.778 for the day-1 lactate model (Supplementary Table S8). In fully nested
 cross-validation, redevelopment from broader candidate pools did not improve
 on the fixed six-variable model (Supplementary Table S4).
 
@@ -216,8 +213,7 @@ recommend local evaluation before clinical use.
 
 Reapplying the 24-hour model at 48 hours improved discrimination internally,
 but the external difference remained uncertain, so serial validity is not
-established. The association between score change and subsequent death is a
-monitoring observation rather than a validated dynamic prediction model.
+established. The association between score change and subsequent death (Supplementary Table S11) is a monitoring observation rather than a validated dynamic prediction model.
 CS-MORT-6 is a stratification tool rather than a treatment determinant, and
 whether embedding it in a decision-support workflow improves outcomes requires
 prospective evaluation.
@@ -236,7 +232,7 @@ assessment time. Performance using only information available in real time at
 24 hours is therefore not established, and early emergency-department use and
 the effect of documentation delay were not evaluated.
 
-Because eICU contributed to BOS,MA2 development and informed some analytic
+Because eICU contributed to BOS,MA2 development [7] and informed some analytic
 choices in the present study, the external validation was not fully
 independent. Confirmation in an untouched cohort is needed.
 
@@ -273,8 +269,7 @@ differently in the two columns: externally, lactate categories when observed
 and anion-gap categories otherwise; internally, development-median categories
 for missing components; rescoring internally under the external rule gives 0.720 (Supplementary Table S7). AUROC, area under the receiver operating
 characteristic curve; CITL, calibration-in-the-large (negative values
-indicate overprediction); EHR, electronic health record. See Supplementary
-Figures S1 to S5.
+indicate overprediction); EHR, electronic health record. Supplementary Figures S3 to S5 show calibration, decision curves, and predicted versus observed mortality by integer score.
 
 ## Figure 1. In-hospital mortality by CS-MORT-6 tertile within EHR-derived SCAI stages
 
@@ -282,8 +277,7 @@ Bars show subsequent in-hospital mortality among patients alive and still in
 the ICU 24 hours after ICU admission in MIMIC-IV (A) and eICU (B). Tertiles
 were defined within each SCAI stage and separately within each cohort. Error
 bars show Wilson 95% confidence intervals. Group sizes are reported in Supplementary Table S9. Stage A was omitted (eight MIMIC-IV patients, no eICU
-patients, and no deaths). Supplementary Figure S6 repeats this analysis with
-cardiac arrest removed from the score and with the score restricted to the
+patients, and no deaths). Supplementary Figure S6 repeats this analysis in MIMIC-IV with cardiac arrest removed from the score and with the score restricted to the
 four predictors not used to assign stage; Supplementary Figures S7 and S8
 show 48-hour score trajectories and subgroup performance.
 

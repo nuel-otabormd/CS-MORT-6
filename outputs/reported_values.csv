@@ -38,3 +38,6 @@ subgroup_mortality_pct_Asian,25.4,
 subgroup_mortality_pct_Other/Unknown,39.5,
 eicu_landmark_staged_E,238,any recorded arrest diagnosis by 24 h
 eicu_landmark_arrest_point,142,"score's arrest predictor, flags first documented after 24 h set to zero"
+eicu_excluded_at_24h,280,
+eicu_excluded_at_24h_died_in_icu,143,
+eicu_excluded_at_24h_left_icu_alive,137,

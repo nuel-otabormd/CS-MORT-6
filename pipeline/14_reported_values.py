@@ -113,5 +113,14 @@ rec('eicu_landmark_staged_E', int((_el['stage'] == 'E').sum()), 'any recorded ar
 rec('eicu_landmark_arrest_point', int(_el['ohca_arrest'].sum()),
     "score's arrest predictor, flags first documented after 24 h set to zero")
 
+# ---- eICU stays excluded at the 24-hour landmark (Supplementary Figure S1) ----
+_e = _g6['e']
+assert len(_e) == 1866
+_x = _e[_e['in_icu_at_24h'] == 0]
+assert len(_e) - len(_x) == 1586
+rec('eicu_excluded_at_24h', len(_x))
+rec('eicu_excluded_at_24h_died_in_icu', int(_x['died_icu_lt24h'].sum()))
+rec('eicu_excluded_at_24h_left_icu_alive', int((_x['died_icu_lt24h'] == 0).sum()))
+
 pd.DataFrame(rows).to_csv(OUT + 'reported_values.csv', index=False)
 print(f'\n[done] reported_values.csv ({len(rows)} values)')

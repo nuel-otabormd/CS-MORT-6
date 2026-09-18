@@ -130,7 +130,13 @@ y <- 0.955
 e1 <- fbox2(XE, y, WE, c("ICU stays with a cardiogenic-shock",
       "diagnosis entry", "n = 1,866 (132 hospitals)"))
 arrow_v(XE, e1, e1 - 0.05)
-e2 <- fbox2(XE, e1 - 0.05, WE, c("Landmark stays",
+# the 24-hour landmark exclusions, as on the MIMIC-IV side (counts from
+# step 14: eicu_excluded_at_24h and its two parts)
+e1x <- fbox2(XE, e1 - 0.05, WE, c("Excluded at 24 h (n = 280):",
+      "143 died in the ICU before 24 h",
+      "137 left the ICU alive before 24 h"), fill = "#EFEFEF", cex = 0.74)
+arrow_v(XE, e1x, e1x - 0.05)
+e2 <- fbox2(XE, e1x - 0.05, WE, c("Landmark stays",
       "(alive and in the ICU at 24 hours)", "n = 1,586 (1,439 unique patients)"))
 arrow_v(XE, e2, e2 - 0.05)
 e3 <- fbox2(XE, e2 - 0.05, WE, c("Excluded (n = 539): shock first documented",

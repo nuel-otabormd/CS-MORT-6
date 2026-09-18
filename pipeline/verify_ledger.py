@@ -176,4 +176,16 @@ checked += 2
 # remain fully checked against card_rederivation.csv, and the document no
 # longer prints them.
 
+# eICU counts printed in the Table S2(B) note and Figure S1 (step 14). The
+# arrest-point count is the one after late-documented arrests are zeroed, as
+# in the primary analyses; 147 (before zeroing) was once printed in error.
+_rv = pd.read_csv(OUT + 'reported_values.csv').set_index('item')['value']
+_iv = lambda k: int(float(_rv[k]))          # the column is read as float
+assert (_iv('eicu_landmark_staged_E'), _iv('eicu_landmark_arrest_point')) == (238, 142)
+checked += 1
+_ex, _di, _la = (_iv(k) for k in ('eicu_excluded_at_24h', 'eicu_excluded_at_24h_died_in_icu',
+                                  'eicu_excluded_at_24h_left_icu_alive'))
+assert (_ex, _di, _la) == (280, 143, 137) and _di + _la == _ex == 1866 - 1586, (_ex, _di, _la)
+checked += 1
+
 print(f"verify_ledger: {checked} canonical checks passed")
