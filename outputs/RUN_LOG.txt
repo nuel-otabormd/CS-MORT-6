@@ -369,6 +369,16 @@ iqr_high                   0.779
 min_auroc                  0.632
 max_auroc                  1.000
 pooled_auroc               0.748
+== 16_external_risk_bands ==
+             rule      band score   n  deaths  mortality_pct  ci_low  ci_high
+  deployment rule       Low   0-3 296      26            8.8     6.1     12.6
+  deployment rule  Moderate   4-5 292      55           18.8    14.8     23.7
+  deployment rule      High   6-7 245      97           39.6    33.7     45.8
+  deployment rule Very high  8-15 214     127           59.3    52.7     65.7
+anion gap for all       Low   0-3 312      32           10.3     7.4     14.1
+anion gap for all  Moderate   4-5 311      64           20.6    16.5     25.4
+anion gap for all      High   6-7 249     107           43.0    37.0     49.2
+anion gap for all Very high  8-15 175     102           58.3    50.9     65.3
 == 13_render_figures ==
 null device 
           1 
@@ -385,19 +395,21 @@ null device
           1 
 null device 
           1 
-FigS5 variants: ohca-free non-staging 
 null device 
           1 
-FigS6 scopes: all 48-h landmark intermediate 24-h score 4-7 
+FigS6 variants: ohca-free non-staging 
 null device 
           1 
-FigS7 rows: Other/Unknown, Asian, Hispanic, Black, White, Female, Male 
+FigS7 scopes: all 48-h landmark intermediate 24-h score 4-7 
+null device 
+          1 
+FigS8 rows: Other/Unknown, Asian, Hispanic, Black, White, Female, Male 
 null device 
           1 
 Nomogram base_lp -4.7035 max range 2.3633 total-points max 360 
 null device 
           1 
-FigS4 points: 13 
+FigS5 points: 13 
 ALL FIGURES DONE
 == 14_reported_values ==
 ======================================================================
@@ -440,7 +452,12 @@ ALL FIGURES DONE
   subgroup_mortality_pct_Hispanic: 30.0
   subgroup_mortality_pct_Asian: 25.4
   subgroup_mortality_pct_Other/Unknown: 39.5
+  eicu_landmark_staged_E: 238   [any recorded arrest diagnosis by 24 h]
+  eicu_landmark_arrest_point: 142   [score's arrest predictor, flags first documented after 24 h set to zero]
+  eicu_excluded_at_24h: 280
+  eicu_excluded_at_24h_died_in_icu: 143
+  eicu_excluded_at_24h_left_icu_alive: 137
 
-[done] reported_values.csv (37 values)
+[done] reported_values.csv (42 values)
 == verify_ledger ==
-verify_ledger: 61 canonical checks passed
+verify_ledger: 65 canonical checks passed
