@@ -1,6 +1,6 @@
 # CS-MORT-6
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20617606.svg)](https://doi.org/10.5281/zenodo.20617606)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22837670.svg)](https://doi.org/10.5281/zenodo.22837670)
 
 Code and reproduction materials for **"CS-MORT-6: A Mortality Score That Refines
 Risk Within EHR-Derived SCAI Stages in Cardiogenic Shock"** (International
