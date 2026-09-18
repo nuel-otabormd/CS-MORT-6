@@ -19,9 +19,9 @@ CS-MORT-6: A Mortality Score That Refines Risk Within EHR-Derived SCAI Stages in
 
 ## Highlights
 
-A six-variable integer score refines risk within EHR-derived SCAI stages.
-At 24 hours, external integer-score AUROC was 0.759 across 117 hospitals.
-Within-stage mortality differed by 20 to 47 percentage points.
+CS-MORT-6 refines mortality risk within EHR-derived SCAI stages at 24 hours.
+The integer score reached an AUROC of 0.759 in external validation.
+Mortality differed by 20 to 47 points between score tertiles within stages.
 Discrimination was similar to BOS,MA2 among patients scorable by both models.
 Repeated scoring and real-time use require prospective evaluation.
 
