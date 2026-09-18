@@ -240,13 +240,14 @@ dev.off()
 v <- read.csv(paste0(OUT, "figure1_variants_mimic.csv"))
 vn <- unique(v$variant)
 stopifnot(identical(vn, c("ohca-free", "non-staging")))
-# panel titles in the manuscript's Results wording: A drops the cardiac-arrest
-# points; B keeps only the four predictors the staging rules never use
+# panels carry their letters only (the author's choice); the legend says what
+# each is: A drops the cardiac-arrest points, B keeps only the four predictors
+# the staging rules never use
 open_png("FigS6.png", 12, 5.6)
 par(mfrow = c(1, 2), mar = c(2.6, 4.2, 2.2, 0.8), family = "sans")
-bar_panel(v[v$variant == "ohca-free", ], "Cardiac arrest removed from the score", c(0, 90),
+bar_panel(v[v$variant == "ohca-free", ], "", c(0, 90),
           c("B", "C", "D", "E"), legend = TRUE, legend_title = "Score tertile", letter = "A")
-bar_panel(v[v$variant == "non-staging", ], "Four predictors not used to assign stage", c(0, 90),
+bar_panel(v[v$variant == "non-staging", ], "", c(0, 90),
           c("B", "C", "D", "E"), letter = "B")
 dev.off()
 cat("FigS6 variants:", vn, "\n")
