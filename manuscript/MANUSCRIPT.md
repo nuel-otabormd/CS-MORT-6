@@ -283,8 +283,10 @@ Bars show subsequent in-hospital mortality among patients alive and still in
 the ICU 24 hours after ICU admission in MIMIC-IV (A) and eICU (B). Tertiles
 were defined within each SCAI stage and separately within each cohort. Error
 bars show Wilson 95% confidence intervals. Group sizes are reported in Supplementary Table S9. Stage A was omitted (eight MIMIC-IV patients, no eICU
-patients, and no deaths). Supplementary Figures S6 to S8 show sensitivity
-analyses, 48-hour score trajectories, and subgroup performance.
+patients, and no deaths). Supplementary Figure S6 repeats this analysis with
+cardiac arrest removed from the score and with the score restricted to the
+four predictors not used to assign stage; Supplementary Figures S7 and S8
+show 48-hour score trajectories and subgroup performance.
 
 ---
 

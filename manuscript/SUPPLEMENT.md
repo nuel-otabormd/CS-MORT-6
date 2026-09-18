@@ -468,12 +468,14 @@ Predicted risk by score (line) and observed landmark mortality with Wilson
 
 ### Figure S6. Within-stage risk resolution using the arrest-free score and variables absent from the staging.
 
-Within-stage tertile mortality using the arrest-free card (A) and the
-four-variable non-staging sub-score (B), MIMIC-IV. For the arrest-free card,
-stages B through D equal the primary analysis because the assignment rules
-place all recorded arrests in stage E; the sub-score (urine output, age,
-blood urea nitrogen, red cell distribution width) uses variables taking no
-part in the stage operationalization.
+The within-stage analysis of Figure 1, repeated in MIMIC-IV with (A) cardiac
+arrest removed from the score and (B) the score restricted to the four
+predictors not used to assign SCAI stage (urine output, age, blood urea
+nitrogen, and red cell distribution width). Both check whether the separation
+within stages depends on the predictors the score shares with the staging
+rules, cardiac arrest and lactate. In panel A, stages B to D are identical to
+Figure 1A because the staging rules place every recorded cardiac arrest in
+stage E.
 
 ### Figure S7. Score trajectory and mortality.
 

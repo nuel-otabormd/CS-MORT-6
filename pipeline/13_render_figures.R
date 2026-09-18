@@ -239,13 +239,14 @@ dev.off()
 # ================= FIGURE S6 (within-stage variants) =================
 v <- read.csv(paste0(OUT, "figure1_variants_mimic.csv"))
 vn <- unique(v$variant)
-lab4 <- ifelse(grepl("ohca", vn), "Arrest-free card",
-               "Four-variable non-staging sub-score")
+stopifnot(identical(vn, c("ohca-free", "non-staging")))
+# panel titles in the manuscript's Results wording: A drops the cardiac-arrest
+# points; B keeps only the four predictors the staging rules never use
 open_png("FigS6.png", 12, 5.6)
 par(mfrow = c(1, 2), mar = c(2.6, 4.2, 2.2, 0.8), family = "sans")
-bar_panel(v[v$variant == vn[1], ], paste0("MIMIC-IV, ", tolower(substr(lab4[1],1,1)), substr(lab4[1],2,99)), c(0, 90),
+bar_panel(v[v$variant == "ohca-free", ], "Cardiac arrest removed from the score", c(0, 90),
           c("B", "C", "D", "E"), legend = TRUE, legend_title = "Score tertile", letter = "A")
-bar_panel(v[v$variant == vn[2], ], paste0("MIMIC-IV, ", tolower(substr(lab4[2],1,1)), substr(lab4[2],2,99)), c(0, 90),
+bar_panel(v[v$variant == "non-staging", ], "Four predictors not used to assign stage", c(0, 90),
           c("B", "C", "D", "E"), letter = "B")
 dev.off()
 cat("FigS6 variants:", vn, "\n")
@@ -307,10 +308,16 @@ axis(2, at = yy, labels = fs$label, las = 1, lwd = 0, cex.axis = 1.0)
 box(bty = "l", col = AXCOL)
 mtext("Subgroup AUROC (95% CI)", side = 1, line = 2.4, cex = 0.95)
 mtext("A   Discrimination", side = 3, line = 0.6, adj = 0, font = 2, cex = 1.1)
-legend("topright", inset = c(0.0, 0.0), bty = "n", cex = 0.8,
-       pt.cex = 1.1 + 2.4 * sqrt(c(100, 300, 500) / max(fs$deaths)),
-       pch = 21, pt.bg = "#2C6FA8", col = "#2C6FA8",
-       legend = c("100 deaths", "300", "500"), y.intersp = 1.7)
+# size key drawn by hand: legend() spaces rows by text height, so the larger
+# circles overlapped each other and their labels. Circles are stacked by their
+# own radii (pch 21 radius = 0.375 * cex * pointsize / 72 in) and every label
+# starts beyond the largest circle.
+kcx <- 1.1 + 2.4 * sqrt(c(100, 300, 500) / max(fs$deaths))
+kr  <- 0.375 * kcx * par("ps") / 72
+ky  <- nrow(fs) + 0.35 - yinch(cumsum(c(kr[1], head(kr, -1) + kr[-1] + 0.07)))
+points(rep(0.85, 3), ky, pch = 21, bg = "#2C6FA8", col = "#2C6FA8", cex = kcx)
+text(0.85 + xinch(max(kr) + 0.06), ky, c("100 deaths", "300", "500"),
+     adj = 0, cex = 0.8)
 plot(NA, xlim = c(-0.45, 0.45), ylim = c(0.5, nrow(fs) + 0.5), axes = FALSE,
      xlab = "", ylab = "")
 abline(v = 0, lty = 2, col = "#888888")
